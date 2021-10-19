@@ -5,5 +5,10 @@ export default function DetailPeserta() {
   const router = useRouter();
   const { peserta_id } = router.query;
 
-  return <div>Detail Peserta, id : {peserta_id}</div>;
+  return (
+    <div>
+      Admin only, detail Peserta, id : {peserta_id}
+      <p>Bisa lihat kehadirannya</p>
+    </div>
+  );
 }
