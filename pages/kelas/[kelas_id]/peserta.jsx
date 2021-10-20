@@ -7,8 +7,8 @@ export default function PesertaKelas() {
 
   return (
     <div>
-      List peserta kelas, id : {kelas_id}
-      <p>Untu</p>
+      Guru only, list peserta kelas, id : {kelas_id}
+      <p>Tabel peserta & ada jumlah kehadiran & nilai</p>
     </div>
   );
 }
