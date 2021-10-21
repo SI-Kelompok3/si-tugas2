@@ -3,7 +3,7 @@ import withAuth from "../../components/withAuth";
 import useFetch from "../../lib/useFetch";
 
 const ListPeserta = ({ user }) => {
-  const [pesertas, loading] = useFetch([], "/api/peserta", {
+  const [peserta, loading] = useFetch([], "/api/peserta", {
     headers: { "Content-Type": "application/json", role: user.role },
   });
 
@@ -20,10 +20,14 @@ const ListPeserta = ({ user }) => {
         </thead>
         <tbody>
           {!loading &&
-            pesertas.data.map((peserta, index) => (
+            peserta.data.map((peserta, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
-                {user.role === "admin" && <td>{peserta.username}</td>}
+                {user.role === "admin" && (
+                  <td>
+                    <a href={`/peserta/${peserta.id}`}>{peserta.username}</a>
+                  </td>
+                )}
                 <td>{peserta.nama}</td>
               </tr>
             ))}

@@ -20,7 +20,14 @@ const Home = ({ user }) => {
               </ul>
             </div>
           )}
-          <Link href="/peserta">Daftar Peserta</Link>
+          <ul>
+            <li>
+              <Link href="/peserta">Daftar Peserta</Link>
+            </li>
+            <li>
+              <Link href="/kelas">Daftar Kelas</Link>
+            </li>
+          </ul>
         </div>
       )}
     </Layout>

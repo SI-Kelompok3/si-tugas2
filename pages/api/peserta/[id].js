@@ -1,11 +1,10 @@
 export default async (req, res) => {
   const { id } = req.query;
-  console.log(req);
 
   //TODO: Fetch detail peserta
   /* SELECT username, nama
     FROM peserta
-    WHERE id = ${peserta_id} */
+    WHERE id = ${id} */
   const peserta = { username: `usernamepeserta${id}`, nama: "Peserta Nama" };
 
   //TODO: Fetch jumlah kehadiran peserta berdasarkan kelas
@@ -18,7 +17,7 @@ export default async (req, res) => {
     ON s.mengikuti_id = m.id AND
     s.hadir = '1'
     WHERE m.peserta_id =
-    ${peserta_id}
+    ${id}
     GROUP BY k.id */
   const kehadiran = [
     {

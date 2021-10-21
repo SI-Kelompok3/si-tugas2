@@ -5,13 +5,13 @@ export default async (req, res) => {
       let users = [];
       switch (role) {
         case "peserta":
-          users = queryPesertaGuru();
+          users = await queryPesertaGuru();
           break;
         case "guru":
-          users = queryPesertaGuru();
+          users = await queryPesertaGuru();
           break;
         case "admin":
-          users = queryAdmin();
+          users = await queryAdmin();
           break;
         default:
           break;
@@ -28,19 +28,19 @@ export default async (req, res) => {
   }
 };
 
-//TODO : Fetch tabel peserta dari DB
+//TODO : Fetch tabel peserta berdasarkan role
+/* SELECT id, username, nama   !!!Ada tambahan ngambil kolom id, di proposal ngga ada
+FROM peserta */
+const queryAdmin = async () => [
+  { id: "1", nama: "Peserta 1", username: "pst1" },
+  { id: "2", nama: "Peserta 2", username: "pst2" },
+  { id: "3", nama: "Peserta 3", username: "pst3" },
+];
+
 /* SELECT nama
 FROM peserta */
-const queryPesertaGuru = () => [
+const queryPesertaGuru = async () => [
   { nama: "Peserta 1" },
   { nama: "Peserta 2" },
   { nama: "Peserta 3" },
-];
-
-/* SELECT username, nama
-FROM peserta */
-const queryAdmin = () => [
-  { nama: "Peserta 1", username: "pst1" },
-  { nama: "Peserta 2", username: "pst2" },
-  { nama: "Peserta 3", username: "pst3" },
 ];
