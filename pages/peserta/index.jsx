@@ -1,5 +1,36 @@
-import React from "react";
+import Layout from "../../components/Layout";
+import withAuth from "../../components/withAuth";
+import useFetch from "../../lib/useFetch";
 
-export default function ListPeserta() {
-  return <div>List peserta</div>;
-}
+const ListPeserta = ({ user }) => {
+  const [pesertas, loading] = useFetch([], "/api/peserta", {
+    headers: { "Content-Type": "application/json", role: user.role },
+  });
+
+  return (
+    <Layout>
+      <h1>List peserta</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            {user.role === "admin" && <th>Username</th>}
+            <th>Nama</th>
+          </tr>
+        </thead>
+        <tbody>
+          {!loading &&
+            pesertas.data.map((peserta, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                {user.role === "admin" && <td>{peserta.username}</td>}
+                <td>{peserta.nama}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </Layout>
+  );
+};
+
+export default withAuth(ListPeserta);

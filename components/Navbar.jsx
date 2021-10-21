@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Link from "next/link";
-import useUser from "../lib/useUser";
 import { useRouter } from "next/router";
-import fetchJson from "../lib/fetchJson";
 
-export default function Header() {
-  const { user, mutateUser } = useUser();
+export default function Navbar() {
   const router = useRouter();
+  const user = useMemo(() => {
+    return JSON.parse(localStorage.getItem("user"));
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    router.replace("/login");
+  };
 
   return (
     <div>
@@ -18,29 +23,17 @@ export default function Header() {
                 <a>Home</a>
               </Link>
             </li>
-            {!user?.isLoggedIn && (
+            {!user && (
               <li>
                 <Link href="/login">
                   <a>Login</a>
                 </Link>
               </li>
             )}
-            {user?.isLoggedIn && (
+            {user && (
               <>
                 <li>
-                  <a
-                    href="/api/logout"
-                    onClick={async (e) => {
-                      e.preventDefault();
-                      mutateUser(
-                        await fetchJson("/api/logout", { method: "POST" }),
-                        false
-                      );
-                      router.push("/login");
-                    }}
-                  >
-                    Logout
-                  </a>
+                  <button onClick={handleLogout}>Logout</button>
                 </li>
               </>
             )}
@@ -61,17 +54,6 @@ export default function Header() {
 
           li:first-child {
             margin-left: auto;
-          }
-
-          a {
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-          }
-
-          a img {
-            margin-right: 1em;
           }
 
           header {

@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import Header from "./Header";
+import Navbar from "./Navbar";
 
 export default function Layout({ children }) {
   return (
@@ -8,7 +8,7 @@ export default function Layout({ children }) {
       <Head>
         <title>Kursol - SI Kelompok 3</title>
       </Head>
-      <Header />
+      <Navbar />
       <main>{children}</main>
     </div>
   );

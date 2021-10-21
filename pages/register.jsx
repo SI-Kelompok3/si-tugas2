@@ -1,19 +1,8 @@
-import React, { useEffect } from "react";
-import { useRouter } from "next/router";
-import useUser from "../lib/useUser";
-import fetchJson from "../lib/fetchJson";
+// import fetchJson from "../lib/fetchJson";
 
-export default function Register() {
-  const router = useRouter();
-  const { user, mutateUser } = useUser({
-    redirectTo: "/",
-    redirectIfFound: true,
-  });
+import withoutAuth from "../components/withoutAuth";
 
-  useEffect(() => {
-    if (user && user.isLoggedIn) router.replace("/");
-  }, [user]);
-
+const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { username, password, nama } = e.currentTarget;
@@ -22,17 +11,11 @@ export default function Register() {
       password: password.value,
       nama: nama.value,
     };
-    try {
-      mutateUser(
-        await fetchJson("/api/user", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        })
-      );
-    } catch (error) {
-      console.error("An unexpected error happened:", error);
-    }
+    const user = await fetchJson("/api/peserta", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
   };
 
   return (
@@ -51,4 +34,6 @@ export default function Register() {
       </form>
     </div>
   );
-}
+};
+
+export default withoutAuth(Register);

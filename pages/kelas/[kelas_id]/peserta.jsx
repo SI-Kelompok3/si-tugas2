@@ -1,7 +1,8 @@
 import React from "react";
 import { useRouter } from "next/router";
+import withAuth from "../../../components/withAuth";
 
-export default function PesertaKelas() {
+const PesertaKelas = () => {
   const router = useRouter();
   const { kelas_id } = router.query;
 
@@ -11,4 +12,6 @@ export default function PesertaKelas() {
       <p>Tabel peserta & ada jumlah kehadiran & nilai</p>
     </div>
   );
-}
+};
+
+export default withAuth(PesertaKelas);

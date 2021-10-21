@@ -1,25 +1,8 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+export default async (req, res) => {
+  const { username, password, role } = req.body;
 
-// import fetchJson from "../../lib/fetchJson";
-import withSession from "../../lib/session";
+  //TODO: Fetch user dari DB berdasarkan role
+  const user = { username, role, nama: `${username} ${role}`, id: "iduser" };
 
-export default withSession(async (req, res) => {
-  const { username, role } = await req.body;
-
-  try {
-    //TODO : Fetch dari db
-    const user = {
-      username,
-      nama: role === "admin" ? "Admin" : `${role} salamuddin`,
-      role,
-      isLoggedIn: true,
-    };
-    req.session.set("user", user);
-    await req.session.save();
-    res.json(user);
-  } catch (error) {
-    console.log(error);
-    const { response: fetchResponse } = error;
-    res.status(fetchResponse?.status || 500).json(error.data);
-  }
-});
+  res.status(200).json(user);
+};

@@ -1,5 +1,8 @@
 import React from "react";
+import withAuth from "../../components/withAuth";
 
-export default function CreateKelas() {
+const CreateKelas = () => {
   return <div>admin only, create kelas</div>;
-}
+};
+
+export default withAuth(CreateKelas);

@@ -1,6 +1,7 @@
 import React from "react";
+import withAuth from "../../components/withAuth";
 
-export default function Kelas() {
+const Kelas = () => {
   return (
     <div>
       <p>Fitur untuk admin : </p>
@@ -13,4 +14,6 @@ export default function Kelas() {
       <p>Untuk guru tampilkan kelas yang diampu saja</p>
     </div>
   );
-}
+};
+
+export default withAuth(Kelas);

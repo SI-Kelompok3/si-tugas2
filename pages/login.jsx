@@ -1,19 +1,10 @@
-import React, { useEffect } from "react";
-import { useRouter } from "next/router";
-import useUser from "../lib/useUser";
-import fetchJson from "../lib/fetchJson";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import withoutAuth from "../components/withoutAuth";
+import fetchJson from "../lib/fetchJson";
 
-export default function Login() {
+const Login = () => {
   const router = useRouter();
-  const { user, mutateUser } = useUser({
-    redirectTo: "/",
-    redirectIfFound: true,
-  });
-
-  useEffect(() => {
-    if (user && user.isLoggedIn) router.replace("/");
-  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,17 +14,14 @@ export default function Login() {
       password: password.value,
       role: role.value,
     };
-    try {
-      mutateUser(
-        await fetchJson("/api/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        })
-      );
-    } catch (error) {
-      console.error("An unexpected error happened:", error);
-    }
+    const user = await fetchJson("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    localStorage.setItem("user", JSON.stringify(user));
+    router.replace("/");
   };
 
   return (
@@ -57,4 +45,6 @@ export default function Login() {
       <Link href="/register">Belum punya akun? daftar dulu</Link>
     </div>
   );
-}
+};
+
+export default withoutAuth(Login);
