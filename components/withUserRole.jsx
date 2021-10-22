@@ -7,7 +7,7 @@ const withUserRole = (WrappedComponent, role) => {
     if (typeof window !== "undefined") {
       const router = useRouter();
 
-      if (props.user.role !== role) {
+      if (!role.includes(props.user.role)) {
         router.replace("/");
         return null;
       }

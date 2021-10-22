@@ -7,7 +7,10 @@ export default async (req, res) => {
   /* SELECT username, nama
     FROM peserta
     WHERE id = ${id} */
-  const peserta = { username: `usernamepeserta${id}`, nama: "Peserta Nama" };
+  const peserta = {
+    username: `usernamepeserta${peserta_id}`,
+    nama: "Peserta Nama",
+  };
 
   //TODO: Fetch jumlah kehadiran peserta berdasarkan kelas
   /* SELECT k.nama, COUNT(s.id) AS

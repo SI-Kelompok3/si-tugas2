@@ -3,6 +3,7 @@ import Layout from "../../components/Layout";
 import withAuth from "../../components/withAuth";
 import useFetch from "../../lib/useFetch";
 import Link from "next/link";
+import { capitalizeFirstLetter } from "../../lib/utility";
 
 const Kelas = ({ user }) => {
   const [kelas, loading] = useFetch([], "/api/kelas", {
@@ -60,31 +61,37 @@ const Kelas = ({ user }) => {
         return (
           <tr key={item.id}>
             <td>{item.id}</td>
-            <td>{item.nama}</td>
+            <td>
+              <Link href={`/kelas/${item.id}`}>{item.nama}</Link>
+            </td>
             <td>{item.durasi}</td>
             <td>{item.deskripsi.substring(0, 20)}...</td>
             <td>{item.waktu}</td>
-            <td>{item.hari}</td>
+            <td>{capitalizeFirstLetter(item.hari)}</td>
             <td>{item.kapasitas}</td>
-            <td>{item.status}</td>
+            <td>{capitalizeFirstLetter(item.status)}</td>
           </tr>
         );
       case "guru":
         return (
-          <tr key={index}>
+          <tr key={item.id}>
             <td>{index + 1}</td>
-            <td>{item.nama}</td>
-            <td>{item.hari}</td>
+            <td>
+              <Link href={`/kelas/${item.id}`}>{item.nama}</Link>
+            </td>
+            <td>{capitalizeFirstLetter(item.hari)}</td>
             <td>{item.waktu_mulai}</td>
             <td>{item.waktu_akhir}</td>
           </tr>
         );
       case "peserta":
         return (
-          <tr key={index}>
+          <tr key={item.id}>
             <td>{index + 1}</td>
-            <td>{item.nama}</td>
-            <td>{item.hari}</td>
+            <td>
+              <Link href={`/kelas/${item.id}`}>{item.nama}</Link>
+            </td>
+            <td>{capitalizeFirstLetter(item.hari)}</td>
             <td>{item.waktu_mulai}</td>
             <td>{item.waktu_akhir}</td>
             <td>{item.terambil === "0" ? "Tidak Terambil" : "Terambil"}</td>

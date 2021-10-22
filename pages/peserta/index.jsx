@@ -1,6 +1,7 @@
 import Layout from "../../components/Layout";
 import withAuth from "../../components/withAuth";
 import useFetch from "../../lib/useFetch";
+import Link from "next/link";
 
 const ListPeserta = ({ user }) => {
   const [peserta, loading] = useFetch([], "/api/peserta", {
@@ -25,7 +26,9 @@ const ListPeserta = ({ user }) => {
                 <td>{index + 1}</td>
                 {user.role === "admin" && (
                   <td>
-                    <a href={`/peserta/${peserta.id}`}>{peserta.username}</a>
+                    <Link href={`/peserta/${peserta.id}`}>
+                      {peserta.username}
+                    </Link>
                   </td>
                 )}
                 <td>{peserta.nama}</td>

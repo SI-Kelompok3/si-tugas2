@@ -1,11 +1,9 @@
-// import fetchJson from "../lib/fetchJson";
-
-import { useRef, useState } from "react";
+import fetchJson from "../lib/fetchJson";
+import { useState } from "react";
 import withoutAuth from "../components/withoutAuth";
 
 const Register = () => {
   const [message, setMessage] = useState("");
-  const form = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,13 +19,13 @@ const Register = () => {
       body: JSON.stringify(body),
     });
     setMessage(create.message);
-    if (create.ok) form.current.reset();
+    if (!create.error) e.target.reset();
   };
 
   return (
     <div>
       Buat akun peserta
-      <form onSubmit={handleSubmit} ref={form}>
+      <form onSubmit={handleSubmit}>
         <input type="text" name="username" required placeholder="Username" />
         <input type="text" name="nama" required placeholder="Nama Lengkap" />
         <input

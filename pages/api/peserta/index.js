@@ -29,7 +29,7 @@ export default async (req, res) => {
 };
 
 //TODO : Fetch tabel peserta berdasarkan role
-/* SELECT id, username, nama   !!!Ada tambahan ngambil kolom id, di proposal ngga ada
+/* SELECT id, username, nama 
 FROM peserta */
 const queryAdmin = async () => [
   { id: "1", nama: "Peserta 1", username: "pst1" },

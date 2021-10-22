@@ -9,7 +9,14 @@ const Home = ({ user }) => {
       {user && (
         <div>
           <p>Selamat datang! {user.nama}</p>
-          {user.role === "peserta" && <p>Dashboard peserta</p>}
+          {user.role === "peserta" && (
+            <div>
+              <p>Dashboard peserta</p>
+              <ul>
+                <li>Tabel kelas yang diambil dgn jumlah kehadiran dan nilai</li>
+              </ul>
+            </div>
+          )}
           {user.role === "guru" && <p>Dashboard guru</p>}
           {user.role === "admin" && (
             <div>

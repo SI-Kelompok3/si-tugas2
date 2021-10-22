@@ -22,9 +22,8 @@ export default async (req, res) => {
       //TODO: Insert into table kelas
       const { nama, durasi, deskripsi, waktu, hari, kapasitas, status } =
         req.body;
-      console.log(req.body);
       res.json({
-        message: "Berhasil menambahkan kelas baru!",
+        message: `Berhasil menambahkan kelas '${nama}'`,
       });
       break;
     default:
@@ -69,7 +68,7 @@ const queryAdmin = async () => [
   },
 ];
 
-/* SELECT k.nama, k.hari, k.waktu
+/* SELECT k.id, k.nama, k.hari, k.waktu 
 as waktu_mulai,
 ADDTIME(k.waktu, k.durasi) as
 waktu_akhir
@@ -80,12 +79,14 @@ WHERE m.guru_id = ${user_id}
 GROUP BY k.id */
 const queryGuru = async (user_id) => [
   {
+    id: "1",
     nama: "Sistem Informasi",
     hari: "kamis",
     waktu_mulai: "07:00:00",
     waktu_akhir: "08:40:00",
   },
   {
+    id: "2",
     nama: "Sistem Basis Data",
     hari: "rabu",
     waktu_mulai: "12:30:00",
@@ -99,7 +100,7 @@ const queryGuru = async (user_id) => [
   },
 ];
 
-/* SELECT nama,
+/* SELECT id, nama,
 hari, waktu AS waktu_mulai,
 ADDTIME(waktu, durasi) AS
 waktu_akhir,
@@ -111,6 +112,7 @@ terambil
 FROM kelas */
 const queryPeserta = async (user_id) => [
   {
+    id: "1",
     nama: "Sistem Informasi",
     hari: "kamis",
     waktu_mulai: "07:00:00",
@@ -118,6 +120,7 @@ const queryPeserta = async (user_id) => [
     terambil: "0",
   },
   {
+    id: "2",
     nama: "Sistem Basis Data",
     hari: "rabu",
     waktu_mulai: "12:30:00",
@@ -125,6 +128,7 @@ const queryPeserta = async (user_id) => [
     terambil: "1",
   },
   {
+    id: "3",
     nama: "Teknik Mikroprosesor",
     hari: "selasa",
     waktu_mulai: "16:00:00",

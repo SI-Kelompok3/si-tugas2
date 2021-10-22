@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Layout from "../../components/Layout";
 import withAuth from "../../components/withAuth";
 import withUserRole from "../../components/withUserRole";
@@ -6,7 +6,6 @@ import fetchJson from "../../lib/fetchJson";
 
 const CreateKelas = () => {
   const [message, setMessage] = useState("");
-  const form = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,13 +26,13 @@ const CreateKelas = () => {
       body: JSON.stringify(body),
     });
     setMessage(create.message);
-    if (create.ok) form.current.reset();
+    if (!create.error) e.target.reset();
   };
 
   return (
     <Layout>
       <h1>Buat kelas baru</h1>
-      <form onSubmit={handleSubmit} ref={form}>
+      <form onSubmit={handleSubmit}>
         <input type="text" name="nama" placeholder="Nama Kelas" />
         <input
           type="time"
@@ -87,4 +86,4 @@ const CreateKelas = () => {
   );
 };
 
-export default withAuth(withUserRole(CreateKelas, "admin"));
+export default withAuth(withUserRole(CreateKelas, ["admin"]));
