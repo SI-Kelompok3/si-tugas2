@@ -19,8 +19,8 @@ export default async (req, res) => {
       res.json({ data: kelas });
       break;
     case "POST":
-      //TODO: Insert into table kelas
-      const { nama, durasi, deskripsi, waktu, hari, kapasitas, status } =
+      //TODO: Insert into table kelas & ke tabel mengikuti yang agak bingungin
+      const { nama, durasi, deskripsi, waktu, hari, kapasitas, status, guru } =
         req.body;
       res.json({
         message: `Berhasil menambahkan kelas '${nama}'`,

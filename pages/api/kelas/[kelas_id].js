@@ -40,7 +40,14 @@ export default async (req, res) => {
 /* SELECT *
 FROM kelas
 WHERE id = ${kelas_id} */
+
 //TODO : Tambahin query ngambil list guru yang keassign ke kelas ini
+/* SELECT g.id, g.nama, g.username
+FROM guru AS g
+INNER JOIN mengikuti AS m
+ON m.guru_id = g.id
+WHERE m.kelas_id = ${kelas_id}
+GROUP BY g.id */
 const queryAdmin = async (kelas_id) => ({
   id: `${kelas_id}`,
   nama: `Kelas Dengan ID ${kelas_id}`,
@@ -50,7 +57,18 @@ const queryAdmin = async (kelas_id) => ({
   hari: "kamis",
   kapasitas: 40,
   status: "terbuka",
-  guru: [],
+  guru: [
+    {
+      id: "1",
+      nama: "Pak Alpha",
+      username: "guru1",
+    },
+    {
+      id: "2",
+      nama: "Bu Beta",
+      username: "guru2",
+    },
+  ],
 });
 
 /* SELECT nama, durasi, deskripsi,

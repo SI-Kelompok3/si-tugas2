@@ -25,10 +25,6 @@ const DetailKelas = ({ user }) => {
       <ul>
         <li>Top 5 peserta dengan nilai tertinggi</li>
       </ul>
-      <p>TODO Fitur untuk admin</p>
-      <ul>
-        <li>Liat guru yang diassign ke guru ini</li>
-      </ul>
       <h1>{data.nama}</h1>
       <b>Deskripsi</b>
       <p>{data.deskripsi ?? "-"}</p>
@@ -44,6 +40,25 @@ const DetailKelas = ({ user }) => {
         <>
           <b>Status</b>
           <p>{capitalizeFirstLetter(data.status)}</p>
+          <b>Pengajar</b>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nama</th>
+                <th>Username</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.guru.map((guru) => (
+                <tr>
+                  <td>{guru.id}</td>
+                  <td>{guru.nama}</td>
+                  <td>{guru.username}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
           <Link href={`/kelas/${kelas_id}/edit`}>Ubah kelas</Link>
         </>
       )}

@@ -1,14 +1,45 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Layout from "../../components/Layout";
 import withAuth from "../../components/withAuth";
 import withUserRole from "../../components/withUserRole";
 import fetchJson from "../../lib/fetchJson";
+import useFetch from "../../lib/useFetch";
 
 const CreateKelas = () => {
   const [message, setMessage] = useState("");
+  const [pengajar, setPengajar] = useState([]);
+  const [guru, loading] = useFetch([], "/api/guru");
+
+  const guruPilih = useMemo(() => {
+    if (loading) return [];
+    return guru.data.filter((g) => {
+      return pengajar.indexOf(g) < 0;
+    });
+  }, [guru, pengajar, loading]);
+  const [currentPengajar, setCurrentPengajar] = useState("");
+
+  const handlePengajar = (e) => {
+    if (e.target.value === "") return;
+
+    setPengajar((state) => [
+      ...state,
+      guru.data.filter((g) => Number(g.id) === Number(e.target.value))[0],
+    ]);
+    setCurrentPengajar("");
+  };
+
+  const handleHapusPengajar = (e) => {
+    setPengajar((state) =>
+      state.filter((s) => Number(s.id) === Number(e.target.key))
+    );
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (pengajar.length === 0) {
+      setMessage("Mohon pilih salah satu guru sebagai pengajar!");
+      return;
+    }
     const { nama, durasi, deskripsi, waktu, hari, kapasitas, status } =
       e.currentTarget;
     const body = {
@@ -19,6 +50,7 @@ const CreateKelas = () => {
       hari: hari.value,
       kapasitas: kapasitas.value,
       status: status.value,
+      guru: pengajar,
     };
     const create = await fetchJson("/api/kelas", {
       method: "POST",
@@ -26,19 +58,23 @@ const CreateKelas = () => {
       body: JSON.stringify(body),
     });
     setMessage(create.message);
-    if (!create.error) e.target.reset();
+    if (!create.error) {
+      e.target.reset();
+      setPengajar([]);
+    }
   };
 
   return (
     <Layout>
       <h1>Buat kelas baru</h1>
       <form onSubmit={handleSubmit}>
-        <input type="text" name="nama" placeholder="Nama Kelas" />
+        <input type="text" name="nama" placeholder="Nama Kelas" required />
         <input
           type="time"
           name="durasi"
           placeholder="Durasi"
           defaultValue="01:40:00"
+          required
         />
         <textarea
           name="deskripsi"
@@ -51,8 +87,9 @@ const CreateKelas = () => {
           name="waktu"
           placeholder="Waktu Mulai"
           defaultValue="07:00:00"
+          required
         />
-        <select name="hari" defaultValue="senin">
+        <select name="hari" defaultValue="senin" required>
           <option value="senin">Senin</option>
           <option value="selasa">Selasa</option>
           <option value="rabu">Rabu</option>
@@ -65,12 +102,37 @@ const CreateKelas = () => {
           type="number"
           name="kapasitas"
           placeholder="Kapasitas (Jumlah Peserta)"
+          required
         />
-        <select name="status" defaultValue="terbuka">
+        <select name="status" defaultValue="terbuka" required>
           <option value="terbuka">Terbuka</option>
           <option value="berjalan">Berjalan</option>
           <option value="selesai">Selesai</option>
         </select>
+        <p>Pilih pengajar</p>
+        {loading && <p>Mohon tunggu</p>}
+        <div>
+          {pengajar.map((p) => (
+            <div key={p.id}>
+              <p>
+                {p.username} - {p.nama}
+              </p>
+              <button key={p.id} onClick={handleHapusPengajar}>
+                Hapus
+              </button>
+            </div>
+          ))}
+        </div>
+        {!loading && guruPilih.length > 0 && (
+          <select onChange={handlePengajar} value={currentPengajar}>
+            <option value="">-</option>
+            {guruPilih.map((g) => (
+              <option value={g.id} key={g.id}>
+                {g.username} - {g.nama}
+              </option>
+            ))}
+          </select>
+        )}
         <input type="submit" value="Submit" />
       </form>
       <b>Penjelasan status</b>
