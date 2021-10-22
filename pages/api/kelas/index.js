@@ -19,13 +19,13 @@ export default async (req, res) => {
       res.json({ data: kelas });
       break;
     case "POST":
-      //TODO: Admin bikin kelas
-      break;
-    case "PUT":
-      //TODO: Admin ngubah kelas / assign guru ke kelas (?)
-      break;
-    case "DELETE":
-      //TODO: Admin hapus kelas
+      //TODO: Insert into table kelas
+      const { nama, durasi, deskripsi, waktu, hari, kapasitas, status } =
+        req.body;
+      console.log(req.body);
+      res.json({
+        message: "Berhasil menambahkan kelas baru!",
+      });
       break;
     default:
       break;

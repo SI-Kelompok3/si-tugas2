@@ -1,5 +1,7 @@
 export default async (req, res) => {
-  const { id } = req.query;
+  if (req.method !== "GET") return;
+
+  const { peserta_id } = req.query;
 
   //TODO: Fetch detail peserta
   /* SELECT username, nama

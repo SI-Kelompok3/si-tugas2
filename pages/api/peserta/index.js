@@ -22,7 +22,7 @@ export default async (req, res) => {
       const { username, nama, password } = req.body;
       //TODO : Insert ke tabel peserta di DB
       res.json({
-        message: "Berhasil mendaftarkan akun peserta",
+        message: "Pendaftaran akun peserta berhasil, silahkan login!",
       });
       break;
   }

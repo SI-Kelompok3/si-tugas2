@@ -2,6 +2,7 @@ import React from "react";
 import Layout from "../../components/Layout";
 import withAuth from "../../components/withAuth";
 import useFetch from "../../lib/useFetch";
+import Link from "next/link";
 
 const Kelas = ({ user }) => {
   const [kelas, loading] = useFetch([], "/api/kelas", {
@@ -101,6 +102,7 @@ const Kelas = ({ user }) => {
         <li>Nilai rata-rata tiap kelas</li>
       </ul>
       <br />
+      {user.role === "admin" && <Link href="/kelas/create">Buat kelas</Link>}
       <h1>List kelas</h1>
       <table>
         <thead>{header()}</thead>
