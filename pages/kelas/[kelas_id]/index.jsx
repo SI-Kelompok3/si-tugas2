@@ -62,11 +62,14 @@ const DetailKelas = ({ user }) => {
           <Link href={`/kelas/${kelas_id}/edit`}>Ubah kelas</Link>
         </>
       )}
+      {(user.role === "guru" || user.role === "peserta") && (
+        <Link href={`/kelas/${kelas_id}/sesi`}>Lihat sesi</Link>
+      )}
       {user.role === "peserta" && (
-        <>
+        <div>
           <b>Nilai</b>
           <p>{data.nilai}</p>
-        </>
+        </div>
       )}
     </Layout>
   );
