@@ -10,27 +10,25 @@ const CreateKelas = () => {
   const [pengajar, setPengajar] = useState([]);
   const [guru, loading] = useFetch([], "/api/guru");
 
-  const guruPilih = useMemo(() => {
+  const availableGuru = useMemo(() => {
     if (loading) return [];
     return guru.data.filter((g) => {
       return pengajar.indexOf(g) < 0;
     });
   }, [guru, pengajar, loading]);
-  const [currentPengajar, setCurrentPengajar] = useState("");
 
-  const handlePengajar = (e) => {
+  const handleAddPengajar = (e) => {
     if (e.target.value === "") return;
 
     setPengajar((state) => [
       ...state,
       guru.data.filter((g) => Number(g.id) === Number(e.target.value))[0],
     ]);
-    setCurrentPengajar("");
   };
 
   const handleHapusPengajar = (e) => {
     setPengajar((state) =>
-      state.filter((s) => Number(s.id) === Number(e.target.key))
+      state.filter((s) => Number(s.id) !== Number(e.target.id))
     );
   };
 
@@ -40,6 +38,7 @@ const CreateKelas = () => {
       setMessage("Mohon pilih salah satu guru sebagai pengajar!");
       return;
     }
+
     const { nama, durasi, deskripsi, waktu, hari, kapasitas, status } =
       e.currentTarget;
     const body = {
@@ -117,16 +116,16 @@ const CreateKelas = () => {
               <p>
                 {p.username} - {p.nama}
               </p>
-              <button key={p.id} onClick={handleHapusPengajar}>
+              <button key={p.id} id={p.id} onClick={handleHapusPengajar}>
                 Hapus
               </button>
             </div>
           ))}
         </div>
-        {!loading && guruPilih.length > 0 && (
-          <select onChange={handlePengajar} value={currentPengajar}>
+        {!loading && availableGuru.length > 0 && (
+          <select onChange={handleAddPengajar}>
             <option value="">-</option>
-            {guruPilih.map((g) => (
+            {availableGuru.map((g) => (
               <option value={g.id} key={g.id}>
                 {g.username} - {g.nama}
               </option>

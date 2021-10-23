@@ -21,11 +21,10 @@ export default async (req, res) => {
       res.json({ ...kelas });
       break;
     case "PUT":
-      //TODO: Admin ngubah kelas / assign guru ke kelas (?)
-      const { nama, durasi, deskripsi, waktu, hari, kapasitas, status } =
+      const { nama, durasi, deskripsi, waktu, hari, kapasitas, status, guru } =
         req.body;
       res.json({
-        message: `Berhasil menambahkan kelas '${nama}'`,
+        message: `Berhasil mengubah kelas '${nama}'`,
       });
       break;
     case "DELETE":
