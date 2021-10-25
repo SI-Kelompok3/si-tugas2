@@ -3,17 +3,18 @@ export default async (req, res) => {
 
   const { peserta_id } = req.query;
 
-  //TODO: Fetch detail peserta
-  /* SELECT username, nama
-    FROM peserta
-    WHERE id = ${id} */
-  const peserta = {
-    username: `usernamepeserta${peserta_id}`,
-    nama: "Peserta Nama",
-  };
+  const data = await query(peserta_id);
 
-  //TODO: Fetch jumlah kehadiran peserta berdasarkan kelas
-  /* SELECT k.nama, COUNT(s.id) AS
+  res.json({ ...data });
+};
+
+//TODO: Fetch detail peserta
+/* SELECT username, nama
+    FROM peserta
+    WHERE id = ${peserta_id} */
+
+//TODO: Fetch jumlah kehadiran peserta berdasarkan kelas
+/* SELECT k.nama, COUNT(s.id) AS
     jumlah_kehadiran
     FROM kelas AS k
     LEFT JOIN mengikuti AS m
@@ -22,9 +23,14 @@ export default async (req, res) => {
     ON s.mengikuti_id = m.id AND
     s.hadir = '1'
     WHERE m.peserta_id =
-    ${id}
+    ${peserta_id}
     GROUP BY k.id */
-  const kehadiran = [
+const query = async (peserta_id) => ({
+  peserta: {
+    username: `usernamepeserta${peserta_id}`,
+    nama: "Peserta Nama",
+  },
+  kehadiran: [
     {
       nama: "Sistem Informasi",
       jumlah_kehadiran: 6,
@@ -37,10 +43,5 @@ export default async (req, res) => {
       nama: "Teknik Mikroprosesor",
       jumlah_kehadiran: 3,
     },
-  ];
-
-  res.json({
-    peserta,
-    kehadiran,
-  });
-};
+  ],
+});

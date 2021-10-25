@@ -102,15 +102,22 @@ const Kelas = ({ user }) => {
 
   return (
     <Layout>
-      <p>TODO Fitur untuk admin : (Bentuk navigasinya gimana?)</p>
-      <ul>
-        <li>Jumlah peserta berdasarkan kelas</li>
-        <li>Jumlah guru berdasarkan kelas</li>
-        <li>Nilai rata-rata tiap kelas</li>
-      </ul>
+      {user.role === "admin" && (
+        <ul>
+          <li>
+            <Link href="/kelas/peserta">Jumlah peserta berdasarkan kelas</Link>
+          </li>
+          <li>
+            <Link href="/kelas/guru">Jumlah guru berdasarkan kelas</Link>
+          </li>
+          <li>
+            <Link href="/kelas/nilai">Nilai rata-rata tiap kelas</Link>
+          </li>
+        </ul>
+      )}
       <br />
       {user.role === "admin" && <Link href="/kelas/create">Buat kelas</Link>}
-      <h1>List kelas</h1>
+      <h1>List kelas {user.role === "guru" && "yang diampu"}</h1>
       <table>
         <thead>{header()}</thead>
         <tbody>{!loading && kelas.data.map(row)}</tbody>

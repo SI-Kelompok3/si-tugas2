@@ -1,12 +1,23 @@
 export default async (req, res) => {
-  const guru = await query();
-  res.json({ data: guru });
+  switch (req.method) {
+    case "GET":
+      const data = await getQuery();
+      res.json({ data });
+      break;
+    case "POST":
+      const { username, nama, password } = req.body;
+      //TODO: Insert ke tabel guru, passwordnya pake MD5()
+      res.json({
+        message: `Sukses membuat akun guru dengan username ${username}`,
+      });
+      break;
+  }
 };
 
-//TODO : Fetch dari tabel guru
-/* SELECT id, nama
+//TODO: Fetch dari tabel guru
+/* SELECT id, username, nama
 FROM guru */
-const query = async () => [
+const getQuery = async () => [
   {
     id: 1,
     username: "guru1",

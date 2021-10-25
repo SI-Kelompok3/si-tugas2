@@ -21,10 +21,6 @@ const DetailKelas = ({ user }) => {
 
   return (
     <Layout>
-      <p>TODO Fitur untuk guru : (Bentuk navigasinya gimana?)</p>
-      <ul>
-        <li>Top 5 peserta dengan nilai tertinggi</li>
-      </ul>
       <h1>{data.nama}</h1>
       <b>Deskripsi</b>
       <p>{data.deskripsi ?? "-"}</p>
@@ -62,8 +58,34 @@ const DetailKelas = ({ user }) => {
           <Link href={`/kelas/${kelas_id}/edit`}>Ubah kelas</Link>
         </>
       )}
+      {user.role === "guru" && (
+        <>
+          <b>5 Peserta terbaik (nilai tertinggi)</b>
+          <table>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Nama</th>
+                <th>Nilai</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.peserta.map((peserta, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{peserta.nama}</td>
+                  <td>{peserta.nilai}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
       {(user.role === "guru" || user.role === "peserta") && (
         <Link href={`/kelas/${kelas_id}/sesi`}>Lihat sesi</Link>
+      )}
+      {(user.role === "guru" || user.role === "admin") && (
+        <Link href={`/kelas/${kelas_id}/peserta`}>Lihat peserta</Link>
       )}
       {user.role === "peserta" && (
         <div>

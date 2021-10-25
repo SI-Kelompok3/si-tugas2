@@ -2,24 +2,24 @@ export default async (req, res) => {
   switch (req.method) {
     case "GET":
       const { role, user_id } = req.headers;
-      let kelas = [];
+      let data = [];
       switch (role) {
         case "admin":
-          kelas = await queryAdmin();
+          data = await queryAdmin();
           break;
         case "guru":
-          kelas = await queryGuru(user_id);
+          data = await queryGuru(user_id);
           break;
         case "peserta":
-          kelas = await queryPeserta(user_id);
+          data = await queryPeserta(user_id);
           break;
         default:
           break;
       }
-      res.json({ data: kelas });
+      res.json({ data });
       break;
     case "POST":
-      //TODO: Insert into table kelas & ke tabel mengikuti yang agak bingungin
+      //TODO: Insert into table kelas & ke tabel mengikuti yang agak bingungin (assign guru)
       const { nama, durasi, deskripsi, waktu, hari, kapasitas, status, guru } =
         req.body;
       res.json({
@@ -31,7 +31,7 @@ export default async (req, res) => {
   }
 };
 
-//TODO : Fetch kelas berdasarkan role
+//TODO: Fetch kelas berdasarkan role
 /* SELECT *
 FROM kelas */
 const queryAdmin = async () => [

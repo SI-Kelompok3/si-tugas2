@@ -21,6 +21,7 @@ export default async (req, res) => {
       res.json({ ...kelas });
       break;
     case "PUT":
+      //TODO: Admin update kelas & tabel mengikuti yang agak bingungin (assign guru)
       const { nama, durasi, deskripsi, waktu, hari, kapasitas, status, guru } =
         req.body;
       res.json({
@@ -29,18 +30,19 @@ export default async (req, res) => {
       break;
     case "DELETE":
       //TODO: Admin hapus kelas
+      res.json({ message: `Kelas dengan ID '${kelas_id}' berhasil dihapus` });
       break;
     default:
       break;
   }
 };
 
-//TODO : Fetch kelas berdasarkan role
+//TODO: Fetch kelas berdasarkan role
 /* SELECT *
 FROM kelas
 WHERE id = ${kelas_id} */
 
-//TODO : Tambahin query ngambil list guru yang keassign ke kelas ini
+//TODO: Tambahin query ngambil list guru yang keassign ke kelas ini
 /* SELECT g.id, g.nama, g.username
 FROM guru AS g
 INNER JOIN mengikuti AS m
@@ -74,6 +76,17 @@ const queryAdmin = async (kelas_id) => ({
 waktu, hari, kapasitas
 FROM kelas
 WHERE id = ${kelas_id} */
+
+//Top 5 peserta
+/* SELECT p.nama, AVG(m.nilai) AS
+nilai
+FROM peserta AS p
+INNER JOIN mengikuti AS m
+ON m.peserta_id = p.id
+WHERE m.kelas_id = ${kelas_id}
+GROUP BY p.id
+ORDER BY m.nilai DESC
+LIMIT 5 */
 const queryGuru = async (kelas_id) => ({
   nama: `Kelas Dengan ID ${kelas_id}`,
   durasi: "01:40:00",
@@ -81,6 +94,16 @@ const queryGuru = async (kelas_id) => ({
   waktu: "07:00:00",
   hari: "kamis",
   kapasitas: 40,
+  peserta: [
+    {
+      nama: "Peserta 1",
+      nilai: 89,
+    },
+    {
+      nama: "Peserta 2",
+      nilai: 80,
+    },
+  ],
 });
 
 /* SELECT k.nama, k.durasi, k.deskripsi,

@@ -2,25 +2,25 @@ export default async (req, res) => {
   switch (req.method) {
     case "GET":
       const { role } = req.headers;
-      let users = [];
+      let data = [];
       switch (role) {
         case "peserta":
-          users = await queryPesertaGuru();
+          data = await queryPesertaGuru();
           break;
         case "guru":
-          users = await queryPesertaGuru();
+          data = await queryPesertaGuru();
           break;
         case "admin":
-          users = await queryAdmin();
+          data = await queryAdmin();
           break;
         default:
           break;
       }
-      res.json({ data: users });
+      res.json({ data });
       break;
     case "POST":
       const { username, nama, password } = req.body;
-      //TODO : Insert ke tabel peserta di DB
+      //TODO: Insert ke tabel peserta di DB
       res.json({
         message: "Pendaftaran akun peserta berhasil, silahkan login!",
       });
@@ -28,7 +28,7 @@ export default async (req, res) => {
   }
 };
 
-//TODO : Fetch tabel peserta berdasarkan role
+//TODO: Fetch tabel peserta berdasarkan role
 /* SELECT id, username, nama 
 FROM peserta */
 const queryAdmin = async () => [

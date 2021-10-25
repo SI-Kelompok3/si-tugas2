@@ -64,14 +64,13 @@ const EditKelas = () => {
       status: status.value,
       guru: pengajar,
     };
-    const create = await fetchJson(`/api/kelas/${kelas_id}`, {
+    const edit = await fetchJson(`/api/kelas/${kelas_id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
-    setMessage(create.message);
-    if (!create.error)
-      e.target.reset();
+    setMessage(edit.message);
+    if (!edit.error) e.target.reset();
   };
 
   if (loading || !data) return <p>Mohon tunggu</p>;

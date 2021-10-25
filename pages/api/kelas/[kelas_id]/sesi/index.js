@@ -6,11 +6,7 @@ export default async (req, res) => {
   switch (role) {
     case "guru":
       const { materi, tanggal } = req.headers;
-      if (materi !== "undefined" && tanggal !== "undefined") {
-        data = await queryGuruDetail(materi, tanggal);
-      } else {
-        data = await queryGuru(kelas_id);
-      }
+      data = await queryGuru(kelas_id);
       break;
     case "peserta":
       const { user_id } = req.headers;
@@ -20,7 +16,7 @@ export default async (req, res) => {
   res.json({ data });
 };
 
-//TODO : Fetch sesi berdasarkan role
+//TODO: Fetch sesi berdasarkan role
 
 /* SELECT s.id, s.materi, s.tanggal,
 g.nama AS pengajar, COUNT(s.id)
@@ -48,32 +44,6 @@ const queryGuru = async (kelas_id) => [
     tanggal: "2021-10-27",
     pengajar: "Bu Beta",
     jumlah_kehadiran: 2,
-  },
-];
-/* SELECT p.nama, s.hadir,
-s.keterangan
-FROM sesi AS s
-INNER JOIN mengikuti AS m
-ON m.id = s.mengikuti_id
-INNER JOIN peserta AS p
-ON p.id = m.peserta_id
-WHERE s.materi = ${materi} AND
-s.tanggal = ${tanggal} */
-const queryGuruDetail = async (materi, tanggal) => [
-  {
-    nama: "Peserta 1",
-    hadir: "1",
-    keterangan: null,
-  },
-  {
-    nama: "Peserta 2",
-    hadir: "1",
-    keterangan: null,
-  },
-  {
-    nama: "Peserta 3",
-    hadir: "0",
-    keterangan: "Sakit",
   },
 ];
 

@@ -40,4 +40,4 @@ const PesertaKelas = () => {
   );
 };
 
-export default withAuth(withUserRole(PesertaKelas, ["guru"]));
+export default withAuth(PesertaKelas);

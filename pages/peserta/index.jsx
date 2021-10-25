@@ -4,9 +4,11 @@ import useFetch from "../../lib/useFetch";
 import Link from "next/link";
 
 const ListPeserta = ({ user }) => {
-  const [peserta, loading] = useFetch([], "/api/peserta", {
+  const [data, loading] = useFetch([], "/api/peserta", {
     headers: { "Content-Type": "application/json", role: user.role },
   });
+
+  if (loading) return <p>Mohon tunggu</p>;
 
   return (
     <Layout>
@@ -20,20 +22,19 @@ const ListPeserta = ({ user }) => {
           </tr>
         </thead>
         <tbody>
-          {!loading &&
-            peserta.data.map((peserta, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                {user.role === "admin" && (
-                  <td>
-                    <Link href={`/peserta/${peserta.id}`}>
-                      {peserta.username}
-                    </Link>
-                  </td>
-                )}
-                <td>{peserta.nama}</td>
-              </tr>
-            ))}
+          {data.data.map((peserta, index) => (
+            <tr key={index}>
+              <td>{index + 1}</td>
+              {user.role === "admin" && (
+                <td>
+                  <Link href={`/peserta/${peserta.id}`}>
+                    {peserta.username}
+                  </Link>
+                </td>
+              )}
+              <td>{peserta.nama}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </Layout>
