@@ -23,7 +23,7 @@ const ListGuru = () => {
           </tr>
         </thead>
         <tbody>
-          {data.data.map((guru) => (
+          {data.map((guru) => (
             <tr key={guru.id}>
               <td>{guru.id}</td>
               <td>
