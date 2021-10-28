@@ -4,11 +4,11 @@ export default async (req, res) => {
 
   let data = [];
   switch (role) {
-    case "guru":
+    case 'guru':
       const { materi, tanggal } = req.headers;
       data = await queryGuru(kelas_id);
       break;
-    case "peserta":
+    case 'peserta':
       const { user_id } = req.headers;
       data = await queryPeserta(kelas_id, user_id);
       break;
@@ -16,7 +16,7 @@ export default async (req, res) => {
   res.json({ data });
 };
 
-//TODO: Fetch sesi berdasarkan role
+// TODO: Fetch sesi berdasarkan role
 
 /* SELECT s.id, s.materi, s.tanggal,
 g.nama AS pengajar, COUNT(s.id)
@@ -32,17 +32,17 @@ GROUP BY s.materi
 ORDER BY s.tanggal */
 const queryGuru = async (kelas_id) => [
   {
-    id: "1",
-    materi: "Aljabar I",
-    tanggal: "2021-10-20",
-    pengajar: "Pak Alpha",
+    id: '1',
+    materi: 'Aljabar I',
+    tanggal: '2021-10-20',
+    pengajar: 'Pak Alpha',
     jumlah_kehadiran: 3,
   },
   {
-    id: "2",
-    materi: "Trigonometri",
-    tanggal: "2021-10-27",
-    pengajar: "Bu Beta",
+    id: '2',
+    materi: 'Trigonometri',
+    tanggal: '2021-10-27',
+    pengajar: 'Bu Beta',
     jumlah_kehadiran: 2,
   },
 ];
@@ -55,22 +55,22 @@ ON s.mengikuti_id = m.id
 LEFT JOIN guru AS g
 ON m.guru_id = g.id
 WHERE m.kelas_id = ${kelas_id}
-AND m.peserta_id = ${user_id} 
+AND m.peserta_id = ${user_id}
 ORDER BY s.tanggal
 */
 const queryPeserta = async (kelas_id, user_id) => [
   {
-    id: "1",
-    materi: "Aljabar I",
-    tanggal: "2021-10-20",
-    pengajar: "Pak Alpha",
-    hadir: "1",
+    id: '1',
+    materi: 'Aljabar I',
+    tanggal: '2021-10-20',
+    pengajar: 'Pak Alpha',
+    hadir: '1',
   },
   {
-    id: "2",
-    materi: "Trigonometri",
-    tanggal: "2021-10-27",
-    pengajar: "Bu Beta",
-    hadir: "0",
+    id: '2',
+    materi: 'Trigonometri',
+    tanggal: '2021-10-27',
+    pengajar: 'Bu Beta',
+    hadir: '0',
   },
 ];

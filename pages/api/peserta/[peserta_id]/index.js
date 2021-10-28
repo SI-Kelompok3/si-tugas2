@@ -1,5 +1,5 @@
 export default async (req, res) => {
-  if (req.method !== "GET") return;
+  if (req.method !== 'GET') return;
 
   const { peserta_id } = req.query;
 
@@ -8,12 +8,12 @@ export default async (req, res) => {
   res.json({ ...data });
 };
 
-//TODO: Fetch detail peserta
+// TODO: Fetch detail peserta
 /* SELECT username, nama
     FROM peserta
     WHERE id = ${peserta_id} */
 
-//TODO: Fetch jumlah kehadiran peserta berdasarkan kelas
+// TODO: Fetch jumlah kehadiran peserta berdasarkan kelas
 /* SELECT k.nama, COUNT(s.id) AS
     jumlah_kehadiran
     FROM kelas AS k
@@ -28,19 +28,19 @@ export default async (req, res) => {
 const query = async (peserta_id) => ({
   peserta: {
     username: `usernamepeserta${peserta_id}`,
-    nama: "Peserta Nama",
+    nama: 'Peserta Nama',
   },
   kehadiran: [
     {
-      nama: "Sistem Informasi",
+      nama: 'Sistem Informasi',
       jumlah_kehadiran: 6,
     },
     {
-      nama: "Sistem Basis Data",
+      nama: 'Sistem Basis Data',
       jumlah_kehadiran: 5,
     },
     {
-      nama: "Teknik Mikroprosesor",
+      nama: 'Teknik Mikroprosesor',
       jumlah_kehadiran: 3,
     },
   ],

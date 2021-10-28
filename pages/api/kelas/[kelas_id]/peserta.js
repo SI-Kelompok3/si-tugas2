@@ -3,13 +3,13 @@ export default async (req, res) => {
   const { role } = req.headers;
   let data = [];
 
-  data = await (role === "peserta"
+  data = await (role === 'peserta'
     ? queryPeserta(kelas_id)
     : queryAdminGuru(kelas_id));
   res.json({ data });
 };
 
-//TODO: Fetch peserta yang ikut ke kelas tertentu berdasarkan role
+// TODO: Fetch peserta yang ikut ke kelas tertentu berdasarkan role
 
 /* SELECT p.nama, COUNT(s.id) AS
 jumlah_kehadiran, AVG(m.nilai)
@@ -23,9 +23,9 @@ s.hadir = '1'
 WHERE m.kelas_id = ${kelas_id}
 GROUP BY p.id */
 const queryAdminGuru = async (kelas_id) => [
-  { nama: "Peserta 1", jumlah_kehadiran: 3, nilai: 90 },
-  { nama: "Peserta 2", jumlah_kehadiran: 3, nilai: 85 },
-  { nama: "Peserta 3", jumlah_kehadiran: 2, nilai: 78 },
+  { nama: 'Peserta 1', jumlah_kehadiran: 3, nilai: 90 },
+  { nama: 'Peserta 2', jumlah_kehadiran: 3, nilai: 85 },
+  { nama: 'Peserta 3', jumlah_kehadiran: 2, nilai: 78 },
 ];
 
 /* SELECT p.nama
@@ -35,7 +35,7 @@ ON p.id = m.peserta_id
 WHERE m.kelas_id = 1
 GROUP BY p.id */
 const queryPeserta = async (kelas_id) => [
-  { nama: "Peserta 1" },
-  { nama: "Peserta 2" },
-  { nama: "Peserta 3" },
+  { nama: 'Peserta 1' },
+  { nama: 'Peserta 2' },
+  { nama: 'Peserta 3' },
 ];

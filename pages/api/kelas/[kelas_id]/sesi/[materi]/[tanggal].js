@@ -4,7 +4,7 @@ export default async (req, res) => {
   res.json({ data });
 };
 
-//TODO: Fetch detail sesi
+// TODO: Fetch detail sesi
 /* SELECT p.nama, s.hadir,
 s.keterangan
 FROM sesi AS s
@@ -16,18 +16,18 @@ WHERE s.materi = ${materi} AND
 s.tanggal = ${tanggal} */
 const query = async (materi, tanggal) => [
   {
-    nama: "Peserta 1",
-    hadir: "1",
+    nama: 'Peserta 1',
+    hadir: '1',
     keterangan: null,
   },
   {
-    nama: "Peserta 2",
-    hadir: "1",
+    nama: 'Peserta 2',
+    hadir: '1',
     keterangan: null,
   },
   {
-    nama: "Peserta 3",
-    hadir: "0",
-    keterangan: "Sakit",
+    nama: 'Peserta 3',
+    hadir: '0',
+    keterangan: 'Sakit',
   },
 ];
