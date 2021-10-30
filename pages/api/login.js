@@ -4,7 +4,7 @@ export default async (req, res) => {
   // TODO: Fetch user dari DB berdasarkan role
   // Kalo admin namanya kasih Admin aja
   const user = {
-    username, role, nama: `${username} ${role}`, id: 'iduser',
+    username, role, nama: `${username} ${role}`, id: '1',
   };
 
   res.json(user);

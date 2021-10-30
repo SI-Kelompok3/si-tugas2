@@ -1,6 +1,5 @@
+import md5 from 'md5';
 import executeQuery from '../../../config/db';
-
-const md5 = require('md5');
 
 export default async (req, res) => {
   switch (req.method) {
