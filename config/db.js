@@ -19,3 +19,5 @@ export default async function executeQuery({ query, values }) {
     return { error };
   }
 }
+
+export const { transaction } = db;
