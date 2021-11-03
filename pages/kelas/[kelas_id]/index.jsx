@@ -1,29 +1,40 @@
-import React from "react";
-import { useRouter } from "next/router";
-import withAuth from "../../../components/withAuth";
-import { capitalizeFirstLetter } from "../../../lib/utility";
-import useFetch from "../../../lib/useFetch";
-import Layout from "../../../components/Layout";
-import Link from "next/link";
+import React from 'react';
+import { capitalizeFirstLetter } from '../../../lib/utility';
+import Layout from '../../../components/Layout';
+import Link from 'next/link';
+import withAuth from '../../../lib/withAuth';
+import {
+  getKelasDetailAdmin,
+  getKelasDetailGuru,
+  getKelasDetailPeserta,
+} from '../../../lib/queries';
 
-const DetailKelas = ({ user }) => {
-  const router = useRouter();
-  const { kelas_id } = router.query;
-  const [data, loading] = useFetch([kelas_id], `/api/kelas/${kelas_id}`, {
-    headers: {
-      "Content-Type": "application/json",
-      role: user.role,
-      user_id: user.id,
-    },
+export async function getServerSideProps(context) {
+  return withAuth(context, async (user) => {
+    const { kelas_id } = context.params;
+    let data = null;
+    switch (user.role) {
+      case 'admin':
+        data = await getKelasDetailAdmin(kelas_id);
+        break;
+      case 'guru':
+        data = await getKelasDetailGuru(kelas_id);
+        break;
+      case 'peserta':
+        //data bakal null kalau peserta ngga ikut ke kelasnya
+        data = await getKelasDetailPeserta(kelas_id, user.id);
+        break;
+    }
+    return { props: { data, user, kelas_id } };
   });
+}
 
-  if (loading || !data) return <p>Mohon tunggu</p>;
-
+const DetailKelas = ({ data, user, kelas_id }) => {
   return (
     <Layout>
       <h1>{data.nama}</h1>
       <b>Deskripsi</b>
-      <p>{data.deskripsi ?? "-"}</p>
+      <p>{data.deskripsi ?? '-'}</p>
       <b>Waktu</b>
       <p>
         {capitalizeFirstLetter(data.hari)}, {data.waktu}
@@ -32,7 +43,7 @@ const DetailKelas = ({ user }) => {
       <p>{data.durasi}</p>
       <b>Kapasitas</b>
       <p>{data.kapasitas} Peserta</p>
-      {user.role === "admin" && (
+      {user.role === 'admin' && (
         <>
           <b>Status</b>
           <p>{capitalizeFirstLetter(data.status)}</p>
@@ -58,7 +69,7 @@ const DetailKelas = ({ user }) => {
           <Link href={`/kelas/${kelas_id}/edit`}>Ubah kelas</Link>
         </>
       )}
-      {user.role === "guru" && (
+      {user.role === 'guru' && (
         <>
           <b>5 Peserta terbaik (nilai tertinggi)</b>
           <table>
@@ -81,13 +92,13 @@ const DetailKelas = ({ user }) => {
           </table>
         </>
       )}
-      {(user.role === "guru" || user.role === "peserta") && (
+      {(user.role === 'guru' || user.role === 'peserta') && (
         <Link href={`/kelas/${kelas_id}/sesi`}>Lihat sesi</Link>
       )}
-      {(user.role === "guru" || user.role === "admin") && (
+      {(user.role === 'guru' || user.role === 'admin') && (
         <Link href={`/kelas/${kelas_id}/peserta`}>Lihat peserta</Link>
       )}
-      {user.role === "peserta" && (
+      {user.role === 'peserta' && (
         <div>
           <b>Nilai</b>
           <p>{data.nilai}</p>
@@ -97,4 +108,4 @@ const DetailKelas = ({ user }) => {
   );
 };
 
-export default withAuth(DetailKelas);
+export default DetailKelas;

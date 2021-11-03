@@ -1,28 +1,36 @@
-import { useMemo, useState } from "react";
-import Layout from "../../components/Layout";
-import withAuth from "../../components/withAuth";
-import withUserRole from "../../components/withUserRole";
-import fetchJson from "../../lib/fetchJson";
-import useFetch from "../../lib/useFetch";
+import { useMemo, useState } from 'react';
+import Layout from '../../components/Layout';
+import fetchJson from '../../lib/fetchJson';
+import { getGuru } from '../../lib/queries';
+import withAuth from '../../lib/withAuth';
 
-const CreateKelas = () => {
-  const [message, setMessage] = useState("");
+export async function getServerSideProps(context) {
+  return withAuth(
+    context,
+    async () => {
+      const guru = await getGuru();
+      return {
+        props: { guru },
+      };
+    },
+    ['admin']
+  );
+}
+
+const CreateKelas = ({ guru }) => {
+  const [message, setMessage] = useState('');
   const [pengajar, setPengajar] = useState([]);
-  const [guru, loading] = useFetch([], "/api/guru");
 
   const availableGuru = useMemo(() => {
-    if (loading) return [];
-    return guru.data.filter((g) => {
-      return pengajar.indexOf(g) < 0;
-    });
-  }, [guru, pengajar, loading]);
+    return guru.filter((g) => pengajar.indexOf(g) < 0);
+  }, [guru, pengajar]);
 
   const handleAddPengajar = (e) => {
-    if (e.target.value === "") return;
+    if (e.target.value === '') return;
 
     setPengajar((state) => [
       ...state,
-      guru.data.filter((g) => Number(g.id) === Number(e.target.value))[0],
+      guru.filter((g) => Number(g.id) === Number(e.target.value))[0],
     ]);
   };
 
@@ -35,7 +43,7 @@ const CreateKelas = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (pengajar.length === 0) {
-      setMessage("Mohon pilih salah satu guru sebagai pengajar!");
+      setMessage('Mohon pilih salah satu guru sebagai pengajar!');
       return;
     }
 
@@ -51,9 +59,9 @@ const CreateKelas = () => {
       status: status.value,
       guru: pengajar,
     };
-    const create = await fetchJson("/api/kelas", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const create = await fetchJson('/api/kelas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
     setMessage(create.message);
@@ -109,7 +117,6 @@ const CreateKelas = () => {
           <option value="selesai">Selesai</option>
         </select>
         <p>Pilih pengajar</p>
-        {loading && <p>Mohon tunggu</p>}
         <div>
           {pengajar.map((p) => (
             <div key={p.id}>
@@ -122,7 +129,7 @@ const CreateKelas = () => {
             </div>
           ))}
         </div>
-        {!loading && availableGuru.length > 0 && (
+        {availableGuru.length > 0 && (
           <select onChange={handleAddPengajar}>
             <option value="">-</option>
             {availableGuru.map((g) => (
@@ -142,9 +149,9 @@ const CreateKelas = () => {
           Selesai : Fitur "Berjalan" ditutup, guru memasukkan nilai peserta
         </li>
       </ul>
-      {message !== "" && <b>{message}</b>}
+      {message !== '' && <b>{message}</b>}
     </Layout>
   );
 };
 
-export default withAuth(withUserRole(CreateKelas, ["admin"]));
+export default CreateKelas;

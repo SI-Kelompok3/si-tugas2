@@ -1,20 +1,25 @@
-import React from "react";
-import { useRouter } from "next/router";
-import withAuth from "../../../components/withAuth";
-import withUserRole from "../../../components/withUserRole";
-import useFetch from "../../../lib/useFetch";
-import Layout from "../../../components/Layout";
+import React from 'react';
+import Layout from '../../../components/Layout';
+import withAuth from '../../../lib/withAuth';
+import {
+  getPesertaForKelasAdminGuru,
+  getPesertaForKelasPeserta,
+} from '../../../lib/queries';
 
-const PesertaKelas = () => {
-  const router = useRouter();
-  const { kelas_id } = router.query;
-  const [data, loading] = useFetch(
-    [kelas_id],
-    `/api/kelas/${kelas_id}/peserta`
-  );
+export async function getServerSideProps(context) {
+  return withAuth(context, async (user) => {
+    const { kelas_id } = context.params;
+    let data = null;
+    if (user.role === 'admin' || user.role === 'guru') {
+      data = await getPesertaForKelasAdminGuru(kelas_id);
+    } else {
+      data = await getPesertaForKelasPeserta(kelas_id);
+    }
+    return { props: { data } };
+  });
+}
 
-  if (loading) return <p>Mohon tunggu</p>;
-
+const PesertaKelas = ({ data }) => {
   return (
     <Layout>
       <h1>Daftar Peserta</h1>
@@ -27,7 +32,7 @@ const PesertaKelas = () => {
           </tr>
         </thead>
         <tbody>
-          {data.data.map((peserta, index) => (
+          {data.map((peserta, index) => (
             <tr key={index}>
               <td>{peserta.nama}</td>
               <td>{peserta.jumlah_kehadiran}</td>
@@ -40,4 +45,4 @@ const PesertaKelas = () => {
   );
 };
 
-export default withAuth(PesertaKelas);
+export default PesertaKelas;

@@ -1,15 +1,21 @@
-import React from "react";
-import Layout from "../../components/Layout";
-import withAuth from "../../components/withAuth";
-import withUserRole from "../../components/withUserRole";
-import useFetch from "../../lib/useFetch";
-import Link from "next/link";
+import React from 'react';
+import Layout from '../../components/Layout';
+import Link from 'next/link';
+import withAuth from '../../lib/withAuth';
+import { getAverageNilai } from '../../lib/queries';
 
-const ListKelasNilai = () => {
-  const [data, loading] = useFetch([], "/api/kelas/nilai");
+export async function getServerSideProps(context) {
+  return withAuth(
+    context,
+    async () => {
+      const data = await getAverageNilai();
+      return { props: { data } };
+    },
+    ['admin']
+  );
+}
 
-  if (loading) return <p>Mohon tunggu</p>;
-
+const ListKelasNilai = ({ data }) => {
   return (
     <Layout>
       <h1>List nilai rata-rata tiap kelas</h1>
@@ -22,7 +28,7 @@ const ListKelasNilai = () => {
           </tr>
         </thead>
         <tbody>
-          {data.data.map((kelas, index) => (
+          {data.map((kelas, index) => (
             <tr key={kelas.id}>
               <td>{index + 1}</td>
               <td>
@@ -37,4 +43,4 @@ const ListKelasNilai = () => {
   );
 };
 
-export default withAuth(withUserRole(ListKelasNilai, ["admin"]));
+export default ListKelasNilai;

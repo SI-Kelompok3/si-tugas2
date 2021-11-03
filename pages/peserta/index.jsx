@@ -1,15 +1,21 @@
-import Layout from "../../components/Layout";
-import withAuth from "../../components/withAuth";
-import useFetch from "../../lib/useFetch";
-import Link from "next/link";
+import Layout from '../../components/Layout';
+import Link from 'next/link';
+import withAuth from '../../lib/withAuth';
+import { getPesertaAdmin, getPesertaPesertaGuru } from '../../lib/queries';
 
-const ListPeserta = ({ user }) => {
-  const [data, loading] = useFetch([], "/api/peserta", {
-    headers: { "Content-Type": "application/json", role: user.role },
+export async function getServerSideProps(context) {
+  return withAuth(context, async (user) => {
+    let data = null;
+    if (user.role === 'admin') {
+      data = await getPesertaAdmin();
+    } else {
+      data = await getPesertaPesertaGuru();
+    }
+    return { props: { data, user } };
   });
+}
 
-  if (loading) return <p>Mohon tunggu</p>;
-
+const ListPeserta = ({ data, user }) => {
   return (
     <Layout>
       <h1>List peserta</h1>
@@ -17,15 +23,15 @@ const ListPeserta = ({ user }) => {
         <thead>
           <tr>
             <th>No.</th>
-            {user.role === "admin" && <th>Username</th>}
+            {user.role === 'admin' && <th>Username</th>}
             <th>Nama</th>
           </tr>
         </thead>
         <tbody>
-          {data.data.map((peserta, index) => (
+          {data.map((peserta, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
-              {user.role === "admin" && (
+              {user.role === 'admin' && (
                 <td>
                   <Link href={`/peserta/${peserta.id}`}>
                     {peserta.username}
@@ -41,4 +47,4 @@ const ListPeserta = ({ user }) => {
   );
 };
 
-export default withAuth(ListPeserta);
+export default ListPeserta;

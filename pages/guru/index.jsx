@@ -1,15 +1,26 @@
-import React from "react";
-import Layout from "../../components/Layout";
-import withAuth from "../../components/withAuth";
-import withUserRole from "../../components/withUserRole";
-import useFetch from "../../lib/useFetch";
-import Link from "next/link";
+import React from 'react';
+import Layout from '../../components/Layout';
+// import withAuth from "../../components/withAuth";
+// import withUserRole from "../../components/withUserRole";
+// import useFetch from "../../lib/useFetch";
+import Link from 'next/link';
+import withAuth from '../../lib/withAuth';
+import { getGuru } from '../../lib/queries';
 
-const ListGuru = () => {
-  const [data, loading] = useFetch([], "/api/guru");
+export async function getServerSideProps(context) {
+  return withAuth(
+    context,
+    async () => {
+      const data = await getGuru();
+      return {
+        props: { data },
+      };
+    },
+    ['admin']
+  );
+}
 
-  if (loading) return <p>Mohon tunggu</p>;
-
+const ListGuru = ({ data }) => {
   return (
     <Layout>
       <h1>List Guru</h1>
@@ -38,4 +49,4 @@ const ListGuru = () => {
   );
 };
 
-export default withAuth(withUserRole(ListGuru, ["admin"]));
+export default ListGuru;

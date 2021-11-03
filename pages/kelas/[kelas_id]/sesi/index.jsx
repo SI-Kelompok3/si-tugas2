@@ -1,25 +1,27 @@
-import React from "react";
-import { useRouter } from "next/router";
-import withAuth from "../../../../components/withAuth";
-import withUserRole from "../../../../components/withUserRole";
-import useFetch from "../../../../lib/useFetch";
-import Layout from "../../../../components/Layout";
-import Link from "next/link";
+import React from 'react';
+import Layout from '../../../../components/Layout';
+import Link from 'next/link';
+import withAuth from '../../../../lib/withAuth';
+import { getSesiGuru, getSesiPeserta } from '../../../../lib/queries';
 
-const SesiKelas = ({ user }) => {
-  const router = useRouter();
-  const { kelas_id } = router.query;
-
-  const [data, loading] = useFetch([kelas_id], `/api/kelas/${kelas_id}/sesi`, {
-    headers: {
-      "Content-Type": "application/json",
-      role: user.role,
-      user_id: user.id,
+export async function getServerSideProps(context) {
+  return withAuth(
+    context,
+    async (user) => {
+      const { kelas_id } = context.params;
+      let data = null;
+      if (user.role === 'guru') {
+        data = await getSesiGuru(kelas_id);
+      } else {
+        data = await getSesiPeserta(kelas_id, user.id);
+      }
+      return { props: { data, user, kelas_id } };
     },
-  });
+    ['peserta', 'guru']
+  );
+}
 
-  if (loading) return <p>Mohon tunggu</p>;
-
+const SesiKelas = ({ data, user, kelas_id }) => {
   return (
     <Layout>
       <h1>Daftar Sesi Kelas</h1>
@@ -30,20 +32,20 @@ const SesiKelas = ({ user }) => {
             <th>Materi</th>
             <th>Tanggal</th>
             <th>Pengajar</th>
-            <th>{user.role === "guru" ? "Jumlah Kehadiran" : "Hadir"}</th>
+            <th>{user.role === 'guru' ? 'Jumlah Kehadiran' : 'Hadir'}</th>
           </tr>
         </thead>
         <tbody>
-          {data.data.map((sesi, index) => (
+          {data.map((sesi, index) => (
             <tr key={sesi.id}>
               <td>{index + 1}</td>
               <td>
-                {user.role === "guru" ? (
+                {user.role === 'guru' ? (
                   <Link
                     href={
-                      user.role === "guru"
+                      user.role === 'guru'
                         ? `/kelas/${kelas_id}/sesi/${sesi.materi}/${sesi.tanggal}`
-                        : "#"
+                        : '#'
                     }
                   >
                     {sesi.materi}
@@ -55,11 +57,11 @@ const SesiKelas = ({ user }) => {
               <td>{sesi.tanggal}</td>
               <td>{sesi.pengajar}</td>
               <td>
-                {user.role === "guru"
+                {user.role === 'guru'
                   ? sesi.jumlah_kehadiran
-                  : sesi.hadir === "0"
-                  ? "Tidak Hadir"
-                  : "Hadir"}
+                  : sesi.hadir === '0'
+                  ? 'Tidak Hadir'
+                  : 'Hadir'}
               </td>
             </tr>
           ))}
@@ -69,4 +71,4 @@ const SesiKelas = ({ user }) => {
   );
 };
 
-export default withAuth(withUserRole(SesiKelas, ["peserta", "guru"]));
+export default SesiKelas;

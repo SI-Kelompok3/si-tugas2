@@ -1,18 +1,23 @@
-import React from "react";
-import { useRouter } from "next/router";
-import withAuth from "../../components/withAuth";
-import useFetch from "../../lib/useFetch";
-import Layout from "../../components/Layout";
-import withUserRole from "../../components/withUserRole";
+import React from 'react';
+// import { useRouter } from "next/router";
+import Layout from '../../components/Layout';
+import { getGuruById } from '../../lib/queries';
+import withAuth from '../../lib/withAuth';
 
-const EditGuru = () => {
-  const router = useRouter();
-  const { guru_id } = router.query;
+export async function getServerSideProps(context) {
+  return withAuth(
+    context,
+    async () => {
+      const guru = await getGuruById(context.params.guru_id);
+      return {
+        props: { guru },
+      };
+    },
+    ['admin']
+  );
+}
 
-  const [guru, loading] = useFetch([guru_id], `/api/guru/${guru_id}`);
-
-  if (loading) return <p>Mohon tunggu</p>;
-
+const EditGuru = ({ guru }) => {
   return (
     <Layout>
       <h1>Detail Guru</h1>
@@ -23,4 +28,4 @@ const EditGuru = () => {
   );
 };
 
-export default withAuth(withUserRole(EditGuru, ["admin"]));
+export default EditGuru;

@@ -1,7 +1,15 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import withoutAuth from "../components/withoutAuth";
-import fetchJson from "../lib/fetchJson";
+import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
+// import withoutAuth from '../components/withoutAuth';
+import Link from 'next/link';
+import fetchJson from '../lib/fetchJson';
+import withoutAuth from '../lib/withoutAuth';
+
+export async function getServerSideProps(context) {
+  return withoutAuth(context, () => ({
+    props: {},
+  }));
+}
 
 const Login = () => {
   const router = useRouter();
@@ -14,14 +22,15 @@ const Login = () => {
       password: password.value,
       role: role.value,
     };
-    const user = await fetchJson("/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const user = await fetchJson('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
 
-    localStorage.setItem("user", JSON.stringify(user));
-    router.replace("/");
+    // localStorage.setItem('user', JSON.stringify(user));
+    Cookies.set('user', JSON.stringify(user));
+    router.replace('/');
   };
 
   return (
@@ -47,4 +56,4 @@ const Login = () => {
   );
 };
 
-export default withoutAuth(Login);
+export default Login;

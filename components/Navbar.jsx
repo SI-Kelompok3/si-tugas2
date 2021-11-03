@@ -1,16 +1,21 @@
-import React, { useMemo } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import React, { useMemo } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 
 export default function Navbar() {
   const router = useRouter();
   const user = useMemo(() => {
-    return JSON.parse(localStorage.getItem("user"));
-  }, []);
+    try {
+      return JSON.parse(Cookies.get('user'));
+    } catch {
+      return null;
+    }
+  }, [Cookies]);
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    router.replace("/login");
+    Cookies.remove('user');
+    router.replace('/login');
   };
 
   return (

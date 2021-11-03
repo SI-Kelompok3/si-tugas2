@@ -1,17 +1,20 @@
-import React from "react";
-import { useRouter } from "next/router";
-import withAuth from "../../components/withAuth";
-import useFetch from "../../lib/useFetch";
-import Layout from "../../components/Layout";
-import withUserRole from "../../components/withUserRole";
+import React from 'react';
+import Layout from '../../components/Layout';
+import { getPesertaDetail } from '../../lib/queries';
+import withAuth from '../../lib/withAuth';
 
-const DetailPeserta = () => {
-  const router = useRouter();
-  const { peserta_id } = router.query;
-  const [data, loading] = useFetch([peserta_id], `/api/peserta/${peserta_id}`);
+export async function getServerSideProps(context) {
+  return withAuth(
+    context,
+    async () => {
+      const data = await getPesertaDetail(context.params.peserta_id);
+      return { props: { data } };
+    },
+    ['admin']
+  );
+}
 
-  if (loading) return <p>Mohon tunggu</p>;
-
+const DetailPeserta = ({ data }) => {
   return (
     <Layout>
       <h3>{data.peserta.nama}</h3>
@@ -39,4 +42,4 @@ const DetailPeserta = () => {
   );
 };
 
-export default withAuth(withUserRole(DetailPeserta, ["admin"]));
+export default DetailPeserta;

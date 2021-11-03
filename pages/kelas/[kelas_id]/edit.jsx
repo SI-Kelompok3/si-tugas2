@@ -1,41 +1,36 @@
-import { useState, useMemo, useEffect } from "react";
-import { useRouter } from "next/router";
-import withAuth from "../../../components/withAuth";
-import withUserRole from "../../../components/withUserRole";
-import useFetch from "../../../lib/useFetch";
-import Layout from "../../../components/Layout";
-import fetchJson from "../../../lib/fetchJson";
+import { useState, useMemo, useEffect } from 'react';
+import Layout from '../../../components/Layout';
+import fetchJson from '../../../lib/fetchJson';
+import { getGuru, getKelasDetailAdmin } from '../../../lib/queries';
+import withAuth from '../../../lib/withAuth';
 
-const EditKelas = () => {
-  const router = useRouter();
-  const { kelas_id } = router.query;
-
-  const [message, setMessage] = useState("");
-  const [pengajar, setPengajar] = useState([]);
-  const [data, loading] = useFetch([kelas_id], `/api/kelas/${kelas_id}`, {
-    headers: {
-      "Content-Type": "application/json",
-      role: "admin",
+export async function getServerSideProps(context) {
+  return withAuth(
+    context,
+    async () => {
+      const allGuru = await getGuru();
+      const data = await getKelasDetailAdmin(context.params.kelas_id);
+      return { props: { data, allGuru } };
     },
-  });
+    ['admin']
+  );
+}
 
-  const availableGuru = useMemo(() => {
-    if (loading) return [];
-    return data.guru.filter((g) => {
-      return pengajar.indexOf(g) < 0;
-    });
-  }, [data, pengajar, loading]);
+const EditKelas = ({ data, allGuru }) => {
+  const [message, setMessage] = useState('');
+  const [pengajar, setPengajar] = useState(data.guru);
 
-  useEffect(() => {
-    if (!loading) setPengajar(data.guru);
-  }, [data, loading]);
+  const availableGuru = useMemo(
+    () => allGuru.filter((g) => pengajar.findIndex((p) => p.id === g.id) < 0),
+    [allGuru, pengajar]
+  );
 
   const handleAddPengajar = (e) => {
-    if (e.target.value === "") return;
+    if (e.target.value === '') return;
 
     setPengajar((state) => [
       ...state,
-      data.guru.filter((g) => Number(g.id) === Number(e.target.value))[0],
+      allGuru.filter((g) => Number(g.id) === Number(e.target.value))[0],
     ]);
   };
 
@@ -48,7 +43,7 @@ const EditKelas = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (pengajar.length === 0) {
-      setMessage("Mohon pilih salah satu guru sebagai pengajar!");
+      setMessage('Mohon pilih salah satu guru sebagai pengajar!');
       return;
     }
 
@@ -65,15 +60,13 @@ const EditKelas = () => {
       guru: pengajar,
     };
     const edit = await fetchJson(`/api/kelas/${kelas_id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
     setMessage(edit.message);
     if (!edit.error) e.target.reset();
   };
-
-  if (loading || !data) return <p>Mohon tunggu</p>;
 
   return (
     <Layout>
@@ -161,9 +154,9 @@ const EditKelas = () => {
           Selesai : Fitur "Berjalan" ditutup, guru memasukkan nilai peserta
         </li>
       </ul>
-      {message !== "" && <b>{message}</b>}
+      {message !== '' && <b>{message}</b>}
     </Layout>
   );
 };
 
-export default withAuth(withUserRole(EditKelas, ["admin"]));
+export default EditKelas;

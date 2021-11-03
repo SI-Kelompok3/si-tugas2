@@ -1,23 +1,44 @@
-import React from "react";
-import Layout from "../../components/Layout";
-import withAuth from "../../components/withAuth";
-import useFetch from "../../lib/useFetch";
-import Link from "next/link";
-import { capitalizeFirstLetter } from "../../lib/utility";
+import React from 'react';
+import Layout from '../../components/Layout';
+// import withAuth from "../../components/withAuth";
+// import useFetch from "../../lib/useFetch";
+import Link from 'next/link';
+import { capitalizeFirstLetter } from '../../lib/utility';
+import withAuth from '../../lib/withAuth';
+import {
+  getKelasAdmin,
+  getKelasGuru,
+  getKelasPeserta,
+} from '../../lib/queries';
 
-const Kelas = ({ user }) => {
-  const [kelas, loading] = useFetch([], "/api/kelas", {
-    headers: {
-      "Content-Type": "application/json",
-      role: user.role,
-      user_id: user.id,
-    },
+export async function getServerSideProps(context) {
+  return withAuth(context, async (user) => {
+    let kelas = [];
+    switch (user.role) {
+      case 'admin':
+        kelas = await getKelasAdmin();
+        break;
+      case 'guru':
+        kelas = await getKelasGuru();
+        break;
+      case 'peserta':
+        kelas = await getKelasPeserta();
+        break;
+    }
+    return {
+      props: {
+        user,
+        kelas,
+      },
+    };
   });
+}
 
+const Kelas = ({ user, kelas }) => {
   //Header tabel
   const header = () => {
     switch (user.role) {
-      case "admin":
+      case 'admin':
         return (
           <tr>
             <th>ID</th>
@@ -30,7 +51,7 @@ const Kelas = ({ user }) => {
             <th>Status</th>
           </tr>
         );
-      case "guru":
+      case 'guru':
         return (
           <tr>
             <th>No.</th>
@@ -40,7 +61,7 @@ const Kelas = ({ user }) => {
             <th>Waktu Akhir</th>
           </tr>
         );
-      case "peserta":
+      case 'peserta':
         return (
           <tr>
             <th>No.</th>
@@ -57,7 +78,7 @@ const Kelas = ({ user }) => {
   //Baris tabel
   const row = (item, index) => {
     switch (user.role) {
-      case "admin":
+      case 'admin':
         return (
           <tr key={item.id}>
             <td>{item.id}</td>
@@ -72,7 +93,7 @@ const Kelas = ({ user }) => {
             <td>{capitalizeFirstLetter(item.status)}</td>
           </tr>
         );
-      case "guru":
+      case 'guru':
         return (
           <tr key={item.id}>
             <td>{index + 1}</td>
@@ -84,7 +105,7 @@ const Kelas = ({ user }) => {
             <td>{item.waktu_akhir}</td>
           </tr>
         );
-      case "peserta":
+      case 'peserta':
         return (
           <tr key={item.id}>
             <td>{index + 1}</td>
@@ -94,7 +115,7 @@ const Kelas = ({ user }) => {
             <td>{capitalizeFirstLetter(item.hari)}</td>
             <td>{item.waktu_mulai}</td>
             <td>{item.waktu_akhir}</td>
-            <td>{item.terambil === "0" ? "Tidak Terambil" : "Terambil"}</td>
+            <td>{item.terambil === '0' ? 'Tidak Terambil' : 'Terambil'}</td>
           </tr>
         );
     }
@@ -102,7 +123,7 @@ const Kelas = ({ user }) => {
 
   return (
     <Layout>
-      {user.role === "admin" && (
+      {user.role === 'admin' && (
         <ul>
           <li>
             <Link href="/kelas/peserta">Jumlah peserta berdasarkan kelas</Link>
@@ -116,14 +137,14 @@ const Kelas = ({ user }) => {
         </ul>
       )}
       <br />
-      {user.role === "admin" && <Link href="/kelas/create">Buat kelas</Link>}
-      <h1>List kelas {user.role === "guru" && "yang diampu"}</h1>
+      {user.role === 'admin' && <Link href="/kelas/create">Buat kelas</Link>}
+      <h1>List kelas {user.role === 'guru' && 'yang diampu'}</h1>
       <table>
         <thead>{header()}</thead>
-        <tbody>{!loading && kelas.data.map(row)}</tbody>
+        <tbody>{kelas.map(row)}</tbody>
       </table>
     </Layout>
   );
 };
 
-export default withAuth(Kelas);
+export default Kelas;

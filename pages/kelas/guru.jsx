@@ -1,15 +1,21 @@
-import React from "react";
-import Layout from "../../components/Layout";
-import withAuth from "../../components/withAuth";
-import withUserRole from "../../components/withUserRole";
-import useFetch from "../../lib/useFetch";
-import Link from "next/link";
+import React from 'react';
+import Layout from '../../components/Layout';
+import withAuth from '../../lib/withAuth';
+import Link from 'next/link';
+import { getKelasWithGuru } from '../../lib/queries';
 
-const ListKelasGuru = () => {
-  const [data, loading] = useFetch([], "/api/kelas/guru");
+export async function getServerSideProps(context) {
+  return withAuth(
+    context,
+    async () => {
+      const data = await getKelasWithGuru();
+      return { props: { data } };
+    },
+    ['admin']
+  );
+}
 
-  if (loading) return <p>Mohon tunggu</p>;
-
+const ListKelasGuru = ({ data }) => {
   return (
     <Layout>
       <h1>List jumlah guru berdasarkan kelas</h1>
@@ -22,7 +28,7 @@ const ListKelasGuru = () => {
           </tr>
         </thead>
         <tbody>
-          {data.data.map((kelas, index) => (
+          {data.map((kelas, index) => (
             <tr key={kelas.id}>
               <td>{index + 1}</td>
               <td>
@@ -37,4 +43,4 @@ const ListKelasGuru = () => {
   );
 };
 
-export default withAuth(withUserRole(ListKelasGuru, ["admin"]));
+export default ListKelasGuru;

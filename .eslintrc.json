@@ -8,12 +8,17 @@
         "airbnb-base"
     ],
     "parserOptions": {
-        "ecmaVersion": 12
+        "ecmaVersion": 12,
+        "ecmaFeatures": {
+            "jsx": true,
+            "modules": true
+        }
     },
     "rules": {
         "no-case-declarations": "off",
         "consistent-return": "off",
         "default-case": "off",
         "camelcase": "off"
-    }
+    },
+    "parser": "babel-eslint"
 }

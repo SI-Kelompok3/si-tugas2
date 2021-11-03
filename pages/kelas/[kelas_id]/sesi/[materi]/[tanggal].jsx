@@ -1,21 +1,21 @@
-import { useRouter } from "next/router";
-import React from "react";
-import withAuth from "../../../../../components/withAuth";
-import withUserRole from "../../../../../components/withUserRole";
-import Layout from "../../../../../components/Layout";
-import useFetch from "../../../../../lib/useFetch";
+import React from 'react';
+import Layout from '../../../../../components/Layout';
+import { getSesiDetail } from '../../../../../lib/queries';
+import withAuth from '../../../../../lib/withAuth';
 
-const DetailSesi = () => {
-  const router = useRouter();
-  const { kelas_id, materi, tanggal } = router.query;
-
-  const [data, loading] = useFetch(
-    [materi, tanggal],
-    `/api/kelas/${kelas_id}/sesi/${materi}/${tanggal}`
+export async function getServerSideProps(context) {
+  return withAuth(
+    context,
+    async () => {
+      const { materi, tanggal } = context.params;
+      const data = await getSesiDetail(materi, tanggal);
+      return { props: { data } };
+    },
+    ['guru']
   );
+}
 
-  if (loading) return <p>Mohon tunggu</p>;
-
+const DetailSesi = ({ data }) => {
   return (
     <Layout>
       <h1>Daftar Kehadiran Peserta</h1>
@@ -29,12 +29,12 @@ const DetailSesi = () => {
           </tr>
         </thead>
         <tbody>
-          {data.data.map((peserta, index) => (
+          {data.map((peserta, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
               <td>{peserta.nama}</td>
-              <td>{peserta.hadir === "0" ? "Tidak Hadir" : "Hadir"}</td>
-              <td>{peserta.keterangan ?? "-"}</td>
+              <td>{peserta.hadir === '0' ? 'Tidak Hadir' : 'Hadir'}</td>
+              <td>{peserta.keterangan ?? '-'}</td>
             </tr>
           ))}
         </tbody>
@@ -43,4 +43,4 @@ const DetailSesi = () => {
   );
 };
 
-export default withAuth(withUserRole(DetailSesi, ["guru"]));
+export default DetailSesi;

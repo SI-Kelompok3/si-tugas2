@@ -1,25 +1,45 @@
-import Link from "next/link";
-import Layout from "../components/Layout";
-import withAuth from "../components/withAuth";
-import useFetch from "../lib/useFetch";
-import { capitalizeFirstLetter } from "../lib/utility";
+import Link from 'next/link';
+import Layout from '../components/Layout';
+import { getKelasForPeserta, getTopGuru, getTopPeserta } from '../lib/queries';
+import { capitalizeFirstLetter } from '../lib/utility';
+import withAuth from '../lib/withAuth';
 
-const Home = ({ user }) => {
-  const [data, loading] = useFetch(
-    [user],
-    user.role === "peserta"
-      ? `/api/peserta/${user.id}/kelas`
-      : user.role === "admin"
-      ? `/api/kelas/admin`
-      : null
-  );
+export async function getServerSideProps(context) {
+  return withAuth(context, async (user) => {
+    let data = null;
+    switch (user.role) {
+      case 'admin':
+        const peserta = await getTopPeserta();
+        const guru = await getTopGuru();
+        data = {
+          peserta,
+          guru,
+        };
+        break;
+      case 'peserta':
+        const kelas = await getKelasForPeserta(user.id);
+        data = {
+          data: kelas,
+        };
+        break;
+      case 'guru':
+        break;
+    }
 
-  if (loading) return <p>Mohon tunggu</p>;
+    return {
+      props: {
+        data,
+        user,
+      },
+    };
+  });
+}
 
+const Home = ({ data, user }) => {
   return (
     <Layout>
       <h1>Selamat datang {user.nama}!</h1>
-      {user.role === "peserta" && (
+      {user.role === 'peserta' && (
         <div>
           <b>Kelas yang diambil</b>
           <table>
@@ -52,7 +72,7 @@ const Home = ({ user }) => {
           </table>
         </div>
       )}
-      {user.role === "admin" && (
+      {user.role === 'admin' && (
         <div>
           <b>Kelas yang paling diminati</b>
           <table>
@@ -105,7 +125,7 @@ const Home = ({ user }) => {
         <li>
           <Link href="/kelas">Daftar Kelas</Link>
         </li>
-        {user.role === "admin" && (
+        {user.role === 'admin' && (
           <li>
             <Link href="/guru">Daftar Guru</Link>
           </li>
@@ -115,4 +135,4 @@ const Home = ({ user }) => {
   );
 };
 
-export default withAuth(Home);
+export default Home;
