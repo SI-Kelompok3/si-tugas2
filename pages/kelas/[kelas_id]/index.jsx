@@ -84,7 +84,7 @@ const DetailKelas = ({ data, user, kelas_id }) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{peserta.nama}</td>
-                  <td>{peserta.nilai}</td>
+                  <td>{peserta.nilai ?? '-'}</td>
                 </tr>
               ))}
             </tbody>

@@ -33,44 +33,46 @@ const SesiKelas = ({ data, user, kelas_id }) => {
   return (
     <Layout>
       <h1>Daftar Sesi Kelas</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>Materi</th>
-            <th>Tanggal</th>
-            <th>Pengajar</th>
-            <th>{user.role === 'guru' ? 'Jumlah Kehadiran' : 'Hadir'}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((sesi, index) => (
-            <tr key={sesi.id}>
-              <td>{index + 1}</td>
-              <td>
-                {user.role === 'guru' ? (
-                  <Link
-                    href={
-                      user.role === 'guru'
-                        ? `/kelas/${kelas_id}/sesi/${sesi.materi}/${sesi.tanggal}`
-                        : '#'
-                    }
-                  >
-                    {sesi.materi}
-                  </Link>
-                ) : (
-                  sesi.materi
-                )}
-              </td>
-              <td>{sesi.tanggal}</td>
-              <td>{sesi.pengajar}</td>
-              <td>
-                {hadirColumn(sesi)}
-              </td>
+      {data.length > 0 ? (
+        <table>
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Materi</th>
+              <th>Tanggal</th>
+              <th>Pengajar</th>
+              <th>{user.role === 'guru' ? 'Jumlah Kehadiran' : 'Hadir'}</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((sesi, index) => (
+              <tr key={sesi.id}>
+                <td>{index + 1}</td>
+                <td>
+                  {user.role === 'guru' ? (
+                    <Link
+                      href={
+                        user.role === 'guru'
+                          ? `/kelas/${kelas_id}/sesi/${sesi.materi}/${sesi.tanggal}`
+                          : '#'
+                      }
+                    >
+                      {sesi.materi}
+                    </Link>
+                  ) : (
+                    sesi.materi
+                  )}
+                </td>
+                <td>{sesi.tanggal}</td>
+                <td>{sesi.pengajar}</td>
+                <td>{hadirColumn(sesi)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>Belum ada sesi</p>
+      )}
     </Layout>
   );
 };
