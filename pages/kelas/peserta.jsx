@@ -1,6 +1,6 @@
 import React from 'react';
-import Layout from '../../components/Layout';
 import Link from 'next/link';
+import Layout from '../../components/Layout';
 import withAuth from '../../lib/withAuth';
 import { getKelasWithPeserta } from '../../lib/queries';
 
@@ -11,12 +11,11 @@ export async function getServerSideProps(context) {
       const data = await getKelasWithPeserta();
       return { props: { data } };
     },
-    ['admin']
+    ['admin'],
   );
 }
 
-const ListKelasPeserta = ({ data }) => {
-  return (
+const ListKelasPeserta = ({ data }) => (
     <Layout>
       <h1>List jumlah peserta berdasarkan kelas</h1>
       <table>
@@ -40,7 +39,6 @@ const ListKelasPeserta = ({ data }) => {
         </tbody>
       </table>
     </Layout>
-  );
-};
+);
 
 export default ListKelasPeserta;

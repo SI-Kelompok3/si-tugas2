@@ -1,8 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 import Layout from '../../components/Layout';
 // import withAuth from "../../components/withAuth";
 // import useFetch from "../../lib/useFetch";
-import Link from 'next/link';
 import { capitalizeFirstLetter } from '../../lib/utility';
 import withAuth from '../../lib/withAuth';
 import {
@@ -35,7 +35,7 @@ export async function getServerSideProps(context) {
 }
 
 const Kelas = ({ user, kelas }) => {
-  //Header tabel
+  // Header tabel
   const header = () => {
     switch (user.role) {
       case 'admin':
@@ -75,7 +75,7 @@ const Kelas = ({ user, kelas }) => {
     }
   };
 
-  //Baris tabel
+  // Baris tabel
   const row = (item, index) => {
     switch (user.role) {
       case 'admin':

@@ -1,7 +1,7 @@
 import React from 'react';
+import Link from 'next/link';
 import Layout from '../../components/Layout';
 import withAuth from '../../lib/withAuth';
-import Link from 'next/link';
 import { getKelasWithGuru } from '../../lib/queries';
 
 export async function getServerSideProps(context) {
@@ -11,12 +11,11 @@ export async function getServerSideProps(context) {
       const data = await getKelasWithGuru();
       return { props: { data } };
     },
-    ['admin']
+    ['admin'],
   );
 }
 
-const ListKelasGuru = ({ data }) => {
-  return (
+const ListKelasGuru = ({ data }) => (
     <Layout>
       <h1>List jumlah guru berdasarkan kelas</h1>
       <table>
@@ -40,7 +39,6 @@ const ListKelasGuru = ({ data }) => {
         </tbody>
       </table>
     </Layout>
-  );
-};
+);
 
 export default ListKelasGuru;

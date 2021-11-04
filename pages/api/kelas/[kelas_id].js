@@ -6,8 +6,9 @@ export default async (req, res) => {
   switch (req.method) {
     case 'PUT':
       // TODO: Admin update kelas & tabel mengikuti yang agak bingungin (assign guru)
-      const { nama, durasi, deskripsi, waktu, hari, kapasitas, status, guru } =
-        req.body;
+      const {
+        nama, durasi, deskripsi, waktu, hari, kapasitas, status, guru,
+      } = req.body;
       const putResult = await executeQuery({
         query: 'UPDATE ',
       });

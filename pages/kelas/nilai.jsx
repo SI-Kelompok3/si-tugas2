@@ -1,6 +1,6 @@
 import React from 'react';
-import Layout from '../../components/Layout';
 import Link from 'next/link';
+import Layout from '../../components/Layout';
 import withAuth from '../../lib/withAuth';
 import { getAverageNilai } from '../../lib/queries';
 
@@ -11,12 +11,11 @@ export async function getServerSideProps(context) {
       const data = await getAverageNilai();
       return { props: { data } };
     },
-    ['admin']
+    ['admin'],
   );
 }
 
-const ListKelasNilai = ({ data }) => {
-  return (
+const ListKelasNilai = ({ data }) => (
     <Layout>
       <h1>List nilai rata-rata tiap kelas</h1>
       <table>
@@ -40,7 +39,6 @@ const ListKelasNilai = ({ data }) => {
         </tbody>
       </table>
     </Layout>
-  );
-};
+);
 
 export default ListKelasNilai;

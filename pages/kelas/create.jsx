@@ -13,7 +13,7 @@ export async function getServerSideProps(context) {
         props: { guru },
       };
     },
-    ['admin']
+    ['admin'],
   );
 }
 
@@ -21,9 +21,7 @@ const CreateKelas = ({ guru }) => {
   const [message, setMessage] = useState('');
   const [pengajar, setPengajar] = useState([]);
 
-  const availableGuru = useMemo(() => {
-    return guru.filter((g) => pengajar.indexOf(g) < 0);
-  }, [guru, pengajar]);
+  const availableGuru = useMemo(() => guru.filter((g) => pengajar.indexOf(g) < 0), [guru, pengajar]);
 
   const handleAddPengajar = (e) => {
     if (e.target.value === '') return;
@@ -35,9 +33,7 @@ const CreateKelas = ({ guru }) => {
   };
 
   const handleHapusPengajar = (e) => {
-    setPengajar((state) =>
-      state.filter((s) => Number(s.id) !== Number(e.target.id))
-    );
+    setPengajar((state) => state.filter((s) => Number(s.id) !== Number(e.target.id)));
   };
 
   const handleSubmit = async (e) => {
@@ -47,8 +43,9 @@ const CreateKelas = ({ guru }) => {
       return;
     }
 
-    const { nama, durasi, deskripsi, waktu, hari, kapasitas, status } =
-      e.currentTarget;
+    const {
+      nama, durasi, deskripsi, waktu, hari, kapasitas, status,
+    } = e.currentTarget;
     const body = {
       nama: nama.value,
       durasi: durasi.value,
