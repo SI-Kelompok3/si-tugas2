@@ -1,7 +1,7 @@
 import React from 'react';
+import Link from 'next/link';
 import { capitalizeFirstLetter } from '../../../lib/utility';
 import Layout from '../../../components/Layout';
-import Link from 'next/link';
 import withAuth from '../../../lib/withAuth';
 import {
   getKelasDetailAdmin,
@@ -21,7 +21,7 @@ export async function getServerSideProps(context) {
         data = await getKelasDetailGuru(kelas_id);
         break;
       case 'peserta':
-        //data bakal null kalau peserta ngga ikut ke kelasnya
+        // data bakal null kalau peserta ngga ikut ke kelasnya
         data = await getKelasDetailPeserta(kelas_id, user.id);
         break;
     }
@@ -29,8 +29,7 @@ export async function getServerSideProps(context) {
   });
 }
 
-const DetailKelas = ({ data, user, kelas_id }) => {
-  return (
+const DetailKelas = ({ data, user, kelas_id }) => (
     <Layout>
       <h1>{data.nama}</h1>
       <b>Deskripsi</b>
@@ -105,7 +104,6 @@ const DetailKelas = ({ data, user, kelas_id }) => {
         </div>
       )}
     </Layout>
-  );
-};
+);
 
 export default DetailKelas;

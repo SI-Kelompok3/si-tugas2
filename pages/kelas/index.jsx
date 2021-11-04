@@ -16,13 +16,13 @@ export async function getServerSideProps(context) {
     let kelas = [];
     switch (user.role) {
       case 'admin':
-        kelas = await getKelasAdmin();
+        kelas = await getKelasAdmin(user.id);
         break;
       case 'guru':
-        kelas = await getKelasGuru();
+        kelas = await getKelasGuru(user.id);
         break;
       case 'peserta':
-        kelas = await getKelasPeserta();
+        kelas = await getKelasPeserta(user.id);
         break;
     }
     return {
