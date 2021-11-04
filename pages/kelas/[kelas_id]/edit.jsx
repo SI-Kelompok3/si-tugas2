@@ -1,4 +1,5 @@
-import { useState, useMemo, useEffect } from 'react';
+/* eslint-disable react/no-unescaped-entities */
+import { useState, useMemo } from 'react';
 import Layout from '../../../components/Layout';
 import fetchJson from '../../../lib/fetchJson';
 import { getGuru, getKelasDetailAdmin } from '../../../lib/queries';
@@ -8,21 +9,22 @@ export async function getServerSideProps(context) {
   return withAuth(
     context,
     async () => {
+      const { kelas_id } = context.params;
       const allGuru = await getGuru();
-      const data = await getKelasDetailAdmin(context.params.kelas_id);
-      return { props: { data, allGuru } };
+      const data = await getKelasDetailAdmin(kelas_id);
+      return { props: { data, allGuru, kelas_id } };
     },
-    ['admin']
+    ['admin'],
   );
 }
 
-const EditKelas = ({ data, allGuru }) => {
+const EditKelas = ({ data, allGuru, kelas_id }) => {
   const [message, setMessage] = useState('');
   const [pengajar, setPengajar] = useState(data.guru);
 
   const availableGuru = useMemo(
     () => allGuru.filter((g) => pengajar.findIndex((p) => p.id === g.id) < 0),
-    [allGuru, pengajar]
+    [allGuru, pengajar],
   );
 
   const handleAddPengajar = (e) => {
@@ -35,9 +37,7 @@ const EditKelas = ({ data, allGuru }) => {
   };
 
   const handleHapusPengajar = (e) => {
-    setPengajar((state) =>
-      state.filter((s) => Number(s.id) !== Number(e.target.id))
-    );
+    setPengajar((state) => state.filter((s) => Number(s.id) !== Number(e.target.id)));
   };
 
   const handleSubmit = async (e) => {
@@ -47,8 +47,9 @@ const EditKelas = ({ data, allGuru }) => {
       return;
     }
 
-    const { nama, durasi, deskripsi, waktu, hari, kapasitas, status } =
-      e.currentTarget;
+    const {
+      nama, durasi, deskripsi, waktu, hari, kapasitas, status,
+    } = e.currentTarget;
     const body = {
       nama: nama.value,
       durasi: durasi.value,

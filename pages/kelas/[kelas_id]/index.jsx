@@ -57,7 +57,7 @@ const DetailKelas = ({ data, user, kelas_id }) => (
             </thead>
             <tbody>
               {data.guru.map((guru) => (
-                <tr>
+                <tr key={guru.id}>
                   <td>{guru.id}</td>
                   <td>{guru.nama}</td>
                   <td>{guru.username}</td>

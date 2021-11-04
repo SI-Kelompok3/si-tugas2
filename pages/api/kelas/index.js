@@ -4,6 +4,11 @@ export default async (req, res) => {
   if (req.method !== 'POST') return;
 
   // TODO: Insert into table kelas & ke tabel mengikuti yang agak bingungin (assign guru)
+  // 1. Insert ke tabel kelas
+  // 2. Insert ke mengikuti dengan peserta_id yg null
+  // 3. Peserta bakal ngambil & ketambah di mengikuti
+  // 4. Admin perlu ngubah status jadi berjalan
+  // 5. Delete entry yang peserta_id null
   const {
     nama, durasi, deskripsi, waktu, hari, kapasitas, status, guru,
   } = req.body;

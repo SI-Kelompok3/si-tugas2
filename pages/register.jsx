@@ -1,5 +1,5 @@
-import fetchJson from '../lib/fetchJson';
 import { useState } from 'react';
+import fetchJson from '../lib/fetchJson';
 import withoutAuth from '../lib/withoutAuth';
 
 export async function getServerSideProps(context) {

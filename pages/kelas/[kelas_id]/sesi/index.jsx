@@ -1,6 +1,6 @@
 import React from 'react';
-import Layout from '../../../../components/Layout';
 import Link from 'next/link';
+import Layout from '../../../../components/Layout';
 import withAuth from '../../../../lib/withAuth';
 import { getSesiGuru, getSesiPeserta } from '../../../../lib/queries';
 
@@ -17,11 +17,19 @@ export async function getServerSideProps(context) {
       }
       return { props: { data, user, kelas_id } };
     },
-    ['peserta', 'guru']
+    ['peserta', 'guru'],
   );
 }
 
 const SesiKelas = ({ data, user, kelas_id }) => {
+  const hadirColumn = (sesi) => {
+    if (user.role === 'guru') return sesi.jumlah_kehadiran;
+
+    if (sesi.hadir === '0') return 'Tidak Hadir';
+
+    return 'Hadir';
+  };
+
   return (
     <Layout>
       <h1>Daftar Sesi Kelas</h1>
@@ -57,11 +65,7 @@ const SesiKelas = ({ data, user, kelas_id }) => {
               <td>{sesi.tanggal}</td>
               <td>{sesi.pengajar}</td>
               <td>
-                {user.role === 'guru'
-                  ? sesi.jumlah_kehadiran
-                  : sesi.hadir === '0'
-                  ? 'Tidak Hadir'
-                  : 'Hadir'}
+                {hadirColumn(sesi)}
               </td>
             </tr>
           ))}

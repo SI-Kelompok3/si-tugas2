@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useMemo, useState } from 'react';
 import Layout from '../../components/Layout';
 import fetchJson from '../../lib/fetchJson';
@@ -21,7 +22,10 @@ const CreateKelas = ({ guru }) => {
   const [message, setMessage] = useState('');
   const [pengajar, setPengajar] = useState([]);
 
-  const availableGuru = useMemo(() => guru.filter((g) => pengajar.indexOf(g) < 0), [guru, pengajar]);
+  const availableGuru = useMemo(
+    () => guru.filter((g) => pengajar.indexOf(g) < 0),
+    [guru, pengajar],
+  );
 
   const handleAddPengajar = (e) => {
     if (e.target.value === '') return;

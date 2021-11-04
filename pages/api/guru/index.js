@@ -2,7 +2,7 @@ import md5 from 'md5';
 import executeQuery from '../../../config/db';
 
 export default async (req, res) => {
-  if(req.method !== 'POST') return;
+  if (req.method !== 'POST') return;
 
   const { username, nama, password } = req.body;
   const encryptedPassword = md5(password);
@@ -19,6 +19,4 @@ export default async (req, res) => {
   res.json({
     message: `Sukses membuat akun guru dengan username ${username}`,
   });
-  break;
 };
-

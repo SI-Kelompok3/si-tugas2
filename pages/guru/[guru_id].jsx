@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useRouter } from "next/router";
 import Layout from '../../components/Layout';
 import { getGuruById } from '../../lib/queries';
 import withAuth from '../../lib/withAuth';
@@ -13,19 +12,17 @@ export async function getServerSideProps(context) {
         props: { guru },
       };
     },
-    ['admin']
+    ['admin'],
   );
 }
 
-const EditGuru = ({ guru }) => {
-  return (
-    <Layout>
-      <h1>Detail Guru</h1>
-      <h3>{guru.nama}</h3>
-      <p>Username : {guru.username}</p>
-      <p>ID : {guru.id}</p>
-    </Layout>
-  );
-};
+const EditGuru = ({ guru }) => (
+  <Layout>
+    <h1>Detail Guru</h1>
+    <h3>{guru.nama}</h3>
+    <p>Username : {guru.username}</p>
+    <p>ID : {guru.id}</p>
+  </Layout>
+);
 
 export default EditGuru;

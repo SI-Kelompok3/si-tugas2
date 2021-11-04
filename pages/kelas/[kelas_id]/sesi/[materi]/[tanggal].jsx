@@ -11,36 +11,34 @@ export async function getServerSideProps(context) {
       const data = await getSesiDetail(materi, tanggal);
       return { props: { data } };
     },
-    ['guru']
+    ['guru'],
   );
 }
 
-const DetailSesi = ({ data }) => {
-  return (
-    <Layout>
-      <h1>Daftar Kehadiran Peserta</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>Nama</th>
-            <th>Hadir</th>
-            <th>Keterangan</th>
+const DetailSesi = ({ data }) => (
+  <Layout>
+    <h1>Daftar Kehadiran Peserta</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Nama</th>
+          <th>Hadir</th>
+          <th>Keterangan</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((peserta, index) => (
+          <tr key={index}>
+            <td>{index + 1}</td>
+            <td>{peserta.nama}</td>
+            <td>{peserta.hadir === '0' ? 'Tidak Hadir' : 'Hadir'}</td>
+            <td>{peserta.keterangan ?? '-'}</td>
           </tr>
-        </thead>
-        <tbody>
-          {data.map((peserta, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>{peserta.nama}</td>
-              <td>{peserta.hadir === '0' ? 'Tidak Hadir' : 'Hadir'}</td>
-              <td>{peserta.keterangan ?? '-'}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </Layout>
-  );
-};
+        ))}
+      </tbody>
+    </table>
+  </Layout>
+);
 
 export default DetailSesi;

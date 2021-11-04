@@ -33,7 +33,7 @@ const ListKelasNilai = ({ data }) => (
               <td>
                 <Link href={`/kelas/${kelas.id}`}>{kelas.nama}</Link>
               </td>
-              <td>{kelas.nilai}</td>
+              <td>{kelas.nilai ?? '-'}</td>
             </tr>
           ))}
         </tbody>

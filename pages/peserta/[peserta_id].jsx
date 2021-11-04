@@ -10,36 +10,34 @@ export async function getServerSideProps(context) {
       const data = await getPesertaDetail(context.params.peserta_id);
       return { props: { data } };
     },
-    ['admin']
+    ['admin'],
   );
 }
 
-const DetailPeserta = ({ data }) => {
-  return (
-    <Layout>
-      <h3>{data.peserta.nama}</h3>
-      <p>Username : {data.peserta.username}</p>
-      <b>List kehadiran</b>
-      <table>
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>Nama</th>
-            <th>Jumlah kehadiran</th>
+const DetailPeserta = ({ data }) => (
+  <Layout>
+    <h3>{data.peserta.nama}</h3>
+    <p>Username : {data.peserta.username}</p>
+    <b>List kehadiran</b>
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Nama</th>
+          <th>Jumlah kehadiran</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.kehadiran.map((kh, index) => (
+          <tr key={index}>
+            <td>{index + 1}</td>
+            <td>{kh.nama}</td>
+            <td>{kh.jumlah_kehadiran}</td>
           </tr>
-        </thead>
-        <tbody>
-          {data.kehadiran.map((kh, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>{kh.nama}</td>
-              <td>{kh.jumlah_kehadiran}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </Layout>
-  );
-};
+        ))}
+      </tbody>
+    </table>
+  </Layout>
+);
 
 export default DetailPeserta;

@@ -1,14 +1,11 @@
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
-// import withoutAuth from '../components/withoutAuth';
 import Link from 'next/link';
 import fetchJson from '../lib/fetchJson';
 import withoutAuth from '../lib/withoutAuth';
 
 export async function getServerSideProps(context) {
-  return withoutAuth(context, () => ({
-    props: {},
-  }));
+  return withoutAuth(context, () => ({ props: {} }));
 }
 
 const Login = () => {
@@ -27,8 +24,6 @@ const Login = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
-
-    // localStorage.setItem('user', JSON.stringify(user));
     Cookies.set('user', JSON.stringify(user));
     router.replace('/');
   };
