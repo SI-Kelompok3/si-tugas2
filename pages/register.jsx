@@ -1,32 +1,32 @@
-import { useState } from "react";
-import fetchJson from "../lib/fetchJson";
-import withoutAuth from "../lib/withoutAuth";
+import { useState } from 'react'
+import fetchJson from '../lib/fetchJson'
+import withoutAuth from '../lib/withoutAuth'
 
 export async function getServerSideProps(context) {
   return withoutAuth(context, () => ({
     props: {},
-  }));
+  }))
 }
 
 const Register = () => {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('')
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const { username, password, nama } = e.currentTarget;
+    e.preventDefault()
+    const { username, password, nama } = e.currentTarget
     const body = {
       username: username.value,
       password: password.value,
       nama: nama.value,
-    };
-    const create = await fetchJson("/api/peserta", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    }
+    const create = await fetchJson('/api/peserta', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
-    });
-    setMessage(create.message);
-    if (!create.error) e.target.reset();
-  };
+    })
+    setMessage(create.message)
+    if (!create.error) e.target.reset()
+  }
 
   return (
     <div>
@@ -42,9 +42,9 @@ const Register = () => {
         />
         <input type="submit" value="Register" />
       </form>
-      {message !== "" && <b>{message}</b>}
+      {message !== '' && <b>{message}</b>}
     </div>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register
