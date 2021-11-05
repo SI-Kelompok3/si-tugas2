@@ -64,7 +64,7 @@ const Home = ({ data, user }) => (
                 <td>{kelas.waktu_mulai}</td>
                 <td>{kelas.waktu_akhir}</td>
                 <td>{kelas.jumlah_kehadiran}</td>
-                <td>{kelas.nilai}</td>
+                <td>{kelas.nilai ?? "-"}</td>
               </tr>
             ))}
           </tbody>

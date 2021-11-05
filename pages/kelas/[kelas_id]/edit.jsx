@@ -1,8 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useState, useMemo } from "react";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import Layout from "../../../components/Layout";
 import fetchJson from "../../../lib/fetchJson";
-import { getGuru, getKelasDetailAdmin } from "../../../lib/queries";
+import { getKelasDetailAdmin } from "../../../lib/queries";
 import withAuth from "../../../lib/withAuth";
 
 export async function getServerSideProps(context) {
@@ -10,56 +11,30 @@ export async function getServerSideProps(context) {
     context,
     async () => {
       const { kelas_id } = context.params;
-      const allGuru = await getGuru();
       const data = await getKelasDetailAdmin(kelas_id);
-      return { props: { data, allGuru, kelas_id } };
+      return { props: { data, kelas_id } };
     },
     ["admin"]
   );
 }
 
-const EditKelas = ({ data, allGuru, kelas_id }) => {
+const EditKelas = ({ data, kelas_id }) => {
   const [message, setMessage] = useState("");
-  const [pengajar, setPengajar] = useState(data.guru);
-
-  const availableGuru = useMemo(
-    () => allGuru.filter((g) => pengajar.findIndex((p) => p.id === g.id) < 0),
-    [allGuru, pengajar]
-  );
-
-  const handleAddPengajar = (e) => {
-    if (e.target.value === "") return;
-
-    setPengajar((state) => [
-      ...state,
-      allGuru.filter((g) => Number(g.id) === Number(e.target.value))[0],
-    ]);
-  };
-
-  const handleHapusPengajar = (e) => {
-    setPengajar((state) =>
-      state.filter((s) => Number(s.id) !== Number(e.target.id))
-    );
-  };
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (pengajar.length === 0) {
-      setMessage("Mohon pilih salah satu guru sebagai pengajar!");
-      return;
-    }
 
-    const { nama, durasi, deskripsi, waktu, hari, kapasitas, status } =
-      e.currentTarget;
+    const { nama, durasi, deskripsi, waktu, hari, status } = e.currentTarget;
     const body = {
+      id: kelas_id,
       nama: nama.value,
       durasi: durasi.value,
       deskripsi: deskripsi.value,
       waktu: waktu.value,
       hari: hari.value,
-      kapasitas: kapasitas.value,
       status: status.value,
-      guru: pengajar,
+      guru: data.guru,
     };
     const edit = await fetchJson(`/api/kelas/${kelas_id}`, {
       method: "PUT",
@@ -67,7 +42,7 @@ const EditKelas = ({ data, allGuru, kelas_id }) => {
       body: JSON.stringify(body),
     });
     setMessage(edit.message);
-    if (!edit.error) e.target.reset();
+    router.push(`/kelas/${kelas_id}`);
   };
 
   return (
@@ -117,6 +92,7 @@ const EditKelas = ({ data, allGuru, kelas_id }) => {
           placeholder="Kapasitas (Jumlah Peserta)"
           defaultValue={data.kapasitas}
           required
+          disabled
         />
         <select
           name="status"
@@ -134,29 +110,16 @@ const EditKelas = ({ data, allGuru, kelas_id }) => {
             <option value="selesai">Selesai</option>
           )}
         </select>
-        <p>Pilih pengajar</p>
+        <p>Pengajar</p>
         <div>
-          {pengajar.map((p) => (
-            <div key={p.id}>
+          {data.guru.map((g) => (
+            <div key={g.id}>
               <p>
-                {p.username} - {p.nama}
+                {g.username} - {g.nama}
               </p>
-              <button key={p.id} id={p.id} onClick={handleHapusPengajar}>
-                Hapus
-              </button>
             </div>
           ))}
         </div>
-        {availableGuru.length > 0 && (
-          <select onChange={handleAddPengajar}>
-            <option value="">-</option>
-            {availableGuru.map((g) => (
-              <option value={g.id} key={g.id}>
-                {g.username} - {g.nama}
-              </option>
-            ))}
-          </select>
-        )}
         <input type="submit" value="Submit" />
       </form>
       <b>Penjelasan status</b>
@@ -165,7 +128,7 @@ const EditKelas = ({ data, allGuru, kelas_id }) => {
         data sudah benar!
       </p>
       <ul>
-        <li>Terbuka : Peserta bisa daftar ke kelas & admin bisa assign guru</li>
+        <li>Terbuka : Peserta bisa daftar ke kelas</li>
         <li>Berjalan : Fitur "Terbuka" ditutup, guru bisa memulai sesi</li>
         <li>
           Selesai : Fitur "Berjalan" ditutup, guru memasukkan nilai peserta

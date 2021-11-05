@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import Layout from "../../components/Layout";
 import fetchJson from "../../lib/fetchJson";
@@ -19,6 +20,7 @@ export async function getServerSideProps(context) {
 }
 
 const CreateKelas = ({ guru }) => {
+  const router = useRouter();
   const [message, setMessage] = useState("");
   const [pengajar, setPengajar] = useState([]);
 
@@ -68,8 +70,8 @@ const CreateKelas = ({ guru }) => {
     });
     setMessage(create.message);
     if (!create.error) {
-      e.target.reset();
       setPengajar([]);
+      router.push(`/kelas/${create.id}`);
     }
   };
 
@@ -143,7 +145,7 @@ const CreateKelas = ({ guru }) => {
       </form>
       <b>Penjelasan status</b>
       <ul>
-        <li>Terbuka : Peserta bisa daftar ke kelas & admin bisa assign guru</li>
+        <li>Terbuka : Peserta bisa daftar ke kelas</li>
         <li>Berjalan : Fitur "Terbuka" ditutup, guru bisa memulai sesi</li>
         <li>
           Selesai : Fitur "Berjalan" ditutup, guru memasukkan nilai peserta
