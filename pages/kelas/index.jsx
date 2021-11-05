@@ -1,27 +1,27 @@
-import React from 'react';
-import Link from 'next/link';
-import Layout from '../../components/Layout';
+import React from "react";
+import Link from "next/link";
+import Layout from "../../components/Layout";
 // import withAuth from "../../components/withAuth";
 // import useFetch from "../../lib/useFetch";
-import { capitalizeFirstLetter } from '../../lib/utility';
-import withAuth from '../../lib/withAuth';
+import { capitalizeFirstLetter } from "../../lib/utility";
+import withAuth from "../../lib/withAuth";
 import {
   getKelasAdmin,
   getKelasGuru,
   getKelasPeserta,
-} from '../../lib/queries';
+} from "../../lib/queries";
 
 export async function getServerSideProps(context) {
   return withAuth(context, async (user) => {
     let kelas = [];
     switch (user.role) {
-      case 'admin':
+      case "admin":
         kelas = await getKelasAdmin(user.id);
         break;
-      case 'guru':
+      case "guru":
         kelas = await getKelasGuru(user.id);
         break;
-      case 'peserta':
+      case "peserta":
         kelas = await getKelasPeserta(user.id);
         break;
     }
@@ -38,7 +38,7 @@ const Kelas = ({ user, kelas }) => {
   // Header tabel
   const header = () => {
     switch (user.role) {
-      case 'admin':
+      case "admin":
         return (
           <tr>
             <th>ID</th>
@@ -51,7 +51,7 @@ const Kelas = ({ user, kelas }) => {
             <th>Status</th>
           </tr>
         );
-      case 'guru':
+      case "guru":
         return (
           <tr>
             <th>No.</th>
@@ -61,7 +61,7 @@ const Kelas = ({ user, kelas }) => {
             <th>Waktu Akhir</th>
           </tr>
         );
-      case 'peserta':
+      case "peserta":
         return (
           <tr>
             <th>No.</th>
@@ -78,7 +78,7 @@ const Kelas = ({ user, kelas }) => {
   // Baris tabel
   const row = (item, index) => {
     switch (user.role) {
-      case 'admin':
+      case "admin":
         return (
           <tr key={item.id}>
             <td>{item.id}</td>
@@ -93,7 +93,7 @@ const Kelas = ({ user, kelas }) => {
             <td>{capitalizeFirstLetter(item.status)}</td>
           </tr>
         );
-      case 'guru':
+      case "guru":
         return (
           <tr key={item.id}>
             <td>{index + 1}</td>
@@ -105,7 +105,7 @@ const Kelas = ({ user, kelas }) => {
             <td>{item.waktu_akhir}</td>
           </tr>
         );
-      case 'peserta':
+      case "peserta":
         return (
           <tr key={item.id}>
             <td>{index + 1}</td>
@@ -115,7 +115,7 @@ const Kelas = ({ user, kelas }) => {
             <td>{capitalizeFirstLetter(item.hari)}</td>
             <td>{item.waktu_mulai}</td>
             <td>{item.waktu_akhir}</td>
-            <td>{item.terambil === '0' ? 'Tidak Terambil' : 'Terambil'}</td>
+            <td>{item.terambil === "0" ? "Tidak Terambil" : "Terambil"}</td>
           </tr>
         );
     }
@@ -123,7 +123,7 @@ const Kelas = ({ user, kelas }) => {
 
   return (
     <Layout>
-      {user.role === 'admin' && (
+      {user.role === "admin" && (
         <ul>
           <li>
             <Link href="/kelas/peserta">Jumlah peserta berdasarkan kelas</Link>
@@ -137,8 +137,8 @@ const Kelas = ({ user, kelas }) => {
         </ul>
       )}
       <br />
-      {user.role === 'admin' && <Link href="/kelas/create">Buat kelas</Link>}
-      <h1>List kelas {user.role === 'guru' && 'yang diampu'}</h1>
+      {user.role === "admin" && <Link href="/kelas/create">Buat kelas</Link>}
+      <h1>List kelas {user.role === "guru" && "yang diampu"}</h1>
       <table>
         <thead>{header()}</thead>
         <tbody>{kelas.map(row)}</tbody>

@@ -1,7 +1,7 @@
-import { transaction } from '../../../config/db';
+import { transaction } from "../../../config/db";
 
 export default async (req, res) => {
-  if (req.method !== 'POST') return;
+  if (req.method !== "POST") return;
 
   // TODO: Insert into table kelas & ke tabel mengikuti yang agak bingungin (assign guru)
   // 1. Insert ke tabel kelas
@@ -29,7 +29,7 @@ export default async (req, res) => {
       (postResult = postResult.query((r) => [
         `INSERT INTO mengikuti (guru_id, kelas_id) VALUES (${g.id}, ?)`,
         r.insertId,
-      ])),
+      ]))
   );
   await postResult.commit();
 

@@ -1,12 +1,12 @@
-import executeQuery from '../../config/db';
+import executeQuery from "../../config/db";
 
 export default async (req, res) => {
-  if (req.method !== 'POST') return;
+  if (req.method !== "POST") return;
 
   const { username, password, role } = req.body;
 
   const [result] = await executeQuery({
-    query: `SELECT id, username${role !== 'admin' ? ', nama' : ''} 
+    query: `SELECT id, username${role !== "admin" ? ", nama" : ""} 
             FROM ${role} 
             WHERE username = '${username}' 
             AND password = md5('${password}')`,
@@ -14,13 +14,13 @@ export default async (req, res) => {
   if (result.length < 1) {
     return res.json({
       error: true,
-      message: 'Akun tidak ditemukan',
+      message: "Akun tidak ditemukan",
     });
   }
   const user = {
     id: result.id,
     username: result.username,
-    nama: result.nama ?? 'Admin',
+    nama: result.nama ?? "Admin",
     role,
   };
 

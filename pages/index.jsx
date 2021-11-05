@@ -1,14 +1,14 @@
-import Link from 'next/link';
-import Layout from '../components/Layout';
-import { getKelasForPeserta, getTopGuru, getTopPeserta } from '../lib/queries';
-import { capitalizeFirstLetter } from '../lib/utility';
-import withAuth from '../lib/withAuth';
+import Link from "next/link";
+import Layout from "../components/Layout";
+import { getKelasForPeserta, getTopGuru, getTopPeserta } from "../lib/queries";
+import { capitalizeFirstLetter } from "../lib/utility";
+import withAuth from "../lib/withAuth";
 
 export async function getServerSideProps(context) {
   return withAuth(context, async (user) => {
     let data = null;
     switch (user.role) {
-      case 'admin':
+      case "admin":
         const peserta = await getTopPeserta();
         const guru = await getTopGuru();
         data = {
@@ -16,13 +16,13 @@ export async function getServerSideProps(context) {
           guru,
         };
         break;
-      case 'peserta':
+      case "peserta":
         const kelas = await getKelasForPeserta(user.id);
         data = {
           data: kelas,
         };
         break;
-      case 'guru':
+      case "guru":
         break;
     }
 
@@ -38,7 +38,7 @@ export async function getServerSideProps(context) {
 const Home = ({ data, user }) => (
   <Layout>
     <h1>Selamat datang {user.nama}!</h1>
-    {user.role === 'peserta' && (
+    {user.role === "peserta" && (
       <div>
         <b>Kelas yang sudah berjalan</b>
         <table>
@@ -71,7 +71,7 @@ const Home = ({ data, user }) => (
         </table>
       </div>
     )}
-    {user.role === 'admin' && (
+    {user.role === "admin" && (
       <div>
         <b>Kelas yang paling diminati</b>
         <table>
@@ -124,7 +124,7 @@ const Home = ({ data, user }) => (
       <li>
         <Link href="/kelas">Daftar Kelas</Link>
       </li>
-      {user.role === 'admin' && (
+      {user.role === "admin" && (
         <li>
           <Link href="/guru">Daftar Guru</Link>
         </li>

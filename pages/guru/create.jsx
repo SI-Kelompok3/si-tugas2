@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import Layout from '../../components/Layout';
-import fetchJson from '../../lib/fetchJson';
-import withAuth from '../../lib/withAuth';
+import { useState } from "react";
+import Layout from "../../components/Layout";
+import fetchJson from "../../lib/fetchJson";
+import withAuth from "../../lib/withAuth";
 
 export async function getServerSideProps(context) {
-  return withAuth(context, () => ({ props: {} }), ['admin']);
+  return withAuth(context, () => ({ props: {} }), ["admin"]);
 }
 
 const CreateGuru = () => {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,9 +19,9 @@ const CreateGuru = () => {
       password: password.value,
     };
 
-    const create = await fetchJson('/api/guru', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const create = await fetchJson("/api/guru", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
 
@@ -46,7 +46,7 @@ const CreateGuru = () => {
         <input type="submit" value="Buat" />
       </form>
 
-      {message !== '' && <b>{message}</b>}
+      {message !== "" && <b>{message}</b>}
     </Layout>
   );
 };

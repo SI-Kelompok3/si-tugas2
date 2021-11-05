@@ -1,9 +1,9 @@
-import React from 'react';
-import Link from 'next/link';
-import moment from 'moment';
-import Layout from '../../../../components/Layout';
-import withAuth from '../../../../lib/withAuth';
-import { getSesiGuru, getSesiPeserta } from '../../../../lib/queries';
+import React from "react";
+import Link from "next/link";
+import moment from "moment";
+import Layout from "../../../../components/Layout";
+import withAuth from "../../../../lib/withAuth";
+import { getSesiGuru, getSesiPeserta } from "../../../../lib/queries";
 
 export async function getServerSideProps(context) {
   return withAuth(
@@ -11,24 +11,24 @@ export async function getServerSideProps(context) {
     async (user) => {
       const { kelas_id } = context.params;
       let data = null;
-      if (user.role === 'guru') {
+      if (user.role === "guru") {
         data = await getSesiGuru(kelas_id);
       } else {
         data = await getSesiPeserta(kelas_id, user.id);
       }
       return { props: { data, user, kelas_id } };
     },
-    ['peserta', 'guru'],
+    ["peserta", "guru"]
   );
 }
 
 const SesiKelas = ({ data, user, kelas_id }) => {
   const hadirColumn = (sesi) => {
-    if (user.role === 'guru') return sesi.jumlah_kehadiran;
+    if (user.role === "guru") return sesi.jumlah_kehadiran;
 
-    if (sesi.hadir === '0') return 'Tidak Hadir';
+    if (sesi.hadir === "0") return "Tidak Hadir";
 
-    return 'Hadir';
+    return "Hadir";
   };
 
   return (
@@ -42,7 +42,7 @@ const SesiKelas = ({ data, user, kelas_id }) => {
               <th>Materi</th>
               <th>Tanggal</th>
               <th>Pengajar</th>
-              <th>{user.role === 'guru' ? 'Jumlah Kehadiran' : 'Hadir'}</th>
+              <th>{user.role === "guru" ? "Jumlah Kehadiran" : "Hadir"}</th>
             </tr>
           </thead>
           <tbody>
@@ -50,12 +50,12 @@ const SesiKelas = ({ data, user, kelas_id }) => {
               <tr key={sesi.id}>
                 <td>{index + 1}</td>
                 <td>
-                  {user.role === 'guru' ? (
+                  {user.role === "guru" ? (
                     <Link
                       href={
-                        user.role === 'guru'
+                        user.role === "guru"
                           ? `/kelas/${kelas_id}/sesi/${sesi.materi}/${sesi.tanggal}`
-                          : '#'
+                          : "#"
                       }
                     >
                       {sesi.materi}
@@ -64,7 +64,7 @@ const SesiKelas = ({ data, user, kelas_id }) => {
                     sesi.materi
                   )}
                 </td>
-                <td>{moment(sesi.tanggal).format('DD-MM-yyyy')}</td>
+                <td>{moment(sesi.tanggal).format("DD-MM-yyyy")}</td>
                 <td>{sesi.pengajar}</td>
                 <td>{hadirColumn(sesi)}</td>
               </tr>

@@ -1,16 +1,16 @@
-import React from 'react';
-import Layout from '../../../components/Layout';
-import withAuth from '../../../lib/withAuth';
+import React from "react";
+import Layout from "../../../components/Layout";
+import withAuth from "../../../lib/withAuth";
 import {
   getPesertaForKelasAdminGuru,
   getPesertaForKelasPeserta,
-} from '../../../lib/queries';
+} from "../../../lib/queries";
 
 export async function getServerSideProps(context) {
   return withAuth(context, async (user) => {
     const { kelas_id } = context.params;
     let data = null;
-    if (user.role === 'admin' || user.role === 'guru') {
+    if (user.role === "admin" || user.role === "guru") {
       data = await getPesertaForKelasAdminGuru(kelas_id);
     } else {
       data = await getPesertaForKelasPeserta(kelas_id);
@@ -35,7 +35,7 @@ const PesertaKelas = ({ data }) => (
           <tr key={index}>
             <td>{peserta.nama}</td>
             <td>{peserta.jumlah_kehadiran}</td>
-            <td>{peserta.nilai ?? '-'}</td>
+            <td>{peserta.nilai ?? "-"}</td>
           </tr>
         ))}
       </tbody>

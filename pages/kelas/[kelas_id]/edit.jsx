@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useState, useMemo } from 'react';
-import Layout from '../../../components/Layout';
-import fetchJson from '../../../lib/fetchJson';
-import { getGuru, getKelasDetailAdmin } from '../../../lib/queries';
-import withAuth from '../../../lib/withAuth';
+import { useState, useMemo } from "react";
+import Layout from "../../../components/Layout";
+import fetchJson from "../../../lib/fetchJson";
+import { getGuru, getKelasDetailAdmin } from "../../../lib/queries";
+import withAuth from "../../../lib/withAuth";
 
 export async function getServerSideProps(context) {
   return withAuth(
@@ -14,21 +14,21 @@ export async function getServerSideProps(context) {
       const data = await getKelasDetailAdmin(kelas_id);
       return { props: { data, allGuru, kelas_id } };
     },
-    ['admin'],
+    ["admin"]
   );
 }
 
 const EditKelas = ({ data, allGuru, kelas_id }) => {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [pengajar, setPengajar] = useState(data.guru);
 
   const availableGuru = useMemo(
     () => allGuru.filter((g) => pengajar.findIndex((p) => p.id === g.id) < 0),
-    [allGuru, pengajar],
+    [allGuru, pengajar]
   );
 
   const handleAddPengajar = (e) => {
-    if (e.target.value === '') return;
+    if (e.target.value === "") return;
 
     setPengajar((state) => [
       ...state,
@@ -38,14 +38,14 @@ const EditKelas = ({ data, allGuru, kelas_id }) => {
 
   const handleHapusPengajar = (e) => {
     setPengajar((state) =>
-      state.filter((s) => Number(s.id) !== Number(e.target.id)),
+      state.filter((s) => Number(s.id) !== Number(e.target.id))
     );
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (pengajar.length === 0) {
-      setMessage('Mohon pilih salah satu guru sebagai pengajar!');
+      setMessage("Mohon pilih salah satu guru sebagai pengajar!");
       return;
     }
 
@@ -62,8 +62,8 @@ const EditKelas = ({ data, allGuru, kelas_id }) => {
       guru: pengajar,
     };
     const edit = await fetchJson(`/api/kelas/${kelas_id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
     setMessage(edit.message);
@@ -122,15 +122,15 @@ const EditKelas = ({ data, allGuru, kelas_id }) => {
           name="status"
           defaultValue={data.status}
           required
-          disabled={data.status === 'selesai'}
+          disabled={data.status === "selesai"}
         >
-          {data.status === 'terbuka' && (
+          {data.status === "terbuka" && (
             <option value="terbuka">Terbuka</option>
           )}
-          {data.status !== 'selesai' && (
+          {data.status !== "selesai" && (
             <option value="berjalan">Berjalan</option>
           )}
-          {data.status !== 'terbuka' && (
+          {data.status !== "terbuka" && (
             <option value="selesai">Selesai</option>
           )}
         </select>
@@ -171,7 +171,7 @@ const EditKelas = ({ data, allGuru, kelas_id }) => {
           Selesai : Fitur "Berjalan" ditutup, guru memasukkan nilai peserta
         </li>
       </ul>
-      {message !== '' && <b>{message}</b>}
+      {message !== "" && <b>{message}</b>}
     </Layout>
   );
 };

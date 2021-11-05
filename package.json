@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && next export",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "js-cookie": "^3.0.1",
@@ -18,11 +19,14 @@
     "serverless-mysql": "^1.5.4"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^12.0.2",
     "@types/react": "^17.0.34",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-babel": "^0.2.1",
     "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-next": "12.0.2",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-react": "^7.26.1"
   }
