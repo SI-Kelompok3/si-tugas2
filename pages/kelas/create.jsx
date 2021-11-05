@@ -112,10 +112,8 @@ const CreateKelas = ({ guru }) => {
           placeholder="Kapasitas (Jumlah Peserta)"
           required
         />
-        <select name="status" defaultValue="terbuka" required>
+        <select name="status" defaultValue="terbuka" disabled>
           <option value="terbuka">Terbuka</option>
-          <option value="berjalan">Berjalan</option>
-          <option value="selesai">Selesai</option>
         </select>
         <p>Pilih pengajar</p>
         <div>

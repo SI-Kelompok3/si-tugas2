@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import moment from 'moment';
 import Layout from '../../../../components/Layout';
 import withAuth from '../../../../lib/withAuth';
 import { getSesiGuru, getSesiPeserta } from '../../../../lib/queries';
@@ -63,7 +64,7 @@ const SesiKelas = ({ data, user, kelas_id }) => {
                     sesi.materi
                   )}
                 </td>
-                <td>{sesi.tanggal}</td>
+                <td>{moment(sesi.tanggal).format('DD-MM-yyyy')}</td>
                 <td>{sesi.pengajar}</td>
                 <td>{hadirColumn(sesi)}</td>
               </tr>

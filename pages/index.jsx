@@ -40,7 +40,7 @@ const Home = ({ data, user }) => (
     <h1>Selamat datang {user.nama}!</h1>
     {user.role === 'peserta' && (
       <div>
-        <b>Kelas yang diambil</b>
+        <b>Kelas yang sudah berjalan</b>
         <table>
           <thead>
             <tr>

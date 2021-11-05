@@ -37,7 +37,9 @@ const EditKelas = ({ data, allGuru, kelas_id }) => {
   };
 
   const handleHapusPengajar = (e) => {
-    setPengajar((state) => state.filter((s) => Number(s.id) !== Number(e.target.id)));
+    setPengajar((state) =>
+      state.filter((s) => Number(s.id) !== Number(e.target.id)),
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -47,9 +49,8 @@ const EditKelas = ({ data, allGuru, kelas_id }) => {
       return;
     }
 
-    const {
-      nama, durasi, deskripsi, waktu, hari, kapasitas, status,
-    } = e.currentTarget;
+    const { nama, durasi, deskripsi, waktu, hari, kapasitas, status } =
+      e.currentTarget;
     const body = {
       nama: nama.value,
       durasi: durasi.value,
@@ -117,10 +118,21 @@ const EditKelas = ({ data, allGuru, kelas_id }) => {
           defaultValue={data.kapasitas}
           required
         />
-        <select name="status" defaultValue={data.status} required>
-          <option value="terbuka">Terbuka</option>
-          <option value="berjalan">Berjalan</option>
-          <option value="selesai">Selesai</option>
+        <select
+          name="status"
+          defaultValue={data.status}
+          required
+          disabled={data.status === 'selesai'}
+        >
+          {data.status === 'terbuka' && (
+            <option value="terbuka">Terbuka</option>
+          )}
+          {data.status !== 'selesai' && (
+            <option value="berjalan">Berjalan</option>
+          )}
+          {data.status !== 'terbuka' && (
+            <option value="selesai">Selesai</option>
+          )}
         </select>
         <p>Pilih pengajar</p>
         <div>
@@ -148,6 +160,10 @@ const EditKelas = ({ data, allGuru, kelas_id }) => {
         <input type="submit" value="Submit" />
       </form>
       <b>Penjelasan status</b>
+      <p>
+        Perubahan status tidak bisa dikembalikan ke status sebelumnya, pastikan
+        data sudah benar!
+      </p>
       <ul>
         <li>Terbuka : Peserta bisa daftar ke kelas & admin bisa assign guru</li>
         <li>Berjalan : Fitur "Terbuka" ditutup, guru bisa memulai sesi</li>
