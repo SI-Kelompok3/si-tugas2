@@ -22,24 +22,30 @@ export async function getServerSideProps(context) {
 const PesertaKelas = ({ data }) => (
   <Layout>
     <h1>Daftar Peserta</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>Nama</th>
-          <th>Jumlah Kehadiran</th>
-          <th>Nilai</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((peserta, index) => (
-          <tr key={index}>
-            <td>{peserta.nama}</td>
-            <td>{peserta.jumlah_kehadiran}</td>
-            <td>{peserta.nilai ?? '-'}</td>
+    {data.length > 0 ? (
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Nama</th>
+            <th>Jumlah Kehadiran</th>
+            <th>Nilai</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {data.map((peserta, index) => (
+            <tr key={index}>
+              <td>{index + 1}</td>
+              <td>{peserta.nama}</td>
+              <td>{peserta.jumlah_kehadiran}</td>
+              <td>{peserta.nilai ?? '-'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    ) : (
+      <p>Belum ada peserta yang mendaftar</p>
+    )}
   </Layout>
 );
 

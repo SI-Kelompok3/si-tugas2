@@ -5,17 +5,34 @@ export default async (req, res) => {
   switch (req.method) {
     case 'POST':
       const peserta_id = JSON.parse(req.cookies.user).id;
-      // TODO:
+      // Steps:
+      // 0. Cek kapasitas
+      const { kapasitas } = (
+        await executeQuery({
+          query: `SELECT kapasitas FROM kelas WHERE id = ${kelas_id}`,
+        })
+      )[0];
+      const jumlahPeserta = (
+        (await executeQuery({
+          query: `SELECT DISTINCT(peserta_id) FROM mengikuti
+              WHERE kelas_id = ${kelas_id} AND peserta_id IS NOT NULL`,
+        })) ?? []
+      ).length;
+
+      if (jumlahPeserta >= kapasitas) {
+        return res.json({ error: true, message: 'Kapasitas tidak cukup!' });
+      }
+
       // 1. cari siapa pengajarnya
-      // 2. tambahin ke mengikuti
       const guruIds = (
         await executeQuery({
           query: `SELECT guru_id FROM mengikuti 
-                WHERE kelas_id = '${kelas_id}'
-                AND peserta_id IS NULL`,
+          WHERE kelas_id = ${kelas_id}
+          AND peserta_id IS NULL`,
         })
       ).map((m) => m.guru_id);
 
+      // 2. tambahin ke mengikuti
       let createResult = transaction();
       guruIds.forEach(
         (guru_id) =>

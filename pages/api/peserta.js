@@ -6,7 +6,7 @@ export default async (req, res) => {
   const { username, nama, password } = req.body;
 
   const result = await executeQuery({
-    query: `INSERT INTO peserta (username, nama, password) VALUES (${username}, ${nama}, MD5(${password}))`,
+    query: `INSERT INTO peserta (username, nama, password) VALUES ('${username}', '${nama}', MD5('${password}'))`,
   });
   if (result.error !== undefined) {
     return res.json({

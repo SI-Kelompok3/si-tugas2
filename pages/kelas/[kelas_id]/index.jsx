@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { capitalizeFirstLetter } from '../../../lib/utility';
@@ -32,12 +32,16 @@ export async function getServerSideProps(context) {
 
 const DetailKelas = ({ data, user, kelas_id }) => {
   const router = useRouter();
+  const [message, setMessage] = useState('');
 
   const handleAmbilKelas = async () => {
-    await fetchJson(`/api/kelas/${kelas_id}`, {
+    const ambil = await fetchJson(`/api/kelas/${kelas_id}`, {
       method: 'POST',
     });
-    router.reload();
+    setMessage(ambil.message ?? '');
+    if (!ambil.error) {
+      router.reload();
+    }
   };
 
   return (
@@ -122,6 +126,12 @@ const DetailKelas = ({ data, user, kelas_id }) => {
             <button onClick={handleAmbilKelas}>Ambil kelas</button>
           )
         ))}
+      {message !== '' && (
+        <>
+          <br />
+          <b>{message}</b>
+        </>
+      )}
     </Layout>
   );
 };
