@@ -1,8 +1,8 @@
-import React from "react";
-import Link from "next/link";
-import Layout from "../../components/Layout";
-import withAuth from "../../lib/withAuth";
-import { getAverageNilai } from "../../lib/queries";
+import React from 'react';
+import Link from 'next/link';
+import Layout from '../../components/Layout';
+import withAuth from '../../lib/withAuth';
+import { getAverageNilai } from '../../lib/queries';
 
 export async function getServerSideProps(context) {
   return withAuth(
@@ -11,7 +11,7 @@ export async function getServerSideProps(context) {
       const data = await getAverageNilai();
       return { props: { data } };
     },
-    ["admin"]
+    ['admin'],
   );
 }
 
@@ -33,7 +33,7 @@ const ListKelasNilai = ({ data }) => (
             <td>
               <Link href={`/kelas/${kelas.id}`}>{kelas.nama}</Link>
             </td>
-            <td>{kelas.nilai ?? "-"}</td>
+            <td>{kelas.nilai ?? '-'}</td>
           </tr>
         ))}
       </tbody>

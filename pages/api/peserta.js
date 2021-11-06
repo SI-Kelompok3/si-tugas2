@@ -1,7 +1,7 @@
-import executeQuery from "../../config/db";
+import executeQuery from '../../config/db';
 
 export default async (req, res) => {
-  if (req.method !== "POST") return;
+  if (req.method !== 'POST') return;
 
   const { username, nama, password } = req.body;
 
@@ -15,6 +15,6 @@ export default async (req, res) => {
     });
   }
   res.json({
-    message: "Pendaftaran akun peserta berhasil, silahkan login!",
+    message: 'Pendaftaran akun peserta berhasil, silahkan login!',
   });
 };

@@ -1,8 +1,8 @@
-import React from "react";
-import Link from "next/link";
-import Layout from "../../components/Layout";
-import withAuth from "../../lib/withAuth";
-import { getGuru } from "../../lib/queries";
+import React from 'react';
+import Link from 'next/link';
+import Layout from '../../components/Layout';
+import withAuth from '../../lib/withAuth';
+import { getGuru } from '../../lib/queries';
 
 export async function getServerSideProps(context) {
   return withAuth(
@@ -13,7 +13,7 @@ export async function getServerSideProps(context) {
         props: { data },
       };
     },
-    ["admin"]
+    ['admin'],
   );
 }
 

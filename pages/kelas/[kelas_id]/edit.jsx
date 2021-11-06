@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useRouter } from "next/router";
-import { useState } from "react";
-import Layout from "../../../components/Layout";
-import fetchJson from "../../../lib/fetchJson";
-import { getKelasDetailAdmin } from "../../../lib/queries";
-import withAuth from "../../../lib/withAuth";
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import Layout from '../../../components/Layout';
+import fetchJson from '../../../lib/fetchJson';
+import { getKelasDetailAdmin } from '../../../lib/queries';
+import withAuth from '../../../lib/withAuth';
 
 export async function getServerSideProps(context) {
   return withAuth(
@@ -14,18 +14,20 @@ export async function getServerSideProps(context) {
       const data = await getKelasDetailAdmin(kelas_id);
       return { props: { data, kelas_id } };
     },
-    ["admin"]
+    ['admin'],
   );
 }
 
 const EditKelas = ({ data, kelas_id }) => {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { nama, durasi, deskripsi, waktu, hari, status } = e.currentTarget;
+    const {
+      nama, durasi, deskripsi, waktu, hari, status,
+    } = e.currentTarget;
     const body = {
       id: kelas_id,
       nama: nama.value,
@@ -37,8 +39,8 @@ const EditKelas = ({ data, kelas_id }) => {
       guru: data.guru,
     };
     const edit = await fetchJson(`/api/kelas/${kelas_id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
     setMessage(edit.message);
@@ -98,15 +100,15 @@ const EditKelas = ({ data, kelas_id }) => {
           name="status"
           defaultValue={data.status}
           required
-          disabled={data.status === "selesai"}
+          disabled={data.status === 'selesai'}
         >
-          {data.status === "terbuka" && (
+          {data.status === 'terbuka' && (
             <option value="terbuka">Terbuka</option>
           )}
-          {data.status !== "selesai" && (
+          {data.status !== 'selesai' && (
             <option value="berjalan">Berjalan</option>
           )}
-          {data.status !== "terbuka" && (
+          {data.status !== 'terbuka' && (
             <option value="selesai">Selesai</option>
           )}
         </select>
@@ -134,7 +136,7 @@ const EditKelas = ({ data, kelas_id }) => {
           Selesai : Fitur "Berjalan" ditutup, guru memasukkan nilai peserta
         </li>
       </ul>
-      {message !== "" && <b>{message}</b>}
+      {message !== '' && <b>{message}</b>}
     </Layout>
   );
 };

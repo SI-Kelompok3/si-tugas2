@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
-import Layout from "../../components/Layout";
-import fetchJson from "../../lib/fetchJson";
-import { getGuru } from "../../lib/queries";
-import withAuth from "../../lib/withAuth";
+import { useRouter } from 'next/router';
+import { useMemo, useState } from 'react';
+import Layout from '../../components/Layout';
+import fetchJson from '../../lib/fetchJson';
+import { getGuru } from '../../lib/queries';
+import withAuth from '../../lib/withAuth';
 
 export async function getServerSideProps(context) {
   return withAuth(
@@ -15,22 +15,22 @@ export async function getServerSideProps(context) {
         props: { guru },
       };
     },
-    ["admin"]
+    ['admin'],
   );
 }
 
 const CreateKelas = ({ guru }) => {
   const router = useRouter();
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [pengajar, setPengajar] = useState([]);
 
   const availableGuru = useMemo(
     () => guru.filter((g) => pengajar.indexOf(g) < 0),
-    [guru, pengajar]
+    [guru, pengajar],
   );
 
   const handleAddPengajar = (e) => {
-    if (e.target.value === "") return;
+    if (e.target.value === '') return;
 
     setPengajar((state) => [
       ...state,
@@ -39,20 +39,19 @@ const CreateKelas = ({ guru }) => {
   };
 
   const handleHapusPengajar = (e) => {
-    setPengajar((state) =>
-      state.filter((s) => Number(s.id) !== Number(e.target.id))
-    );
+    setPengajar((state) => state.filter((s) => Number(s.id) !== Number(e.target.id)));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (pengajar.length === 0) {
-      setMessage("Mohon pilih salah satu guru sebagai pengajar!");
+      setMessage('Mohon pilih salah satu guru sebagai pengajar!');
       return;
     }
 
-    const { nama, durasi, deskripsi, waktu, hari, kapasitas, status } =
-      e.currentTarget;
+    const {
+      nama, durasi, deskripsi, waktu, hari, kapasitas, status,
+    } = e.currentTarget;
     const body = {
       nama: nama.value,
       durasi: durasi.value,
@@ -63,9 +62,9 @@ const CreateKelas = ({ guru }) => {
       status: status.value,
       guru: pengajar,
     };
-    const create = await fetchJson("/api/kelas", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const create = await fetchJson('/api/kelas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
     setMessage(create.message);
@@ -151,7 +150,7 @@ const CreateKelas = ({ guru }) => {
           Selesai : Fitur "Berjalan" ditutup, guru memasukkan nilai peserta
         </li>
       </ul>
-      {message !== "" && <b>{message}</b>}
+      {message !== '' && <b>{message}</b>}
     </Layout>
   );
 };

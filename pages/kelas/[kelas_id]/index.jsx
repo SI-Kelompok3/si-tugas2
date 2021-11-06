@@ -1,28 +1,28 @@
-import React from "react";
-import Link from "next/link";
-import { capitalizeFirstLetter } from "../../../lib/utility";
-import Layout from "../../../components/Layout";
-import withAuth from "../../../lib/withAuth";
+import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { capitalizeFirstLetter } from '../../../lib/utility';
+import Layout from '../../../components/Layout';
+import withAuth from '../../../lib/withAuth';
 import {
   getKelasDetailAdmin,
   getKelasDetailGuru,
   getKelasDetailPeserta,
-} from "../../../lib/queries";
-import fetchJson from "../../../lib/fetchJson";
-import { useRouter } from "next/router";
+} from '../../../lib/queries';
+import fetchJson from '../../../lib/fetchJson';
 
 export async function getServerSideProps(context) {
   return withAuth(context, async (user) => {
     const { kelas_id } = context.params;
     let data = null;
     switch (user.role) {
-      case "admin":
+      case 'admin':
         data = await getKelasDetailAdmin(kelas_id);
         break;
-      case "guru":
+      case 'guru':
         data = await getKelasDetailGuru(kelas_id);
         break;
-      case "peserta":
+      case 'peserta':
         data = await getKelasDetailPeserta(kelas_id, user.id);
         break;
     }
@@ -35,7 +35,7 @@ const DetailKelas = ({ data, user, kelas_id }) => {
 
   const handleAmbilKelas = async () => {
     await fetchJson(`/api/kelas/${kelas_id}`, {
-      method: "POST",
+      method: 'POST',
     });
     router.reload();
   };
@@ -44,7 +44,7 @@ const DetailKelas = ({ data, user, kelas_id }) => {
     <Layout>
       <h1>{data.nama}</h1>
       <b>Deskripsi</b>
-      <p>{data.deskripsi ?? "-"}</p>
+      <p>{data.deskripsi ?? '-'}</p>
       <b>Waktu</b>
       <p>
         {capitalizeFirstLetter(data.hari)}, {data.waktu}
@@ -53,7 +53,7 @@ const DetailKelas = ({ data, user, kelas_id }) => {
       <p>{data.durasi}</p>
       <b>Kapasitas</b>
       <p>{data.kapasitas} Peserta</p>
-      {user.role === "admin" && (
+      {user.role === 'admin' && (
         <>
           <b>Status</b>
           <p>{capitalizeFirstLetter(data.status)}</p>
@@ -79,7 +79,7 @@ const DetailKelas = ({ data, user, kelas_id }) => {
           <Link href={`/kelas/${kelas_id}/edit`}>Ubah kelas</Link>
         </>
       )}
-      {user.role === "guru" && (
+      {user.role === 'guru' && (
         <>
           <b>5 Peserta terbaik (nilai tertinggi)</b>
           <table>
@@ -95,30 +95,30 @@ const DetailKelas = ({ data, user, kelas_id }) => {
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{peserta.nama}</td>
-                  <td>{peserta.nilai ?? "-"}</td>
+                  <td>{peserta.nilai ?? '-'}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </>
       )}
-      {(user.role === "guru" ||
-        (user.role === "peserta" &&
-          data.terambil &&
-          data.status !== "terbuka")) && (
+      {(user.role === 'guru'
+        || (user.role === 'peserta'
+          && data.terambil
+          && data.status !== 'terbuka')) && (
         <Link href={`/kelas/${kelas_id}/sesi`}>Lihat sesi</Link>
       )}
-      {(user.role === "guru" || user.role === "admin") && (
+      {(user.role === 'guru' || user.role === 'admin') && (
         <Link href={`/kelas/${kelas_id}/peserta`}>Lihat peserta</Link>
       )}
-      {user.role === "peserta" &&
-        (data.terambil ? (
+      {user.role === 'peserta'
+        && (data.terambil ? (
           <div>
             <b>Nilai</b>
-            <p>{data.nilai ?? "-"}</p>
+            <p>{data.nilai ?? '-'}</p>
           </div>
         ) : (
-          data.status === "terbuka" && (
+          data.status === 'terbuka' && (
             <button onClick={handleAmbilKelas}>Ambil kelas</button>
           )
         ))}
