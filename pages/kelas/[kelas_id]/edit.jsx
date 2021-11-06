@@ -25,9 +25,7 @@ const EditKelas = ({ data, kelas_id }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const {
-      nama, durasi, deskripsi, waktu, hari, status,
-    } = e.currentTarget;
+    const { nama, durasi, deskripsi, waktu, hari, status } = e.currentTarget;
     const body = {
       id: kelas_id,
       nama: nama.value,

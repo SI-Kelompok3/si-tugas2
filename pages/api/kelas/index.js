@@ -11,9 +11,8 @@ export default async (req, res) => {
     //  di querynya cek apakah masih kurang dari kapasitas
     // 4. Admin perlu ngubah status jadi berjalan
     // 5. Delete entry yang peserta_id null
-    const {
-      nama, durasi, deskripsi, waktu, hari, kapasitas, status, guru,
-    } = req.body;
+    const { nama, durasi, deskripsi, waktu, hari, kapasitas, status, guru } =
+      req.body;
 
     let createResult = transaction()
       .query(`INSERT INTO kelas (nama, durasi, deskripsi, waktu, hari, kapasitas, status) VALUES (
@@ -26,10 +25,11 @@ export default async (req, res) => {
         '${status}'
       )`);
     guru.forEach(
-      (g) => (createResult = createResult.query((r) => [
-        `INSERT INTO mengikuti (guru_id, kelas_id, peserta_id) VALUES (${g.id}, ?, NULL)`,
-        r.insertId,
-      ])),
+      (g) =>
+        (createResult = createResult.query((r) => [
+          `INSERT INTO mengikuti (guru_id, kelas_id, peserta_id) VALUES (${g.id}, ?, NULL)`,
+          r.insertId,
+        ])),
     );
     const [kelasInsert] = await createResult.commit();
 

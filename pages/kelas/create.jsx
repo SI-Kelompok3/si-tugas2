@@ -39,7 +39,9 @@ const CreateKelas = ({ guru }) => {
   };
 
   const handleHapusPengajar = (e) => {
-    setPengajar((state) => state.filter((s) => Number(s.id) !== Number(e.target.id)));
+    setPengajar((state) =>
+      state.filter((s) => Number(s.id) !== Number(e.target.id)),
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -49,9 +51,8 @@ const CreateKelas = ({ guru }) => {
       return;
     }
 
-    const {
-      nama, durasi, deskripsi, waktu, hari, kapasitas, status,
-    } = e.currentTarget;
+    const { nama, durasi, deskripsi, waktu, hari, kapasitas, status } =
+      e.currentTarget;
     const body = {
       nama: nama.value,
       durasi: durasi.value,
