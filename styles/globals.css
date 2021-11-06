@@ -17,4 +17,6 @@ body {
   --secondary-hover: #adf0d1;
   --gray-dark: #333;
   --gray-light: #c4c4c4;
+
+  background-color: var(--bg);
 }
