@@ -34,6 +34,7 @@ const SesiKelas = ({ data, user, kelas_id }) => {
   return (
     <Layout>
       <h1>Daftar Sesi Kelas</h1>
+      {user.role === 'guru' && <Link href={`/kelas/${kelas_id}/sesi/create`}>Buat sesi</Link>}
       {data.length > 0 ? (
         <table>
           <thead>
