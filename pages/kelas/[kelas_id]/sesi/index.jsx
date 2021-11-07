@@ -3,7 +3,7 @@ import Link from 'next/link';
 import moment from 'moment';
 import Layout from '../../../../components/Layout';
 import withAuth from '../../../../lib/withAuth';
-import { getSesiGuru, getSesiPeserta } from '../../../../lib/queries';
+import { getKelasStatus, getSesiGuru, getSesiPeserta } from '../../../../lib/queries';
 
 export async function getServerSideProps(context) {
   return withAuth(
@@ -11,18 +11,28 @@ export async function getServerSideProps(context) {
     async (user) => {
       const { kelas_id } = context.params;
       let data = null;
+      const status = await getKelasStatus(kelas_id);
       if (user.role === 'guru') {
         data = await getSesiGuru(kelas_id);
       } else {
         data = await getSesiPeserta(kelas_id, user.id);
       }
-      return { props: { data, user, kelas_id } };
+      return {
+        props: {
+          data,
+          user,
+          kelas_id,
+          status,
+        },
+      };
     },
     ['peserta', 'guru'],
   );
 }
 
-const SesiKelas = ({ data, user, kelas_id }) => {
+const SesiKelas = ({
+  data, user, kelas_id, status,
+}) => {
   const hadirColumn = (sesi) => {
     if (user.role === 'guru') return sesi.jumlah_kehadiran;
 
@@ -34,7 +44,9 @@ const SesiKelas = ({ data, user, kelas_id }) => {
   return (
     <Layout>
       <h1>Daftar Sesi Kelas</h1>
-      {user.role === 'guru' && <Link href={`/kelas/${kelas_id}/sesi/create`}>Buat sesi</Link>}
+      {user.role === 'guru' && status === 'berjalan' && (
+        <Link href={`/kelas/${kelas_id}/sesi/create`}>Buat sesi</Link>
+      )}
       {data.length > 0 ? (
         <table>
           <thead>

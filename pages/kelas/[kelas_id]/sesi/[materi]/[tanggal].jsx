@@ -59,12 +59,7 @@ const DetailSesi = ({ data: initialData }) => {
   return (
     <Layout>
       <h1>Daftar Kehadiran Peserta</h1>
-      {data !== initialData && (
-        <>
-          <button onClick={handleSave}>Simpan</button>
-          <br />
-        </>
-      )}
+      {data !== initialData && <button onClick={handleSave}>Simpan</button>}
       <button onClick={() => handleKehadiranSemua(true)}>Hadir semua</button>
       <button onClick={() => handleKehadiranSemua(false)}>Tidak hadir semua</button>
       <table>
