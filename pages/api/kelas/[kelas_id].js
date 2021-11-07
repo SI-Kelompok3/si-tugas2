@@ -35,11 +35,10 @@ export default async (req, res) => {
       // 2. tambahin ke mengikuti
       let createResult = transaction();
       guruIds.forEach(
-        (guru_id) =>
-          (createResult = createResult.query(
-            `INSERT INTO mengikuti (kelas_id, guru_id, peserta_id)
+        (guru_id) => (createResult = createResult.query(
+          `INSERT INTO mengikuti (kelas_id, guru_id, peserta_id)
         VALUES (${kelas_id}, ${guru_id}, ${peserta_id})`,
-          )),
+        )),
       );
       await createResult.commit();
       res.json({
@@ -49,8 +48,9 @@ export default async (req, res) => {
     case 'PUT':
       try {
         // TODO: Admin update kelas & tabel mengikuti yang agak bingungin (assign guru)
-        const { id, nama, durasi, deskripsi, waktu, hari, status, guru } =
-          req.body;
+        const {
+          id, nama, durasi, deskripsi, waktu, hari, status, guru,
+        } = req.body;
 
         let updateResult = transaction().query(`UPDATE kelas SET
                   nama = '${nama}',
@@ -63,10 +63,9 @@ export default async (req, res) => {
 
         if (status === 'berjalan') {
           guru.forEach(
-            (g) =>
-              (updateResult = updateResult.query(
-                `DELETE FROM mengikuti WHERE kelas_id = ${id} AND guru_id = ${g.id} AND peserta_id IS NULL`,
-              )),
+            (g) => (updateResult = updateResult.query(
+              `DELETE FROM mengikuti WHERE kelas_id = ${id} AND guru_id = ${g.id} AND peserta_id IS NULL`,
+            )),
           );
         }
 

@@ -1,25 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
-import Layout from '../../components/Layout';
-import fetchJson from '../../lib/fetchJson';
-import { getGuru } from '../../lib/queries';
-import withAuth from '../../lib/withAuth';
+import Layout from '../../../../components/Layout';
+import fetchJson from '../../../../lib/fetchJson';
+import withAuth from '../../../../lib/withAuth';
 
 export async function getServerSideProps(context) {
-  return withAuth(
-    context,
-    async () => {
-      const guru = await getGuru();
-      return {
-        props: { guru },
-      };
-    },
-    ['admin'],
-  );
+  return withAuth(context, async () => ({ props: {} }), ['guru']);
 }
 
-const CreateKelas = ({ guru }) => {
+const CreateSesi = ({ guru }) => {
   const router = useRouter();
   const [message, setMessage] = useState('');
   const [pengajar, setPengajar] = useState([]);
@@ -137,4 +127,4 @@ const CreateKelas = ({ guru }) => {
   );
 };
 
-export default CreateKelas;
+export default CreateSesi;

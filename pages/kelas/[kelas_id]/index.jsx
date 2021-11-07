@@ -106,25 +106,21 @@ const DetailKelas = ({ data, user, kelas_id }) => {
           </table>
         </>
       )}
-      {(user.role === 'guru' ||
-        (user.role === 'peserta' &&
-          data.terambil &&
-          data.status !== 'terbuka')) && (
+      {(user.role === 'guru'
+        || (user.role === 'peserta' && data.terambil && data.status !== 'terbuka')) && (
         <Link href={`/kelas/${kelas_id}/sesi`}>Lihat sesi</Link>
       )}
       {(user.role === 'guru' || user.role === 'admin') && (
         <Link href={`/kelas/${kelas_id}/peserta`}>Lihat peserta</Link>
       )}
-      {user.role === 'peserta' &&
-        (data.terambil ? (
+      {user.role === 'peserta'
+        && (data.terambil ? (
           <div>
             <b>Nilai</b>
             <p>{data.nilai ?? '-'}</p>
           </div>
         ) : (
-          data.status === 'terbuka' && (
-            <button onClick={handleAmbilKelas}>Ambil kelas</button>
-          )
+          data.status === 'terbuka' && <button onClick={handleAmbilKelas}>Ambil kelas</button>
         ))}
       {message !== '' && (
         <>
