@@ -1,12 +1,12 @@
-import Link from "next/link";
-import Layout from "../../components/Layout";
-import withAuth from "../../lib/withAuth";
-import { getPesertaAdmin, getPesertaPesertaGuru } from "../../lib/queries";
+import Link from 'next/link';
+import Layout from '../../components/Layout';
+import withAuth from '../../lib/withAuth';
+import { getPesertaAdmin, getPesertaPesertaGuru } from '../../lib/queries';
 
 export async function getServerSideProps(context) {
   return withAuth(context, async (user) => {
     let data = null;
-    if (user.role === "admin") {
+    if (user.role === 'admin') {
       data = await getPesertaAdmin();
     } else {
       data = await getPesertaPesertaGuru();
@@ -22,7 +22,7 @@ const ListPeserta = ({ data, user }) => (
       <thead>
         <tr>
           <th>No.</th>
-          {user.role === "admin" && <th>Username</th>}
+          {user.role === 'admin' && <th>Username</th>}
           <th>Nama</th>
         </tr>
       </thead>
@@ -30,7 +30,7 @@ const ListPeserta = ({ data, user }) => (
         {data.map((peserta, index) => (
           <tr key={index}>
             <td>{index + 1}</td>
-            {user.role === "admin" && (
+            {user.role === 'admin' && (
               <td>
                 <Link href={`/peserta/${peserta.id}`}>{peserta.username}</Link>
               </td>

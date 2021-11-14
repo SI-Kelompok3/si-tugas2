@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
-import Layout from "../../components/Layout";
-import fetchJson from "../../lib/fetchJson";
-import { getGuru } from "../../lib/queries";
-import withAuth from "../../lib/withAuth";
+import { useRouter } from 'next/router';
+import { useMemo, useState } from 'react';
+import Layout from '../../components/Layout';
+import fetchJson from '../../lib/fetchJson';
+import { getGuru } from '../../lib/queries';
+import withAuth from '../../lib/withAuth';
 
 export async function getServerSideProps(context) {
   return withAuth(
@@ -15,22 +15,22 @@ export async function getServerSideProps(context) {
         props: { guru },
       };
     },
-    ["admin"]
+    ['admin'],
   );
 }
 
 const CreateKelas = ({ guru }) => {
   const router = useRouter();
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [pengajar, setPengajar] = useState([]);
 
   const availableGuru = useMemo(
     () => guru.filter((g) => pengajar.indexOf(g) < 0),
-    [guru, pengajar]
+    [guru, pengajar],
   );
 
   const handleAddPengajar = (e) => {
-    if (e.target.value === "") return;
+    if (e.target.value === '') return;
 
     setPengajar((state) => [
       ...state,
@@ -39,20 +39,19 @@ const CreateKelas = ({ guru }) => {
   };
 
   const handleHapusPengajar = (e) => {
-    setPengajar((state) =>
-      state.filter((s) => Number(s.id) !== Number(e.target.id))
-    );
+    setPengajar((state) => state.filter((s) => Number(s.id) !== Number(e.target.id)));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (pengajar.length === 0) {
-      setMessage("Mohon pilih salah satu guru sebagai pengajar!");
+      setMessage('Mohon pilih salah satu guru sebagai pengajar!');
       return;
     }
 
-    const { nama, durasi, deskripsi, waktu, hari, kapasitas, status } =
-      e.currentTarget;
+    const {
+      nama, durasi, deskripsi, waktu, hari, kapasitas, status,
+    } = e.currentTarget;
     const body = {
       nama: nama.value,
       durasi: durasi.value,
@@ -63,9 +62,9 @@ const CreateKelas = ({ guru }) => {
       status: status.value,
       guru: pengajar,
     };
-    const create = await fetchJson("/api/kelas", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const create = await fetchJson('/api/kelas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
     setMessage(create.message);
@@ -80,19 +79,8 @@ const CreateKelas = ({ guru }) => {
       <h1>Buat kelas baru</h1>
       <form onSubmit={handleSubmit}>
         <input type="text" name="nama" placeholder="Nama Kelas" required />
-        <input
-          type="time"
-          name="durasi"
-          placeholder="Durasi"
-          defaultValue="01:40:00"
-          required
-        />
-        <textarea
-          name="deskripsi"
-          cols="30"
-          rows="3"
-          placeholder="Deskripsi"
-        ></textarea>
+        <input type="time" name="durasi" placeholder="Durasi" defaultValue="01:40:00" required />
+        <textarea name="deskripsi" cols="30" rows="3" placeholder="Deskripsi"></textarea>
         <input
           type="time"
           name="waktu"
@@ -109,12 +97,7 @@ const CreateKelas = ({ guru }) => {
           <option value="sabtu">Sabtu</option>
           <option value="minggu">Minggu</option>
         </select>
-        <input
-          type="number"
-          name="kapasitas"
-          placeholder="Kapasitas (Jumlah Peserta)"
-          required
-        />
+        <input type="number" name="kapasitas" placeholder="Kapasitas (Jumlah Peserta)" required />
         <select name="status" defaultValue="terbuka" disabled>
           <option value="terbuka">Terbuka</option>
         </select>
@@ -147,11 +130,9 @@ const CreateKelas = ({ guru }) => {
       <ul>
         <li>Terbuka : Peserta bisa daftar ke kelas</li>
         <li>Berjalan : Fitur "Terbuka" ditutup, guru bisa memulai sesi</li>
-        <li>
-          Selesai : Fitur "Berjalan" ditutup, guru memasukkan nilai peserta
-        </li>
+        <li>Selesai : Fitur "Berjalan" ditutup, guru memasukkan nilai peserta</li>
       </ul>
-      {message !== "" && <b>{message}</b>}
+      {message !== '' && <b>{message}</b>}
     </Layout>
   );
 };

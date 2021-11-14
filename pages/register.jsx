@@ -1,6 +1,6 @@
-import { useState } from "react";
-import fetchJson from "../lib/fetchJson";
-import withoutAuth from "../lib/withoutAuth";
+import { useState } from 'react';
+import fetchJson from '../lib/fetchJson';
+import withoutAuth from '../lib/withoutAuth';
 
 export async function getServerSideProps(context) {
   return withoutAuth(context, () => ({
@@ -9,7 +9,7 @@ export async function getServerSideProps(context) {
 }
 
 const Register = () => {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,9 +19,9 @@ const Register = () => {
       password: password.value,
       nama: nama.value,
     };
-    const create = await fetchJson("/api/peserta", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const create = await fetchJson('/api/peserta', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
     setMessage(create.message);
@@ -42,7 +42,7 @@ const Register = () => {
         />
         <input type="submit" value="Register" />
       </form>
-      {message !== "" && <b>{message}</b>}
+      {message !== '' && <b>{message}</b>}
     </div>
   );
 };
