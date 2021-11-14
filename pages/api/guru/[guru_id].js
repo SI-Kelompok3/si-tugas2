@@ -12,7 +12,7 @@ export default async (req, res) => {
   if (deleteResult.error !== undefined) {
     return res.json({
       error: true,
-      message: `Gagal menghapus guru dengan id ${guru_id}`,
+      message: `Gagal menghapus guru dengan id ${guru_id} karena akun ini menjadi pengajar`,
     });
   }
   res.json({

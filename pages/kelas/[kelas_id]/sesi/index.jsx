@@ -67,7 +67,9 @@ const SesiKelas = ({
                     <Link
                       href={
                         user.role === 'guru'
-                          ? `/kelas/${kelas_id}/sesi/${sesi.materi}/${sesi.tanggal}`
+                          ? `/kelas/${kelas_id}/sesi/${encodeURIComponent(sesi.materi)}/${
+                            sesi.tanggal
+                          }`
                           : '#'
                       }
                     >

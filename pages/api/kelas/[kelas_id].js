@@ -3,6 +3,7 @@ import executeQuery, { transaction } from '../../../config/db';
 export default async (req, res) => {
   const { kelas_id } = req.query;
   switch (req.method) {
+    // Peserta mengambil kelas
     case 'POST':
       const peserta_id = JSON.parse(req.cookies.user).id;
       // Steps:
@@ -47,7 +48,6 @@ export default async (req, res) => {
       break;
     case 'PUT':
       try {
-        // TODO: Admin update kelas & tabel mengikuti yang agak bingungin (assign guru)
         const {
           id, nama, durasi, deskripsi, waktu, hari, status, guru,
         } = req.body;
@@ -80,6 +80,23 @@ export default async (req, res) => {
       break;
     case 'DELETE':
       // TODO: Admin hapus kelas, hapus mengikuti juga
+      const mengikutiIds = (
+        await executeQuery({
+          query: `SELECT id FROM mengikuti WHERE kelas_id = ${kelas_id}`,
+        })
+      ).map((m) => m.id);
+
+      let deleteResult = transaction();
+
+      mengikutiIds.forEach(
+        (id) => (deleteResult = deleteResult.query(`DELETE FROM sesi WHERE mengikuti_id = ${id}`)),
+      );
+      deleteResult = deleteResult
+        .query(`DELETE FROM mengikuti WHERE kelas_id = ${kelas_id}`)
+        .query(`DELETE FROM kelas WHERE id = ${kelas_id}`);
+
+      await deleteResult.commit();
+
       res.json({ message: `Kelas dengan ID '${kelas_id}' berhasil dihapus` });
       break;
     default:

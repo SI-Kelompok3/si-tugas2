@@ -44,6 +44,13 @@ const DetailKelas = ({ data, user, kelas_id }) => {
     }
   };
 
+  const handleDeleteKelas = async () => {
+    await fetchJson(`/api/kelas/${kelas_id}`, {
+      method: 'DELETE',
+    });
+    router.replace('/kelas');
+  };
+
   return (
     <Layout>
       <h1>{data.nama}</h1>
@@ -59,6 +66,8 @@ const DetailKelas = ({ data, user, kelas_id }) => {
       <p>{data.kapasitas} Peserta</p>
       {user.role === 'admin' && (
         <>
+          <button onClick={handleDeleteKelas}>Hapus kelas</button>
+          <br />
           <b>Status</b>
           <p>{capitalizeFirstLetter(data.status)}</p>
           <b>Pengajar</b>

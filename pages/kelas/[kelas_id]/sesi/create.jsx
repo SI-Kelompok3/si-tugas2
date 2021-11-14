@@ -37,7 +37,7 @@ const CreateSesi = ({ kelas_id, guru_id }) => {
     });
     setMessage(create.message);
     if (!create.error) {
-      router.push(`/kelas/${kelas_id}/sesi/${materi.value}/${tanggal}`);
+      router.push(`/kelas/${kelas_id}/sesi/${encodeURIComponent(materi.value)}/${tanggal}`);
     }
   };
 

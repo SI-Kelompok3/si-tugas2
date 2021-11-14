@@ -15,6 +15,7 @@ export async function getServerSideProps(context) {
         props: {
           data: data.map((d) => ({
             ...d,
+            keterangan: d.keterangan === null ? '' : d.keterangan,
             hadir: d.hadir !== 0,
           })),
         },

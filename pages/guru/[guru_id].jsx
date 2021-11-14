@@ -1,28 +1,47 @@
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 import Layout from '../../components/Layout';
 import { getGuruById } from '../../lib/queries';
 import withAuth from '../../lib/withAuth';
+import fetchJson from '../../lib/fetchJson';
 
 export async function getServerSideProps(context) {
   return withAuth(
     context,
     async () => {
-      const guru = await getGuruById(context.params.guru_id);
+      const { guru_id } = context.params;
+
+      const guru = await getGuruById(guru_id);
       return {
-        props: { guru },
+        props: { guru, guru_id },
       };
     },
     ['admin'],
   );
 }
 
-const EditGuru = ({ guru }) => (
-  <Layout>
-    <h1>Detail Guru</h1>
-    <h3>{guru.nama}</h3>
-    <p>Username : {guru.username}</p>
-    <p>ID : {guru.id}</p>
-  </Layout>
-);
+const EditGuru = ({ guru, guru_id }) => {
+  const router = useRouter();
+  const [message, setMessage] = useState('');
+
+  const handleDeleteGuru = async () => {
+    const deleteResult = await fetchJson(`/api/guru/${guru_id}`, {
+      method: 'DELETE',
+    });
+    setMessage(deleteResult.message);
+    if (!deleteResult.error) router.replace('/guru');
+  };
+
+  return (
+    <Layout>
+      <h1>Detail Guru</h1>
+      <h3>{guru.nama}</h3>
+      <p>Username : {guru.username}</p>
+      <p>ID : {guru.id}</p>
+      <button onClick={handleDeleteGuru}>Hapus akun guru</button>
+      <b>{message}</b>
+    </Layout>
+  );
+};
 
 export default EditGuru;
