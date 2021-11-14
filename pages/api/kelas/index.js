@@ -42,7 +42,6 @@ export default async (req, res) => {
       id: kelasInsert.insertId,
     });
   } catch (e) {
-    console.log(e);
     res.json({ error: true, message: e.message });
   }
 };
