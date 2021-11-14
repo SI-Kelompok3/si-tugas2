@@ -25,11 +25,15 @@ export default async (req, res) => {
         '${kapasitas}', 
         '${status}'
       )`);
+    let kelasId = null;
     guru.forEach(
-      (g) => (createResult = createResult.query((r) => [
-        `INSERT INTO mengikuti (guru_id, kelas_id, peserta_id) VALUES (${g.id}, ?, NULL)`,
-        r.insertId,
-      ])),
+      (g) => (createResult = createResult.query((r) => {
+        kelasId = kelasId === null ? r.insertId : kelasId;
+        return [
+          `INSERT INTO mengikuti (guru_id, kelas_id, peserta_id) VALUES (${g.id}, ?, NULL)`,
+          kelasId,
+        ];
+      })),
     );
     const [kelasInsert] = await createResult.commit();
 
@@ -38,6 +42,7 @@ export default async (req, res) => {
       id: kelasInsert.insertId,
     });
   } catch (e) {
+    console.log(e);
     res.json({ error: true, message: e.message });
   }
 };
