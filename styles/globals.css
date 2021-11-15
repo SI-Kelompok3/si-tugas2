@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import-normalize;
 
 * {
   padding: 0;
@@ -6,10 +7,7 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  font-family: 'Poppins', sans-serif;
-
+:root {
   --bg: #eaeaea;
   --primary: #00203f;
   --primary-hover: #294969;
@@ -17,6 +15,85 @@ body {
   --secondary-hover: #adf0d1;
   --gray-dark: #333;
   --gray-light: #c4c4c4;
+  --transition: all 300ms ease-in-out;
+}
 
+html,
+body {
+  font-family: 'Poppins', sans-serif;
   background-color: var(--bg);
 }
+
+table {
+  table-layout: fixed;
+  /* width: 100%; */
+  border-collapse: collapse;
+  background-color: white;
+  color: var(--primary);
+}
+
+thead tr th {
+  padding: 0.5rem;
+  background-color: var(--secondary);
+  font-weight: 600;
+}
+
+td a {
+  color: var(--primary);
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+td a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline var(--primary-hover);
+}
+
+ul li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.link-daftar {
+  color: var(--primary);
+  transition: var(--transition);
+}
+
+.link-daftar:hover {
+  color: var(--primary-hover);
+  text-decoration: underline var(--primary-hover);
+}
+
+button,
+a,
+.link-daftar {
+  cursor: pointer;
+}
+
+.active {
+  color: var(--secondary);
+}
+
+/* thead th:nth-child(1) {
+  width: 30%;
+}
+
+thead th:nth-child(2) {
+  width: 20%;
+}
+
+thead th:nth-child(3) {
+  width: 15%;
+}
+
+thead th:nth-child(4) {
+  width: 35%;
+}
+
+th,
+td {
+  padding: 20px;
+} */

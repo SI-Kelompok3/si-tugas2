@@ -35,7 +35,12 @@ const Register = () => {
         <h1>Buat akun peserta</h1>
         <input type="text" name="username" required placeholder="Username" />
         <input type="text" name="nama" required placeholder="Nama Lengkap" />
-        <input type="password" name="password" required placeholder="Password" />
+        <input
+          type="password"
+          name="password"
+          required
+          placeholder="Password"
+        />
         <input type="submit" value="Register" />
       </form>
       {message !== '' && <b>{message}</b>}

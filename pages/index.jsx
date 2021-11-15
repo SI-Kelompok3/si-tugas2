@@ -63,7 +63,9 @@ const Home = ({ data, user }) => (
                 <tr key={kelas.id}>
                   <td>{index + 1}</td>
                   <td>
-                    <Link href={`/kelas/${kelas.id}`}>{kelas.nama}</Link>
+                    <Link href={`/kelas/${kelas.id}`} passHref>
+                      <a>{kelas.nama}</a>
+                    </Link>
                   </td>
                   <td>{capitalizeFirstLetter(kelas.hari)}</td>
                   <td>{kelas.waktu_mulai}</td>
@@ -92,7 +94,9 @@ const Home = ({ data, user }) => (
                 <tr key={kelas.id}>
                   <td>{index + 1}</td>
                   <td>
-                    <Link href={`/kelas/${kelas.id}`}>{kelas.nama}</Link>
+                    <Link href={`/kelas/${kelas.id}`} passHref>
+                      <a>{kelas.nama}</a>
+                    </Link>
                   </td>
                   <td>{kelas.jumlah_peserta}</td>
                 </tr>
@@ -113,7 +117,9 @@ const Home = ({ data, user }) => (
                 <tr key={kelas.id}>
                   <td>{index + 1}</td>
                   <td>
-                    <Link href={`/kelas/${kelas.id}`}>{kelas.nama}</Link>
+                    <Link href={`/kelas/${kelas.id}`} passHref>
+                      <a>{kelas.nama}</a>
+                    </Link>
                   </td>
                   <td>{kelas.jumlah_guru}</td>
                 </tr>
@@ -124,14 +130,20 @@ const Home = ({ data, user }) => (
       )}
       <ul>
         <li>
-          <Link href="/peserta">Daftar Peserta</Link>
+          <Link href="/peserta" passHref>
+            <a className="link-daftar">Daftar Peserta</a>
+          </Link>
         </li>
         <li>
-          <Link href="/kelas">Daftar Kelas</Link>
+          <Link href="/kelas" passHref>
+            <a className="link-daftar">Daftar Kelas</a>
+          </Link>
         </li>
         {user.role === 'admin' && (
           <li>
-            <Link href="/guru">Daftar Guru</Link>
+            <Link href="/guru" passHref>
+              <a className="link-daftar">Daftar Guru</a>
+            </Link>
           </li>
         )}
       </ul>

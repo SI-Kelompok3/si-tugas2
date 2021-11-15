@@ -48,7 +48,12 @@ const Login = () => {
         <Image src="/user.svg" alt="kursol" width="100px" height="90" />
         <form onSubmit={handleSubmit} className="login-form">
           <input type="text" name="username" required placeholder="Username" />
-          <input type="password" name="password" required placeholder="Password" />
+          <input
+            type="password"
+            name="password"
+            required
+            placeholder="Password"
+          />
           <select name="role" defaultValue="peserta">
             <option value="peserta">Peserta</option>
             <option value="guru">Guru</option>
