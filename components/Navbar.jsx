@@ -2,16 +2,17 @@ import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
+import Image from 'next/image';
 
 export default function Navbar() {
-  const router = useRouter();
+  const router = useRouter()
   const user = useMemo(() => {
     try {
       return JSON.parse(Cookies.get('user'));
     } catch {
-      return null;
+      return null
     }
-  }, []);
+  }, [])
 
   const handleLogout = () => {
     Cookies.remove('user');
@@ -21,11 +22,27 @@ export default function Navbar() {
   return (
     <div>
       <header>
-        <nav>
+        <nav className="navbar">
+          <Image
+            src="/kursol-logo-white.png"
+            alt="kursol"
+            width="90"
+            height="70"
+          />
           <ul>
             <li>
               <Link href="/">
                 <a>Home</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/">
+                <a>Peserta</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/">
+                <a>Mata Pelajaran</a>
               </Link>
             </li>
             {!user && (
@@ -46,7 +63,6 @@ export default function Navbar() {
         </nav>
         <style jsx>{`
           ul {
-            display: flex;
             list-style: none;
             margin-left: 0;
             padding-left: 0;
@@ -60,14 +76,8 @@ export default function Navbar() {
           li:first-child {
             margin-left: auto;
           }
-
-          header {
-            padding: 0.2rem;
-            color: #fff;
-            background-color: #333;
-          }
         `}</style>
       </header>
     </div>
-  );
+  )
 }

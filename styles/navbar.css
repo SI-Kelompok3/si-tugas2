@@ -1,0 +1,42 @@
+header {
+  width: 100%;
+  padding: 0.75rem 2rem;
+  color: #fff;
+  background-color: var(--primary);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar img[alt='kursol'] {
+  cursor: pointer;
+}
+
+.navbar ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  transition: all 250ms ease-in-out;
+}
+
+.navbar a:hover {
+  color: var(--secondary-hover);
+}
+
+.navbar button {
+  background-color: var(--secondary);
+  border: none;
+  border-radius: 25px;
+  color: var(--primary);
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  font-weight: 500;
+}

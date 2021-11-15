@@ -1,0 +1,30 @@
+.homepage {
+  border: 1px solid red;
+  padding: 1rem;
+  text-align: center;
+  height: 100%;
+}
+
+.welcome {
+  color: var(--primary);
+  font-size: 48px;
+}
+
+.table-wrapper table {
+  background-color: white;
+  margin: 0 auto;
+  border: none;
+  color: var(--primary);
+}
+
+.table-wrapper thead tr th {
+  padding: 0.5rem;
+  background-color: var(--secondary);
+}
+
+.table-wrapper thead th {
+  font-weight: 600;
+}
+
+/* .table-wrapper tbody {
+} */
