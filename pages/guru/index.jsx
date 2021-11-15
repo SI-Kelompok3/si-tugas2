@@ -19,28 +19,34 @@ export async function getServerSideProps(context) {
 
 const ListGuru = ({ data }) => (
   <Layout>
-    <h1>List Guru</h1>
-    <Link href="/guru/create">Buat akun guru</Link>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Username</th>
-          <th>Nama</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((guru) => (
-          <tr key={guru.id}>
-            <td>{guru.id}</td>
-            <td>
-              <Link href={`/guru/${guru.id}`}>{guru.username}</Link>
-            </td>
-            <td>{guru.nama}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="main guru-page">
+      <h1>List Guru</h1>
+      <div className="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Nama</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((guru) => (
+              <tr key={guru.id}>
+                <td>{guru.id}</td>
+                <td>
+                  <Link href={`/guru/${guru.id}`}>{guru.username}</Link>
+                </td>
+                <td>{guru.nama}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <Link href="/guru/create">
+        <a>Buat akun guru</a>
+      </Link>
+    </div>
   </Layout>
 );
 

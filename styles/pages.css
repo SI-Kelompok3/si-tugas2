@@ -107,3 +107,14 @@
   align-items: flex-start;
   border-radius: 10px;
 }
+
+.guru-page a {
+  color: var(--primary);
+  text-decoration: underline;
+  transition: var(--transition);
+}
+
+.guru-page a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
