@@ -5,6 +5,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
 :root {
@@ -20,7 +21,6 @@
 
 html,
 body {
-  font-family: 'Poppins', sans-serif;
   background-color: var(--bg);
 }
 
@@ -30,6 +30,7 @@ table {
   border-collapse: collapse;
   background-color: white;
   color: var(--primary);
+  border: 1px solid var(--gray-light);
 }
 
 thead tr th {
@@ -49,22 +50,17 @@ td a:hover {
   text-decoration: underline var(--primary-hover);
 }
 
+th,
+td {
+  padding: 1rem;
+}
+
 ul li {
   list-style: none;
 }
 
 a {
   text-decoration: none;
-}
-
-.link-daftar {
-  color: var(--primary);
-  transition: var(--transition);
-}
-
-.link-daftar:hover {
-  color: var(--primary-hover);
-  text-decoration: underline var(--primary-hover);
 }
 
 button,
@@ -75,6 +71,12 @@ a,
 
 .active {
   color: var(--secondary);
+}
+
+.main {
+  text-align: center;
+  height: 100%;
+  padding-top: 1rem;
 }
 
 /* thead th:nth-child(1) {

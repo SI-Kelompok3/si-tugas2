@@ -17,29 +17,35 @@ export async function getServerSideProps(context) {
 
 const ListPeserta = ({ data, user }) => (
   <Layout>
-    <h1>List peserta</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>No.</th>
-          {user.role === 'admin' && <th>Username</th>}
-          <th>Nama</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((peserta, index) => (
-          <tr key={index}>
-            <td>{index + 1}</td>
-            {user.role === 'admin' && (
-              <td>
-                <Link href={`/peserta/${peserta.id}`}>{peserta.username}</Link>
-              </td>
-            )}
-            <td>{peserta.nama}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="main peserta-page">
+      <h1>List peserta</h1>
+      <div className="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>No.</th>
+              {user.role === 'admin' && <th>Username</th>}
+              <th>Nama</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((peserta, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                {user.role === 'admin' && (
+                  <td>
+                    <Link href={`/peserta/${peserta.id}`}>
+                      {peserta.username}
+                    </Link>
+                  </td>
+                )}
+                <td>{peserta.nama}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   </Layout>
 );
 

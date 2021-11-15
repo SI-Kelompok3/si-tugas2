@@ -41,7 +41,7 @@ export async function getServerSideProps(context) {
 
 const Home = ({ data, user }) => (
   <Layout>
-    <div className="homepage">
+    <div className="main homepage">
       <h1 className="welcome">Selamat datang, {user.nama}!</h1>
       {user.role === 'peserta' && (
         <div className="table-wrapper">
@@ -128,7 +128,7 @@ const Home = ({ data, user }) => (
           </table>
         </div>
       )}
-      <ul>
+      <ul className="list-daftar">
         <li>
           <Link href="/peserta" passHref>
             <a className="link-daftar">Daftar Peserta</a>

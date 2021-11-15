@@ -123,26 +123,46 @@ const Kelas = ({ user, kelas }) => {
 
   return (
     <Layout>
-      {user.role === 'admin' && (
-        <ul>
-          <li>
-            <Link href="/kelas/peserta">Jumlah peserta berdasarkan kelas</Link>
-          </li>
-          <li>
-            <Link href="/kelas/guru">Jumlah guru berdasarkan kelas</Link>
-          </li>
-          <li>
-            <Link href="/kelas/nilai">Nilai rata-rata tiap kelas</Link>
-          </li>
-        </ul>
-      )}
-      <br />
-      {user.role === 'admin' && <Link href="/kelas/create">Buat kelas</Link>}
-      <h1>List kelas {user.role === 'guru' && 'yang diampu'}</h1>
-      <table>
-        <thead>{header()}</thead>
-        <tbody>{kelas.map(row)}</tbody>
-      </table>
+      <div className="main kelas-page">
+        <div className="kelas-option">
+          {user.role === 'admin' && (
+            <div className="filter-kelas">
+              <h4>Filter:</h4>
+              <ul className="list-filter-kelas">
+                <li>
+                  <Link href="/kelas/peserta" passHref>
+                    <a>Jumlah peserta berdasarkan kelas</a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/kelas/guru" passHref>
+                    <a>Jumlah guru berdasarkan kelas</a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/kelas/nilai" passHref>
+                    <a>Nilai rata-rata tiap kelas</a>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
+          {user.role === 'admin' && (
+            <div className="buat-kelas">
+              <Link href="/kelas/create">
+                <a>Buat kelas ➕</a>
+              </Link>
+            </div>
+          )}
+        </div>
+        <h1>List kelas {user.role === 'guru' && 'yang diampu'}</h1>
+        <div className="table-wrapper">
+          <table>
+            <thead>{header()}</thead>
+            <tbody>{kelas.map(row)}</tbody>
+          </table>
+        </div>
+      </div>
     </Layout>
   );
 };

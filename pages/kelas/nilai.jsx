@@ -17,27 +17,31 @@ export async function getServerSideProps(context) {
 
 const ListKelasNilai = ({ data }) => (
   <Layout>
-    <h1>List nilai rata-rata tiap kelas</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>No.</th>
-          <th>Nama Kelas</th>
-          <th>Nilai Rerata</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((kelas, index) => (
-          <tr key={kelas.id}>
-            <td>{index + 1}</td>
-            <td>
-              <Link href={`/kelas/${kelas.id}`}>{kelas.nama}</Link>
-            </td>
-            <td>{kelas.nilai ?? '-'}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="main nilai-rata-page">
+      <h1>List nilai rata-rata tiap kelas</h1>
+      <div className="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Nama Kelas</th>
+              <th>Nilai Rerata</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((kelas, index) => (
+              <tr key={kelas.id}>
+                <td>{index + 1}</td>
+                <td>
+                  <Link href={`/kelas/${kelas.id}`}>{kelas.nama}</Link>
+                </td>
+                <td>{kelas.nilai ?? '-'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   </Layout>
 );
 

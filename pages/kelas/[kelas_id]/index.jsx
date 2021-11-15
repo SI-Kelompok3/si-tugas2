@@ -53,90 +53,100 @@ const DetailKelas = ({ data, user, kelas_id }) => {
 
   return (
     <Layout>
-      <h1>{data.nama}</h1>
-      <b>Deskripsi</b>
-      <p>{data.deskripsi ?? '-'}</p>
-      <b>Waktu</b>
-      <p>
-        {capitalizeFirstLetter(data.hari)}, {data.waktu}
-      </p>
-      <b>Durasi Kelas</b>
-      <p>{data.durasi}</p>
-      <b>Kapasitas</b>
-      <p>{data.kapasitas} Peserta</p>
-      {user.role === 'admin' && (
-        <>
-          <button onClick={handleDeleteKelas}>Hapus kelas</button>
-          <br />
-          <b>Status</b>
-          <p>{capitalizeFirstLetter(data.status)}</p>
-          <b>Pengajar</b>
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nama</th>
-                <th>Username</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.guru.map((guru) => (
-                <tr key={guru.id}>
-                  <td>{guru.id}</td>
-                  <td>{guru.nama}</td>
-                  <td>{guru.username}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <Link href={`/kelas/${kelas_id}/edit`}>Ubah kelas</Link>
-        </>
-      )}
-      {user.role === 'guru' && (
-        <>
-          <b>5 Peserta terbaik (nilai tertinggi)</b>
-          <table>
-            <thead>
-              <tr>
-                <th>No.</th>
-                <th>Nama</th>
-                <th>Nilai</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.peserta.map((peserta, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{peserta.nama}</td>
-                  <td>{peserta.nilai ?? '-'}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </>
-      )}
-      {(user.role === 'guru'
-        || (user.role === 'peserta' && data.terambil && data.status !== 'terbuka')) && (
-        <Link href={`/kelas/${kelas_id}/sesi`}>Lihat sesi</Link>
-      )}
-      {(user.role === 'guru' || user.role === 'admin') && (
-        <Link href={`/kelas/${kelas_id}/peserta`}>Lihat peserta</Link>
-      )}
-      {user.role === 'peserta'
-        && (data.terambil ? (
-          <div>
-            <b>Nilai</b>
-            <p>{data.nilai ?? '-'}</p>
-          </div>
-        ) : (
-          data.status === 'terbuka' && <button onClick={handleAmbilKelas}>Ambil kelas</button>
-        ))}
-      {message !== '' && (
-        <>
-          <br />
-          <b>{message}</b>
-        </>
-      )}
+      <div className="main deskripsi-kelas-page">
+        <h1>{data.nama}</h1>
+        <b>Deskripsi</b>
+        <p>{data.deskripsi ?? '-'}</p>
+        <b>Waktu</b>
+        <p>
+          {capitalizeFirstLetter(data.hari)}, {data.waktu}
+        </p>
+        <b>Durasi Kelas</b>
+        <p>{data.durasi}</p>
+        <b>Kapasitas</b>
+        <p>{data.kapasitas} Peserta</p>
+        {user.role === 'admin' && (
+          <>
+            <button onClick={handleDeleteKelas}>Hapus kelas</button>
+            <br />
+            <b>Status</b>
+            <p>{capitalizeFirstLetter(data.status)}</p>
+            <b>Pengajar</b>
+            <div className="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nama</th>
+                    <th>Username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.guru.map((guru) => (
+                    <tr key={guru.id}>
+                      <td>{guru.id}</td>
+                      <td>{guru.nama}</td>
+                      <td>{guru.username}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <Link href={`/kelas/${kelas_id}/edit`}>Ubah kelas</Link>
+          </>
+        )}
+        {user.role === 'guru' && (
+          <>
+            <b>5 Peserta terbaik (nilai tertinggi)</b>
+            <div className="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Nama</th>
+                    <th>Nilai</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.peserta.map((peserta, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{peserta.nama}</td>
+                      <td>{peserta.nilai ?? '-'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+        {(user.role === 'guru' ||
+          (user.role === 'peserta' &&
+            data.terambil &&
+            data.status !== 'terbuka')) && (
+          <Link href={`/kelas/${kelas_id}/sesi`}>Lihat sesi</Link>
+        )}
+        {(user.role === 'guru' || user.role === 'admin') && (
+          <Link href={`/kelas/${kelas_id}/peserta`}>Lihat peserta</Link>
+        )}
+        {user.role === 'peserta' &&
+          (data.terambil ? (
+            <div>
+              <b>Nilai</b>
+              <p>{data.nilai ?? '-'}</p>
+            </div>
+          ) : (
+            data.status === 'terbuka' && (
+              <button onClick={handleAmbilKelas}>Ambil kelas</button>
+            )
+          ))}
+        {message !== '' && (
+          <>
+            <br />
+            <b>{message}</b>
+          </>
+        )}
+      </div>
     </Layout>
   );
 };
