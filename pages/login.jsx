@@ -2,12 +2,12 @@ import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
 import { useState } from 'react';
+import Image from 'next/image';
 import fetchJson from '../lib/fetchJson';
 import withoutAuth from '../lib/withoutAuth';
-import Image from 'next/image';
 
 export async function getServerSideProps(context) {
-  return withoutAuth(context, () => ({ props: {} }))
+  return withoutAuth(context, () => ({ props: {} }));
 }
 
 const Login = () => {
@@ -27,13 +27,13 @@ const Login = () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
-    })
+    });
     if (user.error) {
-      return setMessage(user.message)
+      return setMessage(user.message);
     }
     Cookies.set('user', JSON.stringify(user));
     router.replace('/');
-  }
+  };
 
   return (
     <div className="login">
@@ -48,12 +48,7 @@ const Login = () => {
         <Image src="/user.svg" alt="kursol" width="100px" height="90" />
         <form onSubmit={handleSubmit} className="login-form">
           <input type="text" name="username" required placeholder="Username" />
-          <input
-            type="password"
-            name="password"
-            required
-            placeholder="Password"
-          />
+          <input type="password" name="password" required placeholder="Password" />
           <select name="role" defaultValue="peserta">
             <option value="peserta">Peserta</option>
             <option value="guru">Guru</option>
@@ -67,7 +62,7 @@ const Login = () => {
         {message !== '' && <p>{message}</p>}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

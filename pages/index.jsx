@@ -6,7 +6,7 @@ import withAuth from '../lib/withAuth';
 
 export async function getServerSideProps(context) {
   return withAuth(context, async (user) => {
-    let data = null
+    let data = null;
     switch (user.role) {
       case 'admin':
         const peserta = await getTopPeserta();
@@ -35,8 +35,8 @@ export async function getServerSideProps(context) {
         data,
         user,
       },
-    }
-  })
+    };
+  });
 }
 
 const Home = ({ data, user }) => (
@@ -137,6 +137,6 @@ const Home = ({ data, user }) => (
       </ul>
     </div>
   </Layout>
-)
+);
 
-export default Home
+export default Home;

@@ -11,7 +11,6 @@ export default async (req, res) => {
           ? `keterangan = '${d.keterangan}'`
           : 'keterangan = NULL';
 
-        console.log(d, keterangan);
         putResult = putResult.query(
           `UPDATE sesi SET 
             hadir = ${d.hadir ? '1' : '0'},

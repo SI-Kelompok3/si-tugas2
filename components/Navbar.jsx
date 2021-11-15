@@ -5,14 +5,14 @@ import Cookies from 'js-cookie';
 import Image from 'next/image';
 
 export default function Navbar() {
-  const router = useRouter()
+  const router = useRouter();
   const user = useMemo(() => {
     try {
       return JSON.parse(Cookies.get('user'));
     } catch {
-      return null
+      return null;
     }
-  }, [])
+  }, []);
 
   const handleLogout = () => {
     Cookies.remove('user');
@@ -23,12 +23,7 @@ export default function Navbar() {
     <div>
       <header>
         <nav className="navbar">
-          <Image
-            src="/kursol-logo-white.png"
-            alt="kursol"
-            width="90"
-            height="70"
-          />
+          <Image src="/kursol-logo-white.png" alt="kursol" width="90" height="70" />
           <ul>
             <li>
               <Link href="/">
@@ -36,13 +31,13 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <Link href="/">
+              <Link href="/peserta">
                 <a>Peserta</a>
               </Link>
             </li>
             <li>
-              <Link href="/">
-                <a>Mata Pelajaran</a>
+              <Link href="/kelas">
+                <a>Kelas</a>
               </Link>
             </li>
             {!user && (
@@ -79,5 +74,5 @@ export default function Navbar() {
         `}</style>
       </header>
     </div>
-  )
+  );
 }
