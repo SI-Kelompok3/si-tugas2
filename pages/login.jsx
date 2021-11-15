@@ -1,28 +1,28 @@
-import { useRouter } from 'next/router'
-import Cookies from 'js-cookie'
-import Link from 'next/link'
-import { useState } from 'react'
-import fetchJson from '../lib/fetchJson'
-import withoutAuth from '../lib/withoutAuth'
-import Image from 'next/image'
+import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
+import Link from 'next/link';
+import { useState } from 'react';
+import fetchJson from '../lib/fetchJson';
+import withoutAuth from '../lib/withoutAuth';
+import Image from 'next/image';
 
 export async function getServerSideProps(context) {
   return withoutAuth(context, () => ({ props: {} }))
 }
 
 const Login = () => {
-  const router = useRouter()
-  const [message, setMessage] = useState('')
+  const router = useRouter();
+  const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setMessage('')
-    const { username, password, role } = e.currentTarget
+    e.preventDefault();
+    setMessage('');
+    const { username, password, role } = e.currentTarget;
     const body = {
       username: username.value,
       password: password.value,
       role: role.value,
-    }
+    };
     const user = await fetchJson('/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -31,8 +31,8 @@ const Login = () => {
     if (user.error) {
       return setMessage(user.message)
     }
-    Cookies.set('user', JSON.stringify(user))
-    router.replace('/')
+    Cookies.set('user', JSON.stringify(user));
+    router.replace('/');
   }
 
   return (

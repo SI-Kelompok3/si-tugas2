@@ -1,29 +1,33 @@
-import Link from 'next/link'
-import Layout from '../components/Layout'
-import { getKelasForPeserta, getTopGuru, getTopPeserta } from '../lib/queries'
-import { capitalizeFirstLetter } from '../lib/utility'
-import withAuth from '../lib/withAuth'
+import Link from 'next/link';
+import Layout from '../components/Layout';
+import { getKelasForPeserta, getTopGuru, getTopPeserta } from '../lib/queries';
+import { capitalizeFirstLetter } from '../lib/utility';
+import withAuth from '../lib/withAuth';
 
 export async function getServerSideProps(context) {
   return withAuth(context, async (user) => {
     let data = null
     switch (user.role) {
       case 'admin':
-        const peserta = await getTopPeserta()
-        const guru = await getTopGuru()
+        const peserta = await getTopPeserta();
+        const guru = await getTopGuru();
         data = {
           peserta,
           guru,
-        }
-        break
+        };
+        break;
       case 'peserta':
-        const kelas = await getKelasForPeserta(user.id)
+        const fetchedKelas = await getKelasForPeserta(user.id);
+        const kelas = [];
+        fetchedKelas.forEach((k) => {
+          if (!k.id === null) kelas.push(k);
+        });
         data = {
           data: kelas,
-        }
-        break
+        };
+        break;
       case 'guru':
-        break
+        break;
     }
 
     return {

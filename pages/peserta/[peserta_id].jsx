@@ -1,7 +1,7 @@
-import React from "react";
-import Layout from "../../components/Layout";
-import { getPesertaDetail } from "../../lib/queries";
-import withAuth from "../../lib/withAuth";
+import React from 'react';
+import Layout from '../../components/Layout';
+import { getPesertaDetail } from '../../lib/queries';
+import withAuth from '../../lib/withAuth';
 
 export async function getServerSideProps(context) {
   return withAuth(
@@ -10,7 +10,7 @@ export async function getServerSideProps(context) {
       const data = await getPesertaDetail(context.params.peserta_id);
       return { props: { data } };
     },
-    ["admin"]
+    ['admin'],
   );
 }
 

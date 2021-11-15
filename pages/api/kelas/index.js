@@ -1,7 +1,7 @@
-import { transaction } from "../../../config/db";
+import { transaction } from '../../../config/db';
 
 export default async (req, res) => {
-  if (req.method !== "POST") return;
+  if (req.method !== 'POST') return;
 
   try {
     // TODO: Insert into table kelas & ke tabel mengikuti yang agak bingungin (assign guru)
@@ -11,8 +11,9 @@ export default async (req, res) => {
     //  di querynya cek apakah masih kurang dari kapasitas
     // 4. Admin perlu ngubah status jadi berjalan
     // 5. Delete entry yang peserta_id null
-    const { nama, durasi, deskripsi, waktu, hari, kapasitas, status, guru } =
-      req.body;
+    const {
+      nama, durasi, deskripsi, waktu, hari, kapasitas, status, guru,
+    } = req.body;
 
     let createResult = transaction()
       .query(`INSERT INTO kelas (nama, durasi, deskripsi, waktu, hari, kapasitas, status) VALUES (
@@ -24,12 +25,15 @@ export default async (req, res) => {
         '${kapasitas}', 
         '${status}'
       )`);
+    let kelasId = null;
     guru.forEach(
-      (g) =>
-        (createResult = createResult.query((r) => [
+      (g) => (createResult = createResult.query((r) => {
+        kelasId = kelasId === null ? r.insertId : kelasId;
+        return [
           `INSERT INTO mengikuti (guru_id, kelas_id, peserta_id) VALUES (${g.id}, ?, NULL)`,
-          r.insertId,
-        ]))
+          kelasId,
+        ];
+      })),
     );
     const [kelasInsert] = await createResult.commit();
 
