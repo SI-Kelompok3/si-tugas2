@@ -43,6 +43,11 @@ const Home = ({ data, user }) => (
   <Layout>
     <div className="main homepage">
       <h1 className="welcome">Selamat datang, {user.nama}!</h1>
+      {user.role === 'guru' && (
+        <div className="table-wrapper">
+          <h3>Silahkan pilih menu dari link di bagian bawah</h3>
+        </div>
+      )}
       {user.role === 'peserta' && (
         <div className="table-wrapper">
           <b>Kelas yang sudah berjalan</b>
