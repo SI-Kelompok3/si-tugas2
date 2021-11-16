@@ -29,24 +29,29 @@ const DetailSesi = ({ data: initialData }) => {
   const router = useRouter();
   const [data, setData] = useState(initialData);
 
-  const handleChangeKehadiran = (hadir, mengikuti_id) => setData((state) => {
-    const newState = state;
-    const index = newState.findIndex((p) => p.mengikuti_id === mengikuti_id);
-    newState[index] = { ...newState[index], hadir };
-    return [...newState];
-  });
+  const handleChangeKehadiran = (hadir, mengikuti_id) =>
+    setData((state) => {
+      const newState = state;
+      const index = newState.findIndex((p) => p.mengikuti_id === mengikuti_id);
+      newState[index] = { ...newState[index], hadir };
+      return [...newState];
+    });
 
-  const handleChangeKeterangan = (e) => setData((state) => {
-    const newState = state;
-    const index = newState.findIndex((p) => p.mengikuti_id === Number(e.target.id));
-    newState[index] = { ...newState[index], keterangan: e.target.value };
-    return [...newState];
-  });
+  const handleChangeKeterangan = (e) =>
+    setData((state) => {
+      const newState = state;
+      const index = newState.findIndex(
+        (p) => p.mengikuti_id === Number(e.target.id),
+      );
+      newState[index] = { ...newState[index], keterangan: e.target.value };
+      return [...newState];
+    });
 
-  const handleKehadiranSemua = (hadir) => setData((state) => {
-    const newState = state.map((s) => ({ ...s, hadir }));
-    return [...newState];
-  });
+  const handleKehadiranSemua = (hadir) =>
+    setData((state) => {
+      const newState = state.map((s) => ({ ...s, hadir }));
+      return [...newState];
+    });
 
   const handleSave = async () => {
     await fetchJson('/api/sesi', {
@@ -62,7 +67,9 @@ const DetailSesi = ({ data: initialData }) => {
       <h1>Daftar Kehadiran Peserta</h1>
       {data !== initialData && <button onClick={handleSave}>Simpan</button>}
       <button onClick={() => handleKehadiranSemua(true)}>Hadir semua</button>
-      <button onClick={() => handleKehadiranSemua(false)}>Tidak hadir semua</button>
+      <button onClick={() => handleKehadiranSemua(false)}>
+        Tidak hadir semua
+      </button>
       <table>
         <thead>
           <tr>
@@ -80,13 +87,17 @@ const DetailSesi = ({ data: initialData }) => {
               <td>
                 <button
                   disabled={!peserta.hadir}
-                  onClick={() => handleChangeKehadiran(false, peserta.mengikuti_id)}
+                  onClick={() =>
+                    handleChangeKehadiran(false, peserta.mengikuti_id)
+                  }
                 >
                   X
                 </button>
                 <button
                   disabled={peserta.hadir}
-                  onClick={() => handleChangeKehadiran(true, peserta.mengikuti_id)}
+                  onClick={() =>
+                    handleChangeKehadiran(true, peserta.mengikuti_id)
+                  }
                 >
                   V
                 </button>

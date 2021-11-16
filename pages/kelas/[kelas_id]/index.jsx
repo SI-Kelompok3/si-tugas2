@@ -126,25 +126,29 @@ const DetailKelas = ({ data, user, kelas_id }) => {
             </div>
           </>
         )}
-        {(user.role === 'guru'
-          || (user.role === 'peserta' && data.terambil && data.status !== 'terbuka')) && (
+        {(user.role === 'guru' ||
+          (user.role === 'peserta' &&
+            data.terambil &&
+            data.status !== 'terbuka')) && (
           <Link href={`/kelas/${kelas_id}/sesi`} passHref>
-            <a>Lihat sesi</a>
+            <a className="lihat-link">Lihat sesi</a>
           </Link>
         )}
         {(user.role === 'guru' || user.role === 'admin') && (
           <Link href={`/kelas/${kelas_id}/peserta`} passHref>
-            <a>Lihat peserta</a>
+            <a className="lihat-link">Lihat peserta</a>
           </Link>
         )}
-        {user.role === 'peserta'
-          && (data.terambil ? (
-            <div>
-              <b>Nilai</b>
+        {user.role === 'peserta' &&
+          (data.terambil ? (
+            <div className="nilai">
+              <p>Nilai:</p>
               <p>{data.nilai ?? '-'}</p>
             </div>
           ) : (
-            data.status === 'terbuka' && <button onClick={handleAmbilKelas}>Ambil kelas</button>
+            data.status === 'terbuka' && (
+              <button onClick={handleAmbilKelas}>Ambil kelas</button>
+            )
           ))}
         {message !== '' && (
           <>

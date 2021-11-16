@@ -82,6 +82,10 @@ a,
 .main h1 {
   color: var(--primary);
 }
+
+.border-red {
+  border: 1px solid red;
+}
 /* thead th:nth-child(1) {
   width: 30%;
 }
