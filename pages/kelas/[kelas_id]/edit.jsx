@@ -47,94 +47,105 @@ const EditKelas = ({ data, kelas_id }) => {
 
   return (
     <Layout>
-      <h1>Ubah kelas</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="nama"
-          placeholder="Nama Kelas"
-          defaultValue={data.nama}
-          required
-        />
-        <input
-          type="time"
-          name="durasi"
-          placeholder="Durasi"
-          defaultValue="01:40:00"
-          required
-        />
-        <textarea
-          name="deskripsi"
-          cols="30"
-          rows="3"
-          placeholder="Deskripsi"
-          defaultValue={data.deskripsi}
-        ></textarea>
-        <input
-          type="time"
-          name="waktu"
-          placeholder="Waktu Mulai"
-          defaultValue={data.waktu}
-          required
-        />
-        <select name="hari" defaultValue={data.hari} required>
-          <option value="senin">Senin</option>
-          <option value="selasa">Selasa</option>
-          <option value="rabu">Rabu</option>
-          <option value="kamis">Kamis</option>
-          <option value="jumat">Jumat</option>
-          <option value="sabtu">Sabtu</option>
-          <option value="minggu">Minggu</option>
-        </select>
-        <input
-          type="number"
-          name="kapasitas"
-          placeholder="Kapasitas (Jumlah Peserta)"
-          defaultValue={data.kapasitas}
-          required
-          disabled
-        />
-        <select
-          name="status"
-          defaultValue={data.status}
-          required
-          disabled={data.status === 'selesai'}
-        >
-          {data.status === 'terbuka' && (
-            <option value="terbuka">Terbuka</option>
-          )}
-          {data.status !== 'selesai' && (
-            <option value="berjalan">Berjalan</option>
-          )}
-          {data.status !== 'terbuka' && (
-            <option value="selesai">Selesai</option>
-          )}
-        </select>
-        <p>Pengajar</p>
-        <div>
-          {data.guru.map((g) => (
-            <div key={g.id}>
-              <p>
-                {g.username} - {g.nama}
-              </p>
-            </div>
-          ))}
+      <div className="main">
+        <h1>Ubah kelas</h1>
+        <form onSubmit={handleSubmit} className="ubah-kelas-form">
+          <label htmlFor="nama">Nama</label>
+          <input
+            type="text"
+            name="nama"
+            placeholder="Nama Kelas"
+            defaultValue={data.nama}
+            required
+          />
+          <label htmlFor="durasi">Durasi</label>
+          <input
+            type="time"
+            name="durasi"
+            placeholder="Durasi"
+            defaultValue="01:40:00"
+            required
+          />
+          <label htmlFor="deskripsi">Deskripsi</label>
+          <textarea
+            name="deskripsi"
+            cols="30"
+            rows="3"
+            placeholder="Deskripsi"
+            defaultValue={data.deskripsi}
+          ></textarea>
+          <label htmlFor="waktu">Waktu</label>
+          <input
+            type="time"
+            name="waktu"
+            placeholder="Waktu Mulai"
+            defaultValue={data.waktu}
+            required
+          />
+          <label htmlFor="hari">Hari</label>
+          <select name="hari" defaultValue={data.hari} required>
+            <option value="senin">Senin</option>
+            <option value="selasa">Selasa</option>
+            <option value="rabu">Rabu</option>
+            <option value="kamis">Kamis</option>
+            <option value="jumat">Jumat</option>
+            <option value="sabtu">Sabtu</option>
+            <option value="minggu">Minggu</option>
+          </select>
+          <label htmlFor="kapasitas">Kapasitas</label>
+          <input
+            type="number"
+            name="kapasitas"
+            placeholder="Kapasitas (Jumlah Peserta)"
+            defaultValue={data.kapasitas}
+            required
+            disabled
+          />
+          <label htmlFor="status">Status</label>
+          <select
+            name="status"
+            defaultValue={data.status}
+            required
+            disabled={data.status === 'selesai'}
+          >
+            {data.status === 'terbuka' && (
+              <option value="terbuka">Terbuka</option>
+            )}
+            {data.status !== 'selesai' && (
+              <option value="berjalan">Berjalan</option>
+            )}
+            {data.status !== 'terbuka' && (
+              <option value="selesai">Selesai</option>
+            )}
+          </select>
+          <p>Pengajar:</p>
+          <div style={{ marginBottom: '1rem' }}>
+            {data.guru.map((g) => (
+              <div key={g.id}>
+                <p>
+                  {g.username} - {g.nama}
+                </p>
+              </div>
+            ))}
+          </div>
+          <input type="submit" value="Submit" />
+        </form>
+        <div className="kelas-baru-details">
+          <b>Penjelasan status</b>
+          <p>
+            Perubahan status tidak bisa dikembalikan ke status sebelumnya,
+            pastikan data sudah benar!
+          </p>
+          <ul>
+            <li>Terbuka : Peserta bisa daftar ke kelas</li>
+            <li>Berjalan : Fitur "Terbuka" ditutup, guru bisa memulai sesi</li>
+            <li>
+              Selesai : Fitur "Berjalan" ditutup, guru memasukkan nilai peserta
+            </li>
+          </ul>
         </div>
-        <input type="submit" value="Submit" />
-      </form>
-      <b>Penjelasan status</b>
-      <p>
-        Perubahan status tidak bisa dikembalikan ke status sebelumnya, pastikan
-        data sudah benar!
-      </p>
-      <ul>
-        <li>Terbuka : Peserta bisa daftar ke kelas</li>
-        <li>Berjalan : Fitur "Terbuka" ditutup, guru bisa memulai sesi</li>
-        <li>
-          Selesai : Fitur "Berjalan" ditutup, guru memasukkan nilai peserta
-        </li>
-      </ul>
-      {message !== '' && <b>{message}</b>}
+        {message !== '' && <b>{message}</b>}
+      </div>
     </Layout>
   );
 };
