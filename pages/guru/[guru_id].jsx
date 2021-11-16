@@ -34,12 +34,16 @@ const EditGuru = ({ guru, guru_id }) => {
 
   return (
     <Layout>
-      <h1>Detail Guru</h1>
-      <h3>{guru.nama}</h3>
-      <p>Username : {guru.username}</p>
-      <p>ID : {guru.id}</p>
-      <button onClick={handleDeleteGuru}>Hapus akun guru</button>
-      <b>{message}</b>
+      <div className="main guru-detail-page">
+        <h1>Detail Guru</h1>
+        <div className="detail-guru-wrapper">
+          <h3>{guru.nama}</h3>
+          <p>Username : {guru.username}</p>
+          <p>ID : {guru.id}</p>
+          <button onClick={handleDeleteGuru}>Hapus akun guru</button>
+          <b>{message}</b>
+        </div>
+      </div>
     </Layout>
   );
 };
