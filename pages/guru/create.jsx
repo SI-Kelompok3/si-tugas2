@@ -33,20 +33,24 @@ const CreateGuru = () => {
 
   return (
     <Layout>
-      <h1>Buat akun guru baru</h1>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="username" placeholder="Username" required />
-        <input type="text" name="nama" placeholder="Nama Lengkap" required />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-        />
-        <input type="submit" value="Buat" />
-      </form>
-
-      {message !== '' && <b>{message}</b>}
+      <div className="main buat-guru-page">
+        <h1>Buat akun guru baru</h1>
+        <form onSubmit={handleSubmit} className="buat-guru-form">
+          <label htmlFor="username">Username</label>
+          <input type="text" name="username" placeholder="Username" required />
+          <label htmlFor="nama">Nama Lengkap</label>
+          <input type="text" name="nama" placeholder="Nama Lengkap" required />
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+          <input type="submit" value="Buat" />
+        </form>
+        {message !== '' && <b>{message}</b>}
+      </div>
     </Layout>
   );
 };
