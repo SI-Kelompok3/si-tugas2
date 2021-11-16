@@ -79,6 +79,9 @@ a,
   padding-top: 1rem;
 }
 
+.main h1 {
+  color: var(--primary);
+}
 /* thead th:nth-child(1) {
   width: 30%;
 }

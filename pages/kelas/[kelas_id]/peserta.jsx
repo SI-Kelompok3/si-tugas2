@@ -27,14 +27,15 @@ const PesertaKelas = ({ data: initialData, status, user }) => {
   const router = useRouter();
   const [data, setData] = useState(initialData);
 
-  const handleChangeNilai = (e) => setData((state) => {
-    const newState = state;
-    const mengikuti_id = e.target.id;
-    const nilai = e.target.value;
-    const index = newState.findIndex((p) => p.id === Number(mengikuti_id));
-    newState[index] = { ...newState[index], nilai: Number(nilai) };
-    return [...newState];
-  });
+  const handleChangeNilai = (e) =>
+    setData((state) => {
+      const newState = state;
+      const mengikuti_id = e.target.id;
+      const nilai = e.target.value;
+      const index = newState.findIndex((p) => p.id === Number(mengikuti_id));
+      newState[index] = { ...newState[index], nilai: Number(nilai) };
+      return [...newState];
+    });
 
   const handleSave = async () => {
     await fetchJson('/api/peserta', {
@@ -47,51 +48,55 @@ const PesertaKelas = ({ data: initialData, status, user }) => {
 
   return (
     <Layout>
-      <h1>Daftar Peserta</h1>
-      {user.role === 'guru' && data !== initialData && (
-        <>
-          <br />
-          <button onClick={handleSave}>Simpan</button>
-        </>
-      )}
-      {data.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>Nama</th>
-              <th>Jumlah Kehadiran</th>
-              <th>Nilai</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((peserta, index) => (
-              // aslinya mengikuti id
-              <tr key={peserta.id}>
-                <td>{index + 1}</td>
-                <td>{peserta.nama}</td>
-                <td>{peserta.jumlah_kehadiran}</td>
-                <td>
-                  {user.role === 'guru' && status === 'selesai' ? (
-                    <input
-                      type="number"
-                      value={peserta.nilai ?? 0}
-                      onChange={handleChangeNilai}
-                      id={peserta.id}
-                      max={100}
-                      min={0}
-                    />
-                  ) : (
-                    peserta.nilai ?? '-'
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>Belum ada peserta yang mendaftar</p>
-      )}
+      <div className="main ">
+        <h1>Daftar Peserta</h1>
+        {user.role === 'guru' && data !== initialData && (
+          <>
+            <br />
+            <button onClick={handleSave}>Simpan</button>
+          </>
+        )}
+        {data.length > 0 ? (
+          <div className="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Nama</th>
+                  <th>Jumlah Kehadiran</th>
+                  <th>Nilai</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((peserta, index) => (
+                  // aslinya mengikuti id
+                  <tr key={peserta.id}>
+                    <td>{index + 1}</td>
+                    <td>{peserta.nama}</td>
+                    <td>{peserta.jumlah_kehadiran}</td>
+                    <td>
+                      {user.role === 'guru' && status === 'selesai' ? (
+                        <input
+                          type="number"
+                          value={peserta.nilai ?? 0}
+                          onChange={handleChangeNilai}
+                          id={peserta.id}
+                          max={100}
+                          min={0}
+                        />
+                      ) : (
+                        peserta.nilai ?? '-'
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p>Belum ada peserta yang mendaftar</p>
+        )}
+      </div>
     </Layout>
   );
 };

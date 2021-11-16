@@ -55,23 +55,27 @@ const DetailKelas = ({ data, user, kelas_id }) => {
     <Layout>
       <div className="main deskripsi-kelas-page">
         <h1>{data.nama}</h1>
-        <b>Deskripsi</b>
-        <p>{data.deskripsi ?? '-'}</p>
-        <b>Waktu</b>
-        <p>
-          {capitalizeFirstLetter(data.hari)}, {data.waktu}
-        </p>
-        <b>Durasi Kelas</b>
-        <p>{data.durasi}</p>
-        <b>Kapasitas</b>
-        <p>{data.kapasitas} Peserta</p>
+        <div className="deskripsi-kelas-details">
+          <b>Deskripsi:</b>
+          <p>{data.deskripsi ?? '-'}</p>
+          <b>Waktu:</b>
+          <p>
+            {capitalizeFirstLetter(data.hari)}, {data.waktu}
+          </p>
+          <b>Durasi Kelas:</b>
+          <p>{data.durasi}</p>
+          <b>Kapasitas:</b>
+          <p>{data.kapasitas} Peserta</p>
+        </div>
         {user.role === 'admin' && (
           <>
-            <button onClick={handleDeleteKelas}>Hapus kelas</button>
+            <b>Status Kelas: </b>
+            <span>{capitalizeFirstLetter(data.status)}</span>
+            <button onClick={handleDeleteKelas} className="hapus-kls-btn">
+              Hapus kelas 🗑
+            </button>
             <br />
-            <b>Status</b>
-            <p>{capitalizeFirstLetter(data.status)}</p>
-            <b>Pengajar</b>
+            <b>Pengajar:</b>
             <div className="table-wrapper">
               <table>
                 <thead>
@@ -92,7 +96,9 @@ const DetailKelas = ({ data, user, kelas_id }) => {
                 </tbody>
               </table>
             </div>
-            <Link href={`/kelas/${kelas_id}/edit`}>Ubah kelas</Link>
+            <Link href={`/kelas/${kelas_id}/edit`} passHref>
+              <a>Ubah kelas</a>
+            </Link>
           </>
         )}
         {user.role === 'guru' && (
@@ -124,10 +130,14 @@ const DetailKelas = ({ data, user, kelas_id }) => {
           (user.role === 'peserta' &&
             data.terambil &&
             data.status !== 'terbuka')) && (
-          <Link href={`/kelas/${kelas_id}/sesi`}>Lihat sesi</Link>
+          <Link href={`/kelas/${kelas_id}/sesi`} passHref>
+            <a>Lihat sesi</a>{' '}
+          </Link>
         )}
         {(user.role === 'guru' || user.role === 'admin') && (
-          <Link href={`/kelas/${kelas_id}/peserta`}>Lihat peserta</Link>
+          <Link href={`/kelas/${kelas_id}/peserta`} passHref>
+            <a>Lihat peserta</a>
+          </Link>
         )}
         {user.role === 'peserta' &&
           (data.terambil ? (
