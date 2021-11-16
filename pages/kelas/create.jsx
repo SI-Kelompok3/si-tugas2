@@ -155,14 +155,16 @@ const CreateKelas = ({ guru }) => {
           )}
           <input type="submit" value="Submit" />
         </form>
-        <b>Penjelasan status</b>
-        <ul>
-          <li>Terbuka : Peserta bisa daftar ke kelas</li>
-          <li>Berjalan : Fitur "Terbuka" ditutup, guru bisa memulai sesi</li>
-          <li>
-            Selesai : Fitur "Berjalan" ditutup, guru memasukkan nilai peserta
-          </li>
-        </ul>
+        <div className="kelas-baru-details">
+          <b>Penjelasan status:</b>
+          <ul>
+            <li>Terbuka : Peserta bisa daftar ke kelas</li>
+            <li>Berjalan : Fitur "Terbuka" ditutup, guru bisa memulai sesi</li>
+            <li>
+              Selesai : Fitur "Berjalan" ditutup, guru memasukkan nilai peserta
+            </li>
+          </ul>
+        </div>
         {message !== '' && <b>{message}</b>}
       </div>
     </Layout>

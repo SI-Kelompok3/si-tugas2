@@ -1,3 +1,4 @@
+/* === HOME === */
 .homepage {
   height: 100%;
 }
@@ -40,11 +41,13 @@
   color: var(--secondary-hover);
 }
 
+/* === PESERTA === */
 .peserta-page h1,
 .details-wrapper {
   margin: 2rem 0 1rem 0;
 }
 
+/* === KELAS === */
 .kelas-option {
   width: fit-content;
   display: flex;
@@ -101,16 +104,68 @@
 
 .kelas-baru-form {
   background: white;
-  width: 500px;
+  width: 450px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 1rem 3rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
   border-radius: 10px;
 }
 
+.kelas-baru-form input,
+textarea,
+select {
+  display: block;
+  width: 100%;
+  /* margin: 0 auto; */
+}
+
+.kelas-baru-form input[type='text'],
+input[type='time'],
+textarea,
+input[type='number'] {
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--gray-light);
+  border-radius: 25px;
+}
+
+.kelas-baru-form select {
+  color: var(--primary);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--gray-light);
+  border-radius: 25px;
+}
+
+.kelas-baru-form input[type='submit'] {
+  background-color: var(--secondary);
+  width: 8rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+  font-weight: 500;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.kelas-baru-form input[type='submit']:hover {
+  background-color: var(--secondary-hover);
+}
+
+.kelas-baru-details {
+  background: var(--primary);
+  color: white;
+  text-align: left;
+  margin-top: 1.5rem;
+  padding: 1rem 2.5rem;
+}
+
+/* === GURU === */
 .guru-page a {
   color: var(--primary);
   text-decoration: underline;
@@ -122,7 +177,7 @@
   text-decoration: underline;
 }
 
-.guru-detail-page h1{
+.guru-detail-page h1 {
   color: var(--primary);
   margin-bottom: 1rem;
 }
