@@ -104,7 +104,8 @@
 }
 
 .kelas-baru-form,
-.ubah-kelas-form {
+.ubah-kelas-form,
+.buat-sesi-kls-form {
   background: white;
   width: 450px;
   margin: 0 auto;
@@ -203,6 +204,58 @@ input[type='number'] {
   background-color: var(--secondary-hover);
 }
 
+.buat-sesi-kls-form input,
+textarea,
+select {
+  display: block;
+  width: 100%;
+  /* margin: 0 auto; */
+}
+
+.buat-sesi-kls-form input[type='text'],
+input[type='time'],
+textarea,
+input[type='number'] {
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--gray-light);
+  border-radius: 25px;
+}
+
+.buat-sesi-kls-form input[type='submit'] {
+  background-color: var(--secondary);
+  width: 8rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+  font-weight: 500;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.buat-sesi-kls-form input[type='submit']:hover {
+  background-color: var(--secondary-hover);
+}
+
+.kelas-baru-page button {
+  background-color: var(--secondary);
+  width: 8rem;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0 1rem 0;
+  color: var(--primary);
+  font-weight: 500;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.kelas-baru-page button:hover {
+  background-color: var(--secondary-hover);
+}
+
 .kelas-baru-details {
   background: var(--primary);
   color: white;
@@ -219,6 +272,23 @@ input[type='number'] {
   border-radius: 10px;
   color: var(--primary);
   font-weight: 500;
+}
+
+.deskripsi-kelas-page .ambil-btn {
+  background-color: var(--secondary);
+  width: 8rem;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0 1rem 0;
+  color: var(--primary);
+  font-weight: 500;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.deskripsi-kelas-page .ambil-btn:hover {
+  background-color: var(--secondary-hover);
 }
 
 .deskripsi-kelas-details {
@@ -358,4 +428,55 @@ input[type='number'] {
 
 .buat-guru-form input[type='submit']:hover {
   background-color: var(--secondary-hover);
+}
+
+.daftar-hadir-page button {
+  background-color: var(--secondary);
+  border: none;
+  border-radius: 25px;
+  color: var(--primary);
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+  font-family: inherit;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.daftar-hadir-page button:hover {
+  background-color: var(--secondary-hover);
+  color: var(--primary-hover);
+}
+
+.daftar-hadir-page .table-wrapper {
+  margin-top: 1rem;
+}
+
+.daftar-hadir-page .table-wrapper input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--gray-light);
+  border-radius: 25px;
+}
+
+.daftar-peserta-page button {
+  background-color: var(--secondary);
+  border: none;
+  border-radius: 25px;
+  color: var(--primary);
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+  font-family: inherit;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.daftar-peserta-page button:hover {
+  background-color: var(--secondary-hover);
+  color: var(--primary-hover);
+}
+
+.daftar-peserta-page .table-wrapper {
+  margin-top: 1rem;
 }

@@ -27,14 +27,15 @@ const PesertaKelas = ({ data: initialData, status, user }) => {
   const router = useRouter();
   const [data, setData] = useState(initialData);
 
-  const handleChangeNilai = (e) => setData((state) => {
-    const newState = state;
-    const mengikuti_id = e.target.id;
-    const nilai = e.target.value;
-    const index = newState.findIndex((p) => p.id === Number(mengikuti_id));
-    newState[index] = { ...newState[index], nilai: Number(nilai) };
-    return [...newState];
-  });
+  const handleChangeNilai = (e) =>
+    setData((state) => {
+      const newState = state;
+      const mengikuti_id = e.target.id;
+      const nilai = e.target.value;
+      const index = newState.findIndex((p) => p.id === Number(mengikuti_id));
+      newState[index] = { ...newState[index], nilai: Number(nilai) };
+      return [...newState];
+    });
 
   const handleSave = async () => {
     await fetchJson('/api/peserta', {
@@ -47,7 +48,7 @@ const PesertaKelas = ({ data: initialData, status, user }) => {
 
   return (
     <Layout>
-      <div className="main ">
+      <div className="main daftar-peserta-page">
         <h1>Daftar Peserta</h1>
         {user.role === 'guru' && data !== initialData && (
           <>
