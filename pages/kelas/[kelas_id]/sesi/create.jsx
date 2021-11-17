@@ -39,25 +39,16 @@ const CreateSesi = ({ kelas_id, guru_id }) => {
     });
     setMessage(create.message);
     if (!create.error) {
-      router.push(
-        `/kelas/${kelas_id}/sesi/${encodeURIComponent(
-          materi.value,
-        )}/${tanggal}`,
-      );
+      router.push(`/kelas/${kelas_id}/sesi/${encodeURIComponent(materi.value)}/${tanggal}`);
     }
   };
 
   return (
     <Layout>
-      <h1>Buat kelas baru</h1>
+      <h1>Buat sesi kelas baru</h1>
       <form onSubmit={handleSubmit}>
         <input type="text" name="materi" placeholder="Materi" required />
-        <textarea
-          name="deskripsi"
-          cols="30"
-          rows="3"
-          placeholder="Deskripsi"
-        ></textarea>
+        <textarea name="deskripsi" cols="30" rows="3" placeholder="Deskripsi"></textarea>
         <input type="submit" value="Submit" />
       </form>
       {message !== '' && <b>{message}</b>}
