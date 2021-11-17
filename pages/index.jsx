@@ -50,37 +50,43 @@ const Home = ({ data, user }) => (
       )}
       {user.role === 'peserta' && (
         <div className="table-wrapper">
-          <b>Kelas yang sudah berjalan</b>
-          <table>
-            <thead>
-              <tr>
-                <th>No.</th>
-                <th>Nama</th>
-                <th>Hari</th>
-                <th>Waktu Mulai</th>
-                <th>Waktu Akhir</th>
-                <th>Jumlah Kehadiran</th>
-                <th>Nilai</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.data.map((kelas, index) => (
-                <tr key={kelas.id}>
-                  <td>{index + 1}</td>
-                  <td>
-                    <Link href={`/kelas/${kelas.id}`} passHref>
-                      <a>{kelas.nama}</a>
-                    </Link>
-                  </td>
-                  <td>{capitalizeFirstLetter(kelas.hari)}</td>
-                  <td>{kelas.waktu_mulai}</td>
-                  <td>{kelas.waktu_akhir}</td>
-                  <td>{kelas.jumlah_kehadiran}</td>
-                  <td>{kelas.nilai ?? '-'}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {data.data.length > 0 ? (
+            <div>
+              <b>Kelas yang sudah berjalan</b>
+              <table>
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Nama</th>
+                    <th>Hari</th>
+                    <th>Waktu Mulai</th>
+                    <th>Waktu Akhir</th>
+                    <th>Jumlah Kehadiran</th>
+                    <th>Nilai</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.data.map((kelas, index) => (
+                    <tr key={kelas.id}>
+                      <td>{index + 1}</td>
+                      <td>
+                        <Link href={`/kelas/${kelas.id}`} passHref>
+                          <a>{kelas.nama}</a>
+                        </Link>
+                      </td>
+                      <td>{capitalizeFirstLetter(kelas.hari)}</td>
+                      <td>{kelas.waktu_mulai}</td>
+                      <td>{kelas.waktu_akhir}</td>
+                      <td>{kelas.jumlah_kehadiran}</td>
+                      <td>{kelas.nilai ?? '-'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <h3>Belum ada kelas yang aktif</h3>
+          )}
         </div>
       )}
       {user.role === 'admin' && (

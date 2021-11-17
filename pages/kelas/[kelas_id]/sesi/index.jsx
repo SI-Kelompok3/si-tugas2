@@ -3,11 +3,7 @@ import Link from 'next/link';
 import moment from 'moment';
 import Layout from '../../../../components/Layout';
 import withAuth from '../../../../lib/withAuth';
-import {
-  getKelasStatus,
-  getSesiGuru,
-  getSesiPeserta,
-} from '../../../../lib/queries';
+import { getKelasStatus, getSesiGuru, getSesiPeserta } from '../../../../lib/queries';
 
 export async function getServerSideProps(context) {
   return withAuth(
@@ -34,7 +30,9 @@ export async function getServerSideProps(context) {
   );
 }
 
-const SesiKelas = ({ data, user, kelas_id, status }) => {
+const SesiKelas = ({
+  data, user, kelas_id, status,
+}) => {
   const hadirColumn = (sesi) => {
     if (user.role === 'guru') return sesi.jumlah_kehadiran;
 
@@ -71,9 +69,9 @@ const SesiKelas = ({ data, user, kelas_id, status }) => {
                         <Link
                           href={
                             user.role === 'guru'
-                              ? `/kelas/${kelas_id}/sesi/${encodeURIComponent(
-                                  sesi.materi,
-                                )}/${sesi.tanggal}`
+                              ? `/kelas/${kelas_id}/sesi/${encodeURIComponent(sesi.materi)}/${
+                                sesi.tanggal
+                              }`
                               : '#'
                           }
                         >

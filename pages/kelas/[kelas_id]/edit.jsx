@@ -25,7 +25,9 @@ const EditKelas = ({ data, kelas_id }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { nama, durasi, deskripsi, waktu, hari, status } = e.currentTarget;
+    const {
+      nama, durasi, deskripsi, waktu, hari, status,
+    } = e.currentTarget;
     const body = {
       id: kelas_id,
       nama: nama.value,
@@ -59,13 +61,7 @@ const EditKelas = ({ data, kelas_id }) => {
             required
           />
           <label htmlFor="durasi">Durasi</label>
-          <input
-            type="time"
-            name="durasi"
-            placeholder="Durasi"
-            defaultValue="01:40:00"
-            required
-          />
+          <input type="time" name="durasi" placeholder="Durasi" defaultValue="01:40:00" required />
           <label htmlFor="deskripsi">Deskripsi</label>
           <textarea
             name="deskripsi"
@@ -108,15 +104,9 @@ const EditKelas = ({ data, kelas_id }) => {
             required
             disabled={data.status === 'selesai'}
           >
-            {data.status === 'terbuka' && (
-              <option value="terbuka">Terbuka</option>
-            )}
-            {data.status !== 'selesai' && (
-              <option value="berjalan">Berjalan</option>
-            )}
-            {data.status !== 'terbuka' && (
-              <option value="selesai">Selesai</option>
-            )}
+            {data.status === 'terbuka' && <option value="terbuka">Terbuka</option>}
+            {data.status !== 'selesai' && <option value="berjalan">Berjalan</option>}
+            {data.status !== 'terbuka' && <option value="selesai">Selesai</option>}
           </select>
           <p>Pengajar:</p>
           <div style={{ marginBottom: '1rem' }}>
@@ -133,15 +123,13 @@ const EditKelas = ({ data, kelas_id }) => {
         <div className="kelas-baru-details">
           <b>Penjelasan status</b>
           <p>
-            Perubahan status tidak bisa dikembalikan ke status sebelumnya,
-            pastikan data sudah benar!
+            Perubahan status tidak bisa dikembalikan ke status sebelumnya, pastikan data sudah
+            benar!
           </p>
           <ul>
             <li>Terbuka : Peserta bisa daftar ke kelas</li>
             <li>Berjalan : Fitur "Terbuka" ditutup, guru bisa memulai sesi</li>
-            <li>
-              Selesai : Fitur "Berjalan" ditutup, guru memasukkan nilai peserta
-            </li>
+            <li>Selesai : Fitur "Berjalan" ditutup, guru memasukkan nilai peserta</li>
           </ul>
         </div>
         {message !== '' && <b>{message}</b>}
