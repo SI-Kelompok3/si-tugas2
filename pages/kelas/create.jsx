@@ -39,9 +39,7 @@ const CreateKelas = ({ guru }) => {
   };
 
   const handleHapusPengajar = (e) => {
-    setPengajar((state) =>
-      state.filter((s) => Number(s.id) !== Number(e.target.id)),
-    );
+    setPengajar((state) => state.filter((s) => Number(s.id) !== Number(e.target.id)));
   };
 
   const handleSubmit = async (e) => {
@@ -51,8 +49,9 @@ const CreateKelas = ({ guru }) => {
       return;
     }
 
-    const { nama, durasi, deskripsi, waktu, hari, kapasitas, status } =
-      e.currentTarget;
+    const {
+      nama, durasi, deskripsi, waktu, hari, kapasitas, status,
+    } = e.currentTarget;
     const body = {
       nama: nama.value,
       durasi: durasi.value,
@@ -83,20 +82,9 @@ const CreateKelas = ({ guru }) => {
           <label htmlFor="nama">Nama</label>
           <input type="text" name="nama" placeholder="Nama Kelas" required />
           <label htmlFor="durasi">Durasi</label>
-          <input
-            type="time"
-            name="durasi"
-            placeholder="Durasi"
-            defaultValue="01:40:00"
-            required
-          />
+          <input type="time" name="durasi" placeholder="Durasi" defaultValue="01:40:00" required />
           <label htmlFor="deskripsi">Deskripsi</label>
-          <textarea
-            name="deskripsi"
-            cols="30"
-            rows="3"
-            placeholder="Deskripsi"
-          ></textarea>
+          <textarea name="deskripsi" cols="30" rows="3" placeholder="Deskripsi"></textarea>
           <label htmlFor="waktu">Waktu</label>
           <input
             type="time"
@@ -116,12 +104,7 @@ const CreateKelas = ({ guru }) => {
             <option value="minggu">Minggu</option>
           </select>
           <label htmlFor="kapasitas">Kapasitas</label>
-          <input
-            type="number"
-            name="kapasitas"
-            placeholder="Kapasitas (Jumlah Peserta)"
-            required
-          />
+          <input type="number" name="kapasitas" placeholder="Kapasitas (Jumlah Peserta)" required />
           <select name="status" defaultValue="terbuka" disabled>
             <option value="terbuka">Terbuka</option>
           </select>
@@ -155,9 +138,7 @@ const CreateKelas = ({ guru }) => {
           <ul>
             <li>Terbuka : Peserta bisa daftar ke kelas</li>
             <li>Berjalan : Fitur "Terbuka" ditutup, guru bisa memulai sesi</li>
-            <li>
-              Selesai : Fitur "Berjalan" ditutup, guru memasukkan nilai peserta
-            </li>
+            <li>Selesai : Fitur "Berjalan" ditutup, guru memasukkan nilai peserta</li>
           </ul>
         </div>
         {message !== '' && <b>{message}</b>}

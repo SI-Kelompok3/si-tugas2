@@ -126,10 +126,8 @@ const DetailKelas = ({ data, user, kelas_id }) => {
             </div>
           </>
         )}
-        {(user.role === 'guru' ||
-          (user.role === 'peserta' &&
-            data.terambil &&
-            data.status !== 'terbuka')) && (
+        {(user.role === 'guru'
+          || (user.role === 'peserta' && data.terambil && data.status !== 'terbuka')) && (
           <Link href={`/kelas/${kelas_id}/sesi`} passHref>
             <a className="lihat-link">Lihat sesi</a>
           </Link>
@@ -139,8 +137,8 @@ const DetailKelas = ({ data, user, kelas_id }) => {
             <a className="lihat-link">Lihat peserta</a>
           </Link>
         )}
-        {user.role === 'peserta' &&
-          (data.terambil ? (
+        {user.role === 'peserta'
+          && (data.terambil ? (
             <div className="nilai">
               <p>Nilai:</p>
               <p>{data.nilai ?? '-'}</p>
