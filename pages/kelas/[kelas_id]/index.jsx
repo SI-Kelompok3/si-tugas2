@@ -132,11 +132,11 @@ const DetailKelas = ({ data, user, kelas_id }) => {
             <a className="lihat-link">Lihat sesi</a>
           </Link>
         )}
-        {(user.role === 'guru' || user.role === 'admin') && (
-          <Link href={`/kelas/${kelas_id}/peserta`} passHref>
-            <a className="lihat-link">Lihat peserta</a>
-          </Link>
-        )}
+        {/* {(user.role === 'guru' || user.role === 'admin') && ( */}
+        <Link href={`/kelas/${kelas_id}/peserta`} passHref>
+          <a className="lihat-link">Lihat peserta</a>
+        </Link>
+        {/* )} */}
         {user.role === 'peserta'
           && (data.terambil ? (
             <div className="nilai">

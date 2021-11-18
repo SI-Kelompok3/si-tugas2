@@ -20,7 +20,7 @@ export async function getServerSideProps(context) {
         const fetchedKelas = await getKelasForPeserta(user.id);
         const kelas = [];
         fetchedKelas.forEach((k) => {
-          if (!k.id === null) kelas.push(k);
+          if (k.id !== null) kelas.push(k);
         });
         data = {
           data: kelas,

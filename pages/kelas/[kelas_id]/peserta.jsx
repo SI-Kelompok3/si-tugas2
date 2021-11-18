@@ -62,8 +62,12 @@ const PesertaKelas = ({ data: initialData, status, user }) => {
                 <tr>
                   <th>No.</th>
                   <th>Nama</th>
-                  <th>Jumlah Kehadiran</th>
-                  <th>Nilai</th>
+                  {user.role !== 'peserta' && (
+                    <>
+                      <th>Jumlah Kehadiran</th>
+                      <th>Nilai</th>
+                    </>
+                  )}
                 </tr>
               </thead>
               <tbody>
@@ -72,21 +76,25 @@ const PesertaKelas = ({ data: initialData, status, user }) => {
                   <tr key={peserta.id}>
                     <td>{index + 1}</td>
                     <td>{peserta.nama}</td>
-                    <td>{peserta.jumlah_kehadiran}</td>
-                    <td>
-                      {user.role === 'guru' && status === 'selesai' ? (
-                        <input
-                          type="number"
-                          value={peserta.nilai ?? 0}
-                          onChange={handleChangeNilai}
-                          id={peserta.id}
-                          max={100}
-                          min={0}
-                        />
-                      ) : (
-                        peserta.nilai ?? '-'
-                      )}
-                    </td>
+                    {user.role !== 'peserta' && (
+                      <>
+                        <td>{peserta.jumlah_kehadiran}</td>
+                        <td>
+                          {user.role === 'guru' && status === 'selesai' ? (
+                            <input
+                              type="number"
+                              value={peserta.nilai ?? 0}
+                              onChange={handleChangeNilai}
+                              id={peserta.id}
+                              max={100}
+                              min={0}
+                            />
+                          ) : (
+                            peserta.nilai ?? '-'
+                          )}
+                        </td>
+                      </>
+                    )}
                   </tr>
                 ))}
               </tbody>
