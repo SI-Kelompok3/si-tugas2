@@ -26,7 +26,8 @@ export async function getServerSideProps(context) {
         data = await getKelasDetailPeserta(kelas_id, user.id);
         break;
     }
-    return { props: { data, user, kelas_id } };
+    if (data.nama) return { props: { data, user, kelas_id } };
+    return { notFound: true };
   });
 }
 

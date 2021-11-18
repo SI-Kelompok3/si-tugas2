@@ -9,17 +9,24 @@ export async function getServerSideProps(context) {
   return withAuth(
     context,
     async () => {
-      const { materi, tanggal } = context.params;
-      const data = await getSesiDetail(materi, tanggal);
-      return {
-        props: {
-          data: data.map((d) => ({
-            ...d,
-            keterangan: d.keterangan === null ? '' : d.keterangan,
-            hadir: d.hadir !== 0,
-          })),
-        },
-      };
+      try {
+        const { materi, tanggal } = context.params;
+        const data = await getSesiDetail(materi, tanggal);
+        if (data.length > 0) {
+          return {
+            props: {
+              data: data.map((d) => ({
+                ...d,
+                keterangan: d.keterangan === null ? '' : d.keterangan,
+                hadir: d.hadir !== 0,
+              })),
+            },
+          };
+        }
+        return { notFound: true };
+      } catch {
+        return { notFound: true };
+      }
     },
     ['guru'],
   );

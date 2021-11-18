@@ -8,7 +8,10 @@ export async function getServerSideProps(context) {
     context,
     async () => {
       const data = await getPesertaDetail(context.params.peserta_id);
-      return { props: { data } };
+      if (data.peserta.username) return { props: { data } };
+      return {
+        notFound: true,
+      };
     },
     ['admin'],
   );

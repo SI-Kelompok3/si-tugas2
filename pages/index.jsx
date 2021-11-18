@@ -52,7 +52,7 @@ const Home = ({ data, user }) => (
         <div className="table-wrapper">
           {data.data.length > 0 ? (
             <div>
-              <b>Kelas yang sudah berjalan</b>
+              <b>Kelas yang sedang aktif</b>
               <table>
                 <thead>
                   <tr>

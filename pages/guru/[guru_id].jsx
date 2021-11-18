@@ -9,12 +9,16 @@ export async function getServerSideProps(context) {
   return withAuth(
     context,
     async () => {
-      const { guru_id } = context.params;
+      try {
+        const { guru_id } = context.params;
 
-      const guru = await getGuruById(guru_id);
-      return {
-        props: { guru, guru_id },
-      };
+        const guru = await getGuruById(guru_id);
+        return {
+          props: { guru, guru_id },
+        };
+      } catch {
+        return { notFound: true };
+      }
     },
     ['admin'],
   );
