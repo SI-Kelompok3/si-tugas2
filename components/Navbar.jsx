@@ -23,12 +23,14 @@ export default function Navbar() {
     <div>
       <header>
         <nav className="navbar">
-          <Image
-            src="/kursol-logo-white.png"
-            alt="kursol"
-            width="90"
-            height="70"
-          />
+          <Link href="/">
+            <Image
+              src="/kursol-logo-white.png"
+              alt="kursol"
+              width="90"
+              height="70"
+            />
+          </Link>
           <ul>
             <li>
               <Link href="/">
