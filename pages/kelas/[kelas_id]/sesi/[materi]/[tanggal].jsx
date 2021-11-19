@@ -10,8 +10,8 @@ export async function getServerSideProps(context) {
     context,
     async () => {
       try {
-        const { materi, tanggal } = context.params;
-        const data = await getSesiDetail(materi, tanggal);
+        const { kelas_id, materi, tanggal } = context.params;
+        const data = await getSesiDetail(materi, tanggal, kelas_id);
         if (data.length > 0) {
           return {
             props: {
