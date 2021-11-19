@@ -71,6 +71,7 @@ export default function Navbar() {
           li {
             margin-right: 1rem;
             display: flex;
+            cursor: pointer !important;
           }
 
           li:first-child {
